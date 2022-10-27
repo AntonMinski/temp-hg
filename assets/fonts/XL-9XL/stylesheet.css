@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-Bold20.woff2') format('woff2'),
+        url('SharpGrotesk-Bold20.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-Medium20.woff2') format('woff2'),
+        url('SharpGrotesk-Medium20.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-Book20.woff2') format('woff2'),
+        url('SharpGrotesk-Book20.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-SemiBold20.woff2') format('woff2'),
+        url('SharpGrotesk-SemiBold20.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-BoldItalic20.woff2') format('woff2'),
+        url('SharpGrotesk-BoldItalic20.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-BookItalic20.woff2') format('woff2'),
+        url('SharpGrotesk-BookItalic20.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-SemiBoldItalic20.woff2') format('woff2'),
+        url('SharpGrotesk-SemiBoldItalic20.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sharp Grotesk';
+    src: url('SharpGrotesk-MediumItalic20.woff2') format('woff2'),
+        url('SharpGrotesk-MediumItalic20.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
