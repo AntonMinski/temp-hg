@@ -129,6 +129,14 @@ module.exports = {
           800: '#C02828',
           900: '#AC1414',
         }
+      },
+      backgroundImage: {
+        gradient1: 'linear-gradient(106.74deg, #00FFB9 0%, #40F2FD 100%)',
+        gradient2: 'linear-gradient(104.04deg, #FFCE59 -10.15%, #F65EA7 112.52%)',
+        gradient3: 'linear-gradient(101.5deg, #6875F5 0%, #985EF6 100%)',
+        gradient4: 'linear-gradient(305.46deg, #5CAFE5 11.29%, #63D892 94.29%)',
+        gradient5: 'linear-gradient(210deg, #E1ADFA 13.4%, #FCB4B4 86.6%)',
+        gradient6: 'linear-gradient(90deg, #9796F0 0%, #FBC7D4 100%)',
       }
     }
   },

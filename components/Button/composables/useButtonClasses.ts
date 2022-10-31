@@ -92,7 +92,12 @@ const buttonGradientClasses: ButtonClassMap<ButtonGradient> = {
     teal: 'hover:bg-gradient-to-br',
 
     // Custom
-    primary: 'hover:bg-gradient-to-bl',
+    gradient1: 'hover:bg-gradient-to-bl',
+    gradient2: 'hover:bg-gradient-to-bl',
+    gradient3: 'hover:bg-gradient-to-bl',
+    gradient4: 'hover:bg-gradient-to-bl',
+    gradient5: 'hover:bg-gradient-to-bl',
+    gradient6: 'hover:bg-gradient-to-bl',
   },
   default: {
     'cyan-blue': 'text-white bg-gradient-to-r from-cyan-500 to-blue-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg',
@@ -112,7 +117,12 @@ const buttonGradientClasses: ButtonClassMap<ButtonGradient> = {
     teal: 'text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 rounded-lg',
 
     // Custom
-    primary: 'text-gray-800 bg-gradient-to-br from-primary-500 to-[#40F2FD] focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient1: 'text-gray-800 bg-gradient1 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient2: 'text-gray-800 bg-gradient2 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient3: 'text-gray-800 bg-gradient3 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient4: 'text-gray-800 bg-gradient4 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient5: 'text-gray-800 bg-gradient5 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient6: 'text-gray-800 bg-gradient6 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
   },
 }
 
@@ -134,7 +144,12 @@ const buttonOutlineGradientClasses: ButtonClassMap<ButtonDuotoneGradient> = {
         'relative inline-flex items-center justify-center overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 dark:text-white focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800',
 
       // Custom
-      primary: ''
+      gradient1: '',
+      gradient2: '',
+      gradient3: '',
+      gradient4: '',
+      gradient5: '',
+      gradient6: '',
   },
   hover: {
     'cyan-blue': 'group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white',
@@ -146,16 +161,21 @@ const buttonOutlineGradientClasses: ButtonClassMap<ButtonDuotoneGradient> = {
     'teal-lime': 'group-hover:from-teal-300 group-hover:to-lime-300 dark:hover:text-gray-900',
 
     // Custom
-    primary: '',
+    gradient1: '',
+    gradient2: '',
+    gradient3: '',
+    gradient4: '',
+    gradient5: '',
+    gradient6: '',
   },
 }
 
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
-  xs: 'text-xs font-medium px-3 py-1 rounded-md',
-  sm: 'text-sm font-medium px-3 py-2 rounded-md',
-  md: 'text-base font-medium px-5 py-3 rounded-lg',
-  lg: 'text-lg font-medium px-5 py-3.5 rounded-lg',
+  xs: 'text-xs font-semibold px-3 py-1 rounded-md',
+  sm: 'text-sm font-semibold px-3 py-2 rounded-md',
+  md: 'text-base font-semibold px-5 py-3 rounded-lg',
+  lg: 'text-lg font-semibold px-5 py-3.5 rounded-lg',
   xl: 'text-lg font-bold px-6 py-4.5 rounded-lg',
 }
 

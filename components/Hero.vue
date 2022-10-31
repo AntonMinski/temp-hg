@@ -6,9 +6,11 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="container max-w-screen-xl py-8 px-4 lg:py-16">
             <div class="grid gap-8 items-start mb-8 lg:mb-24 lg:gap-12 lg:grid-cols-12">
-                <div class="col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
+                <div class="relative col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
                     <Typography>
-                        Create interesting Haggadah for your Passover Seder
+                        Create interesting Haggadah
+                        <span class="relative top-2 icon-book-f text-7xl text-transparent bg-gradient2 bg-clip-text"></span>
+                        for your Passover Seder
                     </Typography>
                     <p class="text-lg font-normal tracking-wide text-gray-700 mb-16 dark:text-gray-400">We're the largest online resource for the Passover Haggadah with thousands of options for blessings, artwork, translations, songs, activities and more. Mix and match, download and print at home.</p>
                     <form action="#" class="">
@@ -19,10 +21,10 @@
                                 </template>
                             </Input>
 
-                            <Button gradient="primary" class="font-semibold">
+                            <Button gradient="gradient1">
                                 Get started
                                 <template #suffix>
-                                    <span class="icon-arrow-right leading-none"></span>
+                                    <span class="icon-arrow-right text-xl font-semibold leading-none"></span>
                                 </template>
                             </Button>
                         </div>
@@ -37,6 +39,8 @@
                             </div>
                         </div>
                     </form>
+
+                    <img src="~/assets/svg/signal.svg" class="absolute -top-7 -right-2 w-9 h-12">
                 </div>
                 <div class="col-span-6">
                     <img src="~/assets/images/hero-image.png" alt="Hero Image">
