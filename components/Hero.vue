@@ -5,9 +5,9 @@
 <template>
     <section class="bg-white dark:bg-gray-900">
         <div class="container max-w-screen-xl py-8 px-4 lg:py-16">
-            <div class="grid gap-8 items-start mb-8 lg:mb-24 lg:gap-12 lg:grid-cols-12">
+            <div class="grid gap-8 items-start mb-16 lg:mb-24 lg:gap-12 lg:grid-cols-12">
                 <div class="relative col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
-                    <Typography>
+                    <Typography class="mb-4">
                         Create interesting Haggadah
                         <span class="relative top-2 icon-book-f text-7xl text-transparent bg-gradient2 bg-clip-text"></span>
                         for your Passover Seder
@@ -42,9 +42,39 @@
 
                     <img src="~/assets/svg/signal.svg" class="absolute -top-7 -right-2 w-9 h-12">
                 </div>
-                <div class="col-span-6">
+                <div class="relative inline-flex col-span-4 lg:col-span-6">
                     <img src="~/assets/images/hero-image.png" alt="Hero Image">
+                    <img src="~/assets/svg/Flower.svg" alt="Hero Image" class="absolute -top-8 right-0 xl:-right-8">
+                    <img src="~/assets/svg/Yellow-Heart.svg" alt="Hero Image" class="absolute -bottom-10 left-24">
                 </div>
+            </div>
+
+            <div class="md:flex items-center md:space-x-4 space-y-4 md:space-y-0 lg:mb-12">
+
+                <QuickLink
+                    to="#"
+                    icon="icon-book-f"
+                    icon-bg-color="bg-gradient2"
+                    title="Favorite Haggadahs"
+                    subtitle="Checkout our"
+                />
+
+                <QuickLink
+                    to="#"
+                    icon="icon-media-image-f"
+                    icon-bg-color="bg-gradient3"
+                    title="Favorite Clips"
+                    subtitle="Checkout our"
+                />
+
+                <QuickLink
+                    to="#"
+                    icon="icon-calendar-f"
+                    icon-bg-color="bg-gradient1"
+                    title="Upcoming Events"
+                    subtitle="View our community"
+                />
+
             </div>
         </div>
     </section>

@@ -8,7 +8,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const levelClasses = {
-    1: 'text-6xl font-semibold leading-[4.68rem]'
+    1: 'text-6xl font-semibold leading-[4.68rem]',
+    3: 'text-[2.75rem] font-semibold leading-[3.3rem]',
+    6: 'text-xl font-semibold leading-6',
 }
 
 const levelClass = computed(() => levelClasses[props.level])
@@ -17,7 +19,7 @@ const levelClass = computed(() => levelClasses[props.level])
 <template>
     <component
         :is="`h${level}`"
-        class="font-serif text-black dark:text-white mb-4"
+        class="font-serif text-black dark:text-white"
         :class="levelClass"
     >
         <slot />
