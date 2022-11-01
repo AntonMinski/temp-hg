@@ -7,11 +7,11 @@
         <div class="container max-w-screen-xl py-8 px-4 lg:py-16">
             <div class="grid gap-8 items-start mb-16 lg:mb-24 lg:gap-12 lg:grid-cols-12">
                 <div class="relative col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
-                    <Typography class="mb-4">
+                    <Heading class="mb-4">
                         Create interesting Haggadah
                         <span class="relative top-2 icon-book-f text-7xl text-transparent bg-gradient2 bg-clip-text"></span>
                         for your Passover Seder
-                    </Typography>
+                    </Heading>
                     <p class="text-lg font-normal tracking-wide text-gray-700 mb-16 dark:text-gray-400">We're the largest online resource for the Passover Haggadah with thousands of options for blessings, artwork, translations, songs, activities and more. Mix and match, download and print at home.</p>
                     <form action="#" class="">
                         <div class="justify-center items-center mx-auto mb-3 space-y-4 sm:flex lg:justify-start sm:space-y-0 sm:space-x-4">

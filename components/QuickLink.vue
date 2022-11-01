@@ -17,7 +17,7 @@ defineProps<Props>()
         </div>
         <div>
             <span class="block text-sm text-gray-500 font-semibold mb-0.5">{{ subtitle }}</span>
-            <Typography :level="6">{{ title }}</Typography>
+            <Heading :level="6">{{ title }}</Heading>
         </div>
     </NuxtLink>
 </template>
