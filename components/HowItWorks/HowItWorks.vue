@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 const nuxtLink = resolveComponent('NuxtLink')
+const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default
 </script>
 
 <template>
-    <div class="text-white bg-tertiary-500 dark:bg-tertiary-900">
+    <div
+        class="relative overflow-hidden text-white bg-tertiary-500 dark:bg-tertiary-900 bg-no-repeat bg-right-bottom"
+        :style="`background-image: url(${bgImage})`"
+    >
+        <img src="~/assets/svg/Eye.svg" class="absolute bottom-0.5 -right-8 rotate-[-15.69deg]">
+
         <div class="container max-w-screen-xl flex flex-col px-4 py-28 space-y-24">
             <div class="flex flex-col items-center">
                 <Heading :level="3" class="text-white mb-1">
