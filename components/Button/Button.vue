@@ -1,5 +1,5 @@
 <template>
-  <flowbite-themable-child tag="button" :apply="appliableTheme" class="space-x-2" :class="wrapperClasses" :disabled="disabled">
+  <flowbite-themable-child :tag="tag" :apply="appliableTheme" class="space-x-2" :class="wrapperClasses" :disabled="disabled">
     <div v-if="!isOutlineGradient && ($slots.prefix || loadingPrefix)" class="inline-flex -mt-0.5"> <!--automatically add mr class if slot provided or loading -->
       <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
       <slot name="prefix" v-else />
@@ -26,7 +26,7 @@
   </flowbite-themable-child>
 </template>
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue'
+import { computed, ConcreteComponent, toRefs } from 'vue'
 import type { PropType } from 'vue'
 import Spinner from '../Spinner/Spinner.vue'
 import { useButtonClasses } from './composables/useButtonClasses'
@@ -36,9 +36,13 @@ import FlowbiteThemableChild from '@/components/utils/FlowbiteThemable/component
 import type { ButtonGradient, ButtonMonochromeGradient, ButtonSize, ButtonVariant } from './types'
 import type { ThemableChildrenApply } from '@/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/types'
 const props = defineProps({
+  tag: {
+    type: [String, Object],
+    default: 'button',
+  },
   color: {
     type: String as PropType<ButtonVariant>,
-    default: 'default',
+    default: 'primary',
   },
   gradient: {
     type: [String, null] as PropType<ButtonGradient | null>,

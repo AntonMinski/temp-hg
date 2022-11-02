@@ -21,7 +21,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
 
     // Custom
     secondary: 'text-white bg-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
-    link: 'text-gray-700 dark:text-white bg-transparent focus:outline-none',
+    link: 'text-gray-700 dark:text-white bg-white dark:bg-gray-900 focus:outline-none',
   },
   hover: {
     default: 'hover:bg-blue-800 dark:hover:bg-blue-700',

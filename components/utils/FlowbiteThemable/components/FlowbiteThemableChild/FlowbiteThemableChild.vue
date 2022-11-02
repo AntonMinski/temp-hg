@@ -23,7 +23,7 @@ const props = defineProps({
     required: true,
   },
   tag: {
-    type: String,
+    type: [String, Object],
     default: 'div',
   },
   theme: {
