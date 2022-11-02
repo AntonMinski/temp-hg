@@ -20,6 +20,9 @@ module.exports = {
         'sans': ['Lota Grotesque', ...defaultTheme.fontFamily.sans],
         'serif': ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
       },
+      spacing: {
+        '4.5': '1.125rem',
+      },
       colors: {
         primary: {
           50: '#DBFFF5',
