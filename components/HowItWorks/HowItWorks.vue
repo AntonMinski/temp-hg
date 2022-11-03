@@ -43,7 +43,7 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default
 
             <div class="inline-flex items-center space-x-10 mx-auto">
                 <Button :tag="nuxtLink" to="#" size="xl" color="link" class="py-4">
-                    Make a Haggadah
+                    Make your Haggadah
                     <template #suffix>
                         <span class="icon-arrow-right text-xl leading-none"></span>
                     </template>
