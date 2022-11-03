@@ -5,7 +5,7 @@
 <template>
     <header>
         <nav class="bg-white py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0">
-            <div class="container !max-w-screen-xl px-4 xl:px-0 flex flex-wrap justify-between items-center">
+            <Container class="flex flex-wrap justify-between items-center">
                 <a href="https://flowbite.com/" class="flex items-center">
                     <img src="~/assets/svg/logo.svg" class="block dark:hidden mr-3 h-6 sm:h-9" alt="Haggadot Logo">
                     <img src="~/assets/svg/logo-light.svg" class="hidden dark:block mr-3 h-6 sm:h-9" alt="Haggadot Logo">
@@ -43,7 +43,7 @@
                         </NavLink>
                     </ul>
                 </div>
-            </div>
+            </Container>
         </nav>
     </header>
 </template>

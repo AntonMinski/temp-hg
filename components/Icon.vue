@@ -7,13 +7,13 @@ interface Props {
 const props = defineProps<Props>()
 
 const shapes = {
-    'square': 'rounded-lg p-3',
-    'circle': 'rounded-full p-3'
+    'square': 'text-3xl rounded-lg p-3',
+    'circle': 'text-3xl rounded-full p-3'
 }
 
 const shape = computed(() => shapes[props.shape] ?? null)
 </script>
 
 <template>
-    <span class="text-3xl text-white !leading-none" :class="[icon, shape]"></span>
+    <span class="text-white !leading-none" :class="[icon, shape]"></span>
 </template>
