@@ -50,7 +50,11 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default
                 </Button>
 
                 <NuxtLink to="#" class="inline-flex items-center text-lg text-accent-yellow-500 font-bold">
-                    <span class="icon-play text-3xl text-gray-700 bg-accent-yellow-500 leading-none pl-3 pr-2 py-2.5 rounded-full mr-3 shadow-md"></span>
+                    <Icon
+                        icon="icon-play"
+                        type="circle"
+                        class="text-gray-700 bg-accent-yellow-500 shadow-md pr-2 py-2.5 mr-3"
+                    />
                     Watch the video
                 </NuxtLink>
             </div>
