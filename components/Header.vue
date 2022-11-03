@@ -24,7 +24,7 @@
                         </template>
                     </Button>
                     <Button size="sm" color="link">
-                        <span class="icon-search text-base leading-none"></span>
+                        <span class="icon-search text-lg leading-none"></span>
                     </Button>
                     <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
@@ -32,7 +32,7 @@
                     </button>
                 </div>
                 <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                    <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <NavLink>Explore Haggadahs</NavLink>
                         <NavLink>Explore Clips</NavLink>
                         <NavLink>Events</NavLink>

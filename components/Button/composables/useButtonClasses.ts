@@ -92,7 +92,7 @@ const buttonGradientClasses: ButtonClassMap<ButtonGradient> = {
     teal: 'hover:bg-gradient-to-br',
 
     // Custom
-    gradient1: 'hover:bg-gradient-to-bl',
+    gradient1: 'hover:bg-primary-400 hover:bg-none',
     gradient2: 'hover:bg-gradient-to-bl',
     gradient3: 'hover:bg-gradient-to-bl',
     gradient4: 'hover:bg-gradient-to-bl',
@@ -117,12 +117,12 @@ const buttonGradientClasses: ButtonClassMap<ButtonGradient> = {
     teal: 'text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 rounded-lg',
 
     // Custom
-    gradient1: 'text-gray-800 bg-gradient1 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
-    gradient2: 'text-gray-800 bg-gradient2 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
-    gradient3: 'text-gray-800 bg-gradient3 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
-    gradient4: 'text-gray-800 bg-gradient4 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
-    gradient5: 'text-gray-800 bg-gradient5 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
-    gradient6: 'text-gray-800 bg-gradient6 focus:ring-2 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800',
+    gradient1: 'text-gray-800 bg-gradient1 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
+    gradient2: 'text-gray-800 bg-gradient2 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
+    gradient3: 'text-gray-800 bg-gradient3 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
+    gradient4: 'text-gray-800 bg-gradient4 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
+    gradient5: 'text-gray-800 bg-gradient5 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
+    gradient6: 'text-gray-800 bg-gradient6 focus:ring-2 focus:outline-none focus:ring-primary-50 dark:focus:ring-primary-800',
   },
 }
 
@@ -173,9 +173,9 @@ const buttonOutlineGradientClasses: ButtonClassMap<ButtonDuotoneGradient> = {
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
   xs: 'text-xs font-semibold px-3 py-1 rounded-md',
-  sm: 'text-sm font-semibold px-3 py-2 rounded-md',
-  md: 'text-base font-semibold px-5 py-3 rounded-lg',
-  lg: 'text-lg font-semibold px-5 py-3.5 rounded-lg',
+  sm: 'h-9 text-sm font-semibold px-3 py-2 rounded-md',
+  md: 'h-12 text-base font-semibold px-5 py-3 rounded-lg',
+  lg: 'h-14 text-lg font-semibold px-5 py-3.5 rounded-lg',
   xl: 'text-lg font-bold px-6 py-4.5 rounded-lg',
 }
 

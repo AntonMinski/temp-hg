@@ -1,5 +1,5 @@
 <template>
-  <flowbite-themable-child :tag="tag" :apply="appliableTheme" class="space-x-2" :class="wrapperClasses" :disabled="disabled">
+  <flowbite-themable-child :tag="tag" :apply="appliableTheme" class="space-x-2.5" :class="wrapperClasses" :disabled="disabled">
     <div v-if="!isOutlineGradient && ($slots.prefix || loadingPrefix)" class="inline-flex -mt-0.5"> <!--automatically add mr class if slot provided or loading -->
       <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
       <slot name="prefix" v-else />
