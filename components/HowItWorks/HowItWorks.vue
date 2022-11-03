@@ -10,7 +10,7 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default
     >
         <img src="~/assets/svg/Eye.svg" class="absolute bottom-0.5 -right-8 rotate-[-15.69deg]">
 
-        <div class="container max-w-screen-xl flex flex-col px-4 py-28 space-y-24">
+        <div class="container !max-w-screen-xl flex flex-col px-4 xl:px-0 py-28 space-y-24">
             <div class="flex flex-col items-center">
                 <Heading :level="3" class="text-white mb-1">
                     How it works
@@ -52,8 +52,8 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default
                 <NuxtLink to="#" class="inline-flex items-center text-lg text-accent-yellow-500 font-bold">
                     <Icon
                         icon="icon-play"
-                        type="circle"
-                        class="text-gray-700 bg-accent-yellow-500 shadow-md pr-2 py-2.5 mr-3"
+                        shape="circle"
+                        class="w-[47px] h-[47px] !text-gray-700 bg-accent-yellow-500 shadow-md px-2.5 py-2.5 mr-3"
                     />
                     Watch the video
                 </NuxtLink>

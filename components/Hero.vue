@@ -4,7 +4,7 @@
 
 <template>
     <section class="bg-white dark:bg-gray-900">
-        <div class="container max-w-screen-xl py-8 px-4 lg:py-16">
+        <div class="container !max-w-screen-xl px-4 xl:px-0 py-8 lg:py-16">
             <div class="grid gap-8 items-start mb-16 lg:mb-24 lg:gap-12 lg:grid-cols-12">
                 <div class="relative col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
                     <Heading class="mb-4">

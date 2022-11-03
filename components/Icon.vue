@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 interface Props {
     icon: string
-    type?: 'square' | 'circle'
+    shape?: 'square' | 'circle'
 }
 
 const props = defineProps<Props>()
 
-const types = {
+const shapes = {
     'square': 'rounded-lg p-3',
     'circle': 'rounded-full p-3'
 }
 
-const type = computed(() => types[props.type] ?? null)
+const shape = computed(() => shapes[props.shape] ?? null)
 </script>
 
 <template>
-    <span class="text-3xl text-white leading-none" :class="[icon, type]"></span>
+    <span class="text-3xl text-white !leading-none" :class="[icon, shape]"></span>
 </template>

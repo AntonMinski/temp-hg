@@ -14,7 +14,7 @@ defineProps<Props>()
     <NuxtLink :to="to" class="flex items-center w-full md:w-auto border border-gray-300 rounded-lg p-5 pr-20 space-x-5">
         <Icon
             :icon="icon"
-            type="square"
+            shape="square"
             :class="iconBgColor"
         />
 
