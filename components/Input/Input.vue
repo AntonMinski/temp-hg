@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="label" :class="labelClasses">{{ label }}</label>
-    <div class="flex relative">
+    <div class="flex items-center relative">
       <div v-if="$slots.prefix" class="w-10 flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none overflow-hidden">
         <slot name="prefix" />
       </div>
@@ -13,7 +13,7 @@
 
           :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
       />
-      <div v-if="$slots.suffix" class="absolute right-2.5 bottom-2.5">
+      <div v-if="$slots.suffix" class="absolute right-1.5">
         <slot name="suffix" />
       </div>
     </div>

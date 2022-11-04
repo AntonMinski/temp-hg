@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  important: true,
+  // important: true,
   darkMode: 'media',
   content: [
     './assets/**/*.{vue,js,css}',
@@ -20,8 +20,16 @@ module.exports = {
         'sans': ['Lota Grotesque', ...defaultTheme.fontFamily.sans],
         'serif': ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
       },
+      width: {
+        '134': '33.5rem',
+      },
+      height: {
+        '9.5': '2.375rem',
+        '11.5': '2.875rem',
+      },
       spacing: {
         '4.5': '1.125rem',
+        '5.5': '1.375rem',
       },
       colors: {
         primary: {

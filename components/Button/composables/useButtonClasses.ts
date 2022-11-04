@@ -54,7 +54,7 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
 
     // Custom
     secondary: 'text-secondary-500 bg-transparent focus:outline-none focus:ring-2 focus:ring-secondary-200',
-    link: '',
+    link: 'text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none',
   },
   hover: {
     dark: 'hover:text-white hover:bg-gray-900 dark:hover:text-white dark:hover:bg-gray-600',

@@ -7,5 +7,7 @@
         <Hero />
 
         <HowItWorks />
+
+        <HaggadahFavourites />
     </div>
 </template>

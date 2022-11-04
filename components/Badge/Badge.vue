@@ -23,6 +23,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  outline: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const slots = useSlots()
