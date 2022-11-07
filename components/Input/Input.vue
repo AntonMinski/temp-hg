@@ -1,18 +1,18 @@
 <template>
   <div>
     <label v-if="label" :class="labelClasses">{{ label }}</label>
-    <div class="flex items-center relative">
-      <div v-if="$slots.prefix" class="w-10 flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none overflow-hidden">
+    <div class="relative flex items-center">
+      <div
+        v-if="$slots.prefix"
+        class="pointer-events-none absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
         <slot name="prefix" />
       </div>
       <input
-          v-bind="$attrs"
-          v-model="model"
-          :disabled="disabled"
-          :type="type"
-
-          :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
-      />
+        v-bind="$attrs"
+        v-model="model"
+        :disabled="disabled"
+        :type="type"
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '']" />
       <div v-if="$slots.suffix" class="absolute right-1.5">
         <slot name="suffix" />
       </div>
@@ -23,11 +23,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { InputSize } from './types'
-import { useInputClasses } from './composables/useInputClasses'
-import { toRefs } from 'vue'
-import { useVModel } from '@vueuse/core'
+import type { PropType } from 'vue';
+import type { InputSize } from './types';
+import { useInputClasses } from './composables/useInputClasses';
+import { toRefs } from 'vue';
+import { useVModel } from '@vueuse/core';
 
 const props = defineProps({
   label: {
@@ -50,9 +50,9 @@ const props = defineProps({
     type: String,
     default: '',
   },
-})
+});
 
-const model = useVModel(props, 'modelValue')
+const model = useVModel(props, 'modelValue');
 
-const { inputClasses, labelClasses } = useInputClasses(toRefs(props))
+const { inputClasses, labelClasses } = useInputClasses(toRefs(props));
 </script>

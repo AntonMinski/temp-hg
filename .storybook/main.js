@@ -1,5 +1,5 @@
-const { mergeConfig } = require('vite')
-const path = require('path')
+const { mergeConfig } = require('vite');
+const path = require('path');
 
 module.exports = {
   stories: ['../components/**/*.stories.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -20,9 +20,9 @@ module.exports = {
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '../'),
-          '~': path.resolve(__dirname, '../')
+          '~': path.resolve(__dirname, '../'),
         },
       },
-    })
+    });
   },
-}
+};
