@@ -1,5 +1,5 @@
 import { useNuxtApp } from '#app';
-import type { loginResponse, registerResponse, logoutResponse, errorResponse } from '~/store/types/response';
+import type { loginResponse, registerResponse, logoutResponse, errorResponse } from '../types/response';
 
 export const useAuthStore = defineStore('auth', () => {
   const { $auth } = useNuxtApp();

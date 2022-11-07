@@ -1,7 +1,5 @@
-import type { nuxtError } from '@/plugins/types/error';
-
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.config.errorHandler = (error: nuxtError): void => {
+  nuxtApp.vueApp.config.errorHandler = (error: NuxtError): void => {
     const runtimeConfig = useRuntimeConfig();
     if (runtimeConfig.public.env === 'development') {
       const time = new Date().toLocaleTimeString();
