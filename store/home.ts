@@ -1,15 +1,18 @@
 import { ref } from 'vue';
-import type { dataResponse } from './types/response';
+import { useNuxtApp } from '#app';
+import type { dataResponse } from '~/types/response';
 
 export const useHomeStore = defineStore('home', () => {
   // State
-  const homePage = ref([]);
+  const homePage = ref(null);
 
   // Actions
   async function getHomePage(): Promise<dataResponse> {
     try {
-      const { _data } = await $http.get(`/home-page`);
-      return _data;
+      const { vueApp } = useNuxtApp();
+      const { _data } = await vueApp.$api.home.getHomePage();
+      homePage.value = { ..._data.data };
+      // return _data;
     } catch (err) {
       return err;
     }

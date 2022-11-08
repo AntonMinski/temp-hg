@@ -13,6 +13,12 @@ export type statusResponse = {
   success: boolean;
 };
 
+export type userExistResponse = {
+  success: boolean,
+  message: string,
+  response: boolean
+}
+
 export type loginResponse = {
   success: boolean;
   message: string;
