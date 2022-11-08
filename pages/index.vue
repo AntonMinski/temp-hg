@@ -1,13 +1,11 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
-    <div>
-        <Hero />
+  <div>
+    <Hero />
 
-        <HowItWorks />
+    <HowItWorks />
 
-        <HaggadahFavourites />
-    </div>
+    <HaggadahFavourites />
+  </div>
 </template>

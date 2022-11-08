@@ -1,1 +1,1 @@
-export type CardsVariant = 'default' | 'image' | 'horizontal'
+export type CardsVariant = 'default' | 'image' | 'horizontal';

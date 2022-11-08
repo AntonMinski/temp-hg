@@ -1,34 +1,33 @@
-import type { Ref } from 'vue'
-import { computed } from 'vue'
-import type { CardsVariant } from '../types'
+import type { Ref } from 'vue';
+import { computed } from 'vue';
+import type { CardsVariant } from '../types';
 
 export type UseCardsClassesProps = {
-    variant: Ref<CardsVariant>
-}
+  variant: Ref<CardsVariant>;
+};
 
 export function useCardsClasses(props: UseCardsClassesProps): {
-    cardClasses: Ref<string>,
-    horizontalImageClasses: Ref<string>
+  cardClasses: Ref<string>;
+  horizontalImageClasses: Ref<string>;
 } {
-    const cardClasses = computed(() => {
-        if(props.variant.value === 'default')
-            return 'block max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
-        else if(props.variant.value === 'image')
-            return 'w-full bg-white rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-700'
-        else if(props.variant.value === 'horizontal')
-            return 'flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
-        return ''
-    })
+  const cardClasses = computed(() => {
+    if (props.variant.value === 'default')
+      return 'block max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700';
+    else if (props.variant.value === 'image')
+      return 'w-full bg-white rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-700';
+    else if (props.variant.value === 'horizontal')
+      return 'flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700';
+    return '';
+  });
 
-    const horizontalImageClasses = computed(() => {
-        if(props.variant.value === 'horizontal')
-            return 'object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg'
-        return ''
-    })
+  const horizontalImageClasses = computed(() => {
+    if (props.variant.value === 'horizontal')
+      return 'object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg';
+    return '';
+  });
 
-    return {
-        cardClasses,
-        horizontalImageClasses,
-    }
+  return {
+    cardClasses,
+    horizontalImageClasses,
+  };
 }
-

@@ -1,14 +1,14 @@
 <template>
   <component :is="wrapperType" :class="badgeClasses" :href="href">
-    <slot name="icon"/>
+    <slot name="icon" />
     <slot name="default" />
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, toRefs, useSlots } from 'vue'
-import type { PropType } from 'vue'
-import type { BadgeType, BadgeSize } from './types'
-import { useBadgeClasses } from './composables/useBadgeClasses'
+import { computed, toRefs, useSlots } from 'vue';
+import type { PropType } from 'vue';
+import type { BadgeType, BadgeSize } from './types';
+import { useBadgeClasses } from './composables/useBadgeClasses';
 
 const props = defineProps({
   type: {
@@ -26,12 +26,12 @@ const props = defineProps({
   outline: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
-const slots = useSlots()
-const isContentEmpty = computed(() => !slots.default)
-const wrapperType = computed(() => props.href ? 'a' : 'span')
+const slots = useSlots();
+const isContentEmpty = computed(() => !slots.default);
+const wrapperType = computed(() => (props.href ? 'a' : 'span'));
 
-const { badgeClasses } = useBadgeClasses(toRefs(props), { isContentEmpty })
+const { badgeClasses } = useBadgeClasses(toRefs(props), { isContentEmpty });
 </script>

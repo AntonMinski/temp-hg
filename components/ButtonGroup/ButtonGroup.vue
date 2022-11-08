@@ -1,6 +1,6 @@
 <template>
   <div class="btn-group inline-flex rounded-md" role="group">
-   <slot />
+    <slot />
   </div>
 </template>
 <!-- TODO: maybe use provide/inject to control styles -->
@@ -12,7 +12,7 @@
     @apply rounded-none;
   }
   .btn-group > button:not(:last-child) {
-    @apply border-r-0
+    @apply border-r-0;
   }
   .btn-group > button:first-child {
     @apply rounded-l-lg;

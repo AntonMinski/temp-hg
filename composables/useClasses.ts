@@ -1,3 +1,1 @@
-export function useClasses() {
-
-}
+export function useClasses() {}
