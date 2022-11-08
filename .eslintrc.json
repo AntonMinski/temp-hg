@@ -21,6 +21,8 @@
   "rules": {
     "vue/multi-word-component-names": "off",
     "vue/no-multiple-template-root": "off",
+    "no-async-promise-executor": "off",
+    "require-await": "off",
     "camelcase": "off",
     "prettier/prettier": [
       "error",

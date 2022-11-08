@@ -1,4 +1,4 @@
-import type { dataResponse } from '~/store/types/response';
+import type { dataResponse } from '~/types/response';
 
 export const useContributorStore = defineStore('contributor', () => {
   // State

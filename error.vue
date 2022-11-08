@@ -8,7 +8,6 @@
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
-import type { nuxtError } from '@/plugins/types/error';
 
 // layout
 definePageMeta({
@@ -16,7 +15,7 @@ definePageMeta({
 });
 
 const props = defineProps({
-  error: Object as PropType<nuxtError>,
+  error: Object as PropType<NuxtError>,
 });
 
 const title = computed<string>(
