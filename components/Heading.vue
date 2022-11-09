@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const levelClasses = {
-  1: 'text-6xl font-semibold leading-[4.68rem]',
+  1: 'text-[3.5rem] font-semibold leading-[4.68rem]',
   2: 'text-[3.375rem] font-semibold leading-[4rem]',
   3: 'text-[2.75rem] font-semibold leading-[3.3rem]',
   4: 'text-[2rem] font-semibold leading-[2.4rem]',

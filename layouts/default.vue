@@ -7,3 +7,9 @@
     </main>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { useHomeStore } from '~/store/home';
+const { getHomePage } = useHomeStore();
+await useAsyncData(getHomePage);
+</script>
