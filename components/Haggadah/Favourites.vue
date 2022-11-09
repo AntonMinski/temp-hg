@@ -4,7 +4,7 @@ const avatarSrc = (await import('@/assets/images/avatar.png')).default;
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-800">
+  <div id="favourite-haggadahs" class="bg-white dark:bg-gray-800">
     <Container class="py-24">
       <div class="mb-12 flex items-center justify-between">
         <div class="inline-flex items-center space-x-4">
