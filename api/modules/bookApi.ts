@@ -1,10 +1,7 @@
-import type { apiBase } from '~/types/api';
-import { dataResponse, errorResponse } from '~/types/response';
-
 export default class BookApi {
-  private base: apiBase;
+  private base;
   bookUrl: string;
-  constructor(base: apiBase) {
+  constructor(base) {
     this.base = base;
     this.bookUrl = 'books';
   }

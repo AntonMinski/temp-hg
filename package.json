@@ -20,8 +20,8 @@
     "@storybook/vue3": "^6.5.12",
     "autoprefixer": "^10.4.12",
     "eslint": "8.22.0",
-    "eslint-plugin-nuxt": "^4.0.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "nuxt": "3.0.0-rc.12",
     "prettier": "^2.7.1",
@@ -37,10 +37,12 @@
     "@nuxtjs-alt/http": "^1.4.2",
     "@pinia/nuxt": "^0.4.3",
     "@typescript-eslint/parser": "^5.42.0",
+    "@vee-validate/rules": "^4.7.2",
     "@vueuse/core": "^9.4.0",
     "classnames": "^2.3.2",
     "flowbite": "^1.5.3",
     "stylus": "^0.59.0",
-    "stylus-loader": "3"
+    "stylus-loader": "3",
+    "vee-validate": "^4.7.2"
   }
 }

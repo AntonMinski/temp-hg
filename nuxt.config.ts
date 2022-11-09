@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     postcss: {
       postcssOptions: require('./postcss.config.js'),
     },
+    transpile: ['@vee-validate/rules'],
   },
   auth: {
     pinia: {
@@ -54,7 +55,12 @@ export default defineNuxtConfig({
       'Content-Type': 'application/json',
     },
   },
-  plugins: ['@/plugins/flowbite.client.ts', '@/plugins/vueToaster.client.ts', '@/plugins/errorHandler.client.ts'],
+  plugins: [
+    '@/plugins/flowbite.client.ts',
+    '@/plugins/vueToaster.client.ts',
+    '@/plugins/errorHandler.client.ts',
+    '@/plugins/httpApi.ts',
+  ],
   runtimeConfig: {
     public: {
       env: appEnv, // development, staging, production

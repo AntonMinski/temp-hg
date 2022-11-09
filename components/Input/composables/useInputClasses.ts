@@ -15,6 +15,7 @@ const inputSizeClasses: Record<InputSize, string> = {
   md: 'p-3 h-12',
   sm: 'p-2 text-sm h-9',
 };
+const errorClasses: string = 'border-danger-600 border-2 focus:border-danger-600 focus:ring-danger-600 focus:border';
 
 export type UseInputClassesProps = {
   size: Ref<InputSize>;
@@ -24,6 +25,7 @@ export type UseInputClassesProps = {
 export function useInputClasses(props: UseInputClassesProps): {
   inputClasses: Ref<string>;
   labelClasses: Ref<string>;
+  errorClasses: string;
 } {
   const inputClasses = computed(() => {
     return simplifyTailwindClasses(
@@ -40,5 +42,6 @@ export function useInputClasses(props: UseInputClassesProps): {
   return {
     inputClasses,
     labelClasses,
+    errorClasses,
   };
 }

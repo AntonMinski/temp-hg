@@ -1,4 +1,32 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useForm } from 'vee-validate';
+import { ref } from 'vue';
+import { useAuthStore } from '~/store/auth';
+import { useAuthModuleStore } from '~/store/authModule';
+const { setUserEmail } = useAuthStore();
+const { loggedIn } = useAuthModuleStore();
+const { vueApp } = useNuxtApp();
+
+const email = ref('');
+const { handleSubmit, errors } = useForm({
+  validationSchema: {
+    email: 'required|email|',
+  },
+});
+
+const getStarted = handleSubmit(async (): Promise<void> => {
+  setUserEmail(email.value);
+
+  const { _data } = await vueApp.$api.auth.checkUserExist(email.value);
+  const emailRegistered = _data.success && _data.response;
+
+  if (emailRegistered && !loggedIn) {
+    await navigateTo('/login');
+  } if (!emailRegistered) {
+    await navigateTo('/register');
+  }
+});
+</script>
 
 <template>
   <section class="bg-white dark:bg-gray-900">
@@ -16,14 +44,14 @@
           </p>
           <form action="#" class="">
             <div
-              class="mx-auto mb-3 items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 lg:justify-start">
-              <Input size="lg" placeholder="Enter email to get started" class="w-96">
+              class="mx-auto mb-3 items-top justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 lg:justify-start">
+              <Input size="lg" placeholder="Enter email to get started" v-model="email" name="email" class="w-96">
                 <template #prefix>
                   <span class="icon-email leading-none text-gray-500 dark:text-gray-400"></span>
                 </template>
               </Input>
 
-              <Button size="lg" gradient="gradient1">
+              <Button size="lg" gradient="gradient1" @click="getStarted" :disabled="!!errors.email">
                 Get started
                 <template #suffix>
                   <span class="icon-arrow-right text-xl font-semibold leading-none"></span>

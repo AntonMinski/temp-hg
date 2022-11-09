@@ -1,10 +1,9 @@
-import type { apiBase } from '~/types/api';
-import { dataResponse, errorResponse } from '~/types/response';
+import { dataResponse } from '~/types/response';
 
 export default class ContributorApi {
-  private base: apiBase;
+  private base;
   contributorsUrl: string;
-  constructor(base: apiBase) {
+  constructor(base) {
     this.base = base;
     this.contributorsUrl = 'contributors';
   }
@@ -14,6 +13,6 @@ export default class ContributorApi {
   }
 
   async getContributorsDetails<T>(slug: String): Promise<T> {
-    return this.base.$http.get(this.contributorsUrl + '/' + slug);
+    return this.base.get(this.contributorsUrl + '/' + slug);
   }
 }

@@ -12,22 +12,26 @@
         v-model="model"
         :disabled="disabled"
         :type="type"
-        :class="[inputClasses, $slots.prefix ? 'pl-10' : '']" />
+        @input="showErrors = false"
+        @blur="showErrors = true"
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errorsToShow ? errorClasses : '']" />
       <div v-if="$slots.suffix" class="absolute right-1.5">
         <slot name="suffix" />
       </div>
     </div>
-    <p v-if="$slots.helper" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-      <slot name="helper" />
+    <p v-if="$slots.helper || errorsToShow" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+      <span v-if="errorsToShow" class="text-danger-600">{{ errorMessage }}</span>
+      <slot v-else name="helper" />
     </p>
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropType } from 'vue';
+import type { PropType, Ref, ComputedRef } from 'vue';
 import type { InputSize } from './types';
 import { useInputClasses } from './composables/useInputClasses';
-import { toRefs } from 'vue';
+import { toRefs, ref, computed } from 'vue';
 import { useVModel } from '@vueuse/core';
+import { useField } from 'vee-validate';
 
 const props = defineProps({
   label: {
@@ -50,9 +54,16 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  name: {
+    type: String,
+  },
 });
 
 const model = useVModel(props, 'modelValue');
 
-const { inputClasses, labelClasses } = useInputClasses(toRefs(props));
+const { errorMessage } = useField(props.name);
+const showErrors: Ref<boolean> = ref(false);
+const errorsToShow: ComputedRef<boolean> = computed(() => showErrors.value && !!errorMessage.value);
+
+const { inputClasses, labelClasses, errorClasses } = useInputClasses(toRefs(props));
 </script>

@@ -1,10 +1,9 @@
-import type { apiBase } from '~/types/api';
 import { dataResponse, errorResponse } from '~/types/response';
 
 export default class HomePageApi {
-  private base: apiBase;
+  private base;
   homePageUrl: string;
-  constructor(base: apiBase) {
+  constructor(base) {
     this.base = base;
     this.homePageUrl = 'home-page';
   }
