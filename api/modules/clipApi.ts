@@ -1,5 +1,4 @@
 import type { apiBase } from '~/types/api';
-import { dataResponse, errorResponse } from '~/types/response';
 
 export default class ClipApi {
   private base: apiBase;

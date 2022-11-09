@@ -1,10 +1,7 @@
-import type { apiBase } from '~/types/api';
-import { dataResponse, errorResponse } from '~/types/response';
-
 export default class BlogApi {
-  private base: apiBase;
+  private base;
   blogUrl: string;
-  constructor(base: apiBase) {
+  constructor(base) {
     this.base = base;
     this.blogUrl = 'blogs';
   }

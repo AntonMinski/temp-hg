@@ -1,4 +1,3 @@
-import type { apiBase } from '~/types/api';
 import type {
   loginResponse,
   registerResponse,
@@ -9,9 +8,9 @@ import type {
 import type { userData, organizationData } from '~/types/registrationData';
 
 export default class AuthApi {
-  private base: apiBase;
+  private base;
 
-  constructor(base: apiBase) {
+  constructor(base) {
     this.base = base;
   }
 
