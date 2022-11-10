@@ -74,11 +74,11 @@ const getStarted = handleSubmit(async (): Promise<void> => {
             <div class="flex items-center justify-center divide-x divide-gray-200 font-semibold lg:justify-start">
               <div class="flex items-center pr-5 text-sm text-gray-900 dark:text-white">
                 <span class="icon-star mr-2 -mt-0.5 leading-none"></span>
-                <span class="mr-2">{{ homePageData.site_feed_back.reviews }}</span>
+                <span class="mr-2">{{ homePageData?.site_feed_back?.reviews }}</span>
               </div>
               <div class="flex items-center pl-5 text-sm text-gray-900 dark:text-white">
                 <span class="icon-fire mr-2 -mt-0.5 leading-none"></span>
-                {{ homePageData.site_feed_back.message }}
+                {{ homePageData?.site_feed_back?.message }}
               </div>
             </div>
           </form>
@@ -86,7 +86,7 @@ const getStarted = handleSubmit(async (): Promise<void> => {
           <img src="~/assets/svg/signal.svg" class="absolute -top-7 -right-2 h-12 w-9" />
         </div>
         <div class="relative col-span-4 inline-flex lg:col-span-6">
-          <img :src="homePageData.hero_section.image" alt="Hero Image" />
+          <img :src="homePageData?.hero_section?.image" alt="Hero Image" />
           <img src="~/assets/svg/Flower.svg" alt="Hero Image" class="absolute -top-8 right-0 xl:-right-8" />
           <img src="~/assets/svg/Yellow-Heart.svg" alt="Hero Image" class="absolute -bottom-10 left-24" />
         </div>

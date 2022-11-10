@@ -1,6 +1,30 @@
 <script lang="ts" setup>
+import type { Haggadah } from '~/components/Haggadah/types';
+import {  PropType, ref } from 'vue';
+const { vueApp } = useNuxtApp();
+
 const imgSrc = (await import('@/assets/images/haggadah-card-image.png')).default;
 const avatarSrc = (await import('@/assets/images/avatar.png')).default;
+
+// Haggadahs Data
+// const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.featured_haggadah?.slice(0, 6));
+const props = defineProps({
+  haggadahs: {
+    type: Array as PropType<Haggadah[]>,
+    default: '',
+  },
+});
+
+// Search
+const searchString = ref('');
+async function searchHaggadahs(): Promise<void> {
+  await navigateTo({
+    path: `/search-haggadahs`,
+    query: {
+      haggadah: searchString.value,
+    },
+  });
+}
 </script>
 
 <template>
@@ -13,9 +37,9 @@ const avatarSrc = (await import('@/assets/images/avatar.png')).default;
           <Heading :level="3" class="text-4xl"> Our Favourites Haggadahs </Heading>
         </div>
 
-        <Input placeholder="Search Haggadahs by keyword or topic" class="h-11.5 w-134 !rounded-full pl-5.5">
+        <Input v-model='searchString' placeholder="Search Haggadahs by keyword or topic" class="h-11.5 w-134 !rounded-full pl-5.5">
           <template #suffix>
-            <Button gradient="gradient1" class="h-8 w-8" square pill>
+            <Button gradient="gradient1" class="h-8 w-8" square pill @click='searchHaggadahs'>
               <Icon icon="icon-search" class="!text-sm !text-gray-900" />
             </Button>
           </template>
@@ -24,13 +48,13 @@ const avatarSrc = (await import('@/assets/images/avatar.png')).default;
 
       <div class="grid grid-cols-3 gap-x-[1.56rem] gap-y-[2.8rem]">
         <HaggadahCard
-          v-for="i in 6"
-          :key="i"
-          :img-src="imgSrc"
-          title="Golden Girls Haggadah"
-          read-time="10 mins"
-          contributorName="Haggadot"
-          :contributorAvatar="avatarSrc"
+          v-for="(item, n) in haggadahs"
+          :key="n"
+          :img-src="item.haggadah.haggadah_image"
+          :title="item.haggadah.title"
+          :read-time="item.haggadah.reading_length || 10"
+          :contributorName="item.haggadah.author"
+          :contributorAvatar="null"
           :language-tags="['Trending', 'Humanity']"
           :topic-tags="['Trending', 'Humanity']" />
       </div>
