@@ -1,18 +1,29 @@
 <script lang="ts" setup>
+import { handleAddToBookmark } from './composables/handleAddToBookmark';
+const { vueApp } = useNuxtApp();
 interface Props {
   imgSrc: string;
   title: string;
   contributorName?: string;
   contributorAvatar?: string;
-  readTime?: string|number;
+  readTime?: string | number;
   languageTags?: string[];
   topicTags?: string[];
   isOwner?: boolean;
+  slug: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   isOwner: true,
 });
+
+// bookmarks
+const inBookmarks = computed(() => {
+  return false;
+});
+function addToBookmark() {
+  handleAddToBookmark(inBookmarks.value, props.slug, vueApp);
+}
 </script>
 
 <template>
@@ -48,8 +59,9 @@ withDefaults(defineProps<Props>(), {
       </div>
 
       <ButtonGroup>
-        <Button class="!h-auto !p-2.5" color="link" outline>
-          <Icon icon="icon-bookmark-add" class="!text-base" />
+        <Button class="!h-auto !p-2.5" color="link" outline @click="addToBookmark">
+          <Icon v-if="inBookmarks" icon="icon-bookmark-remove" class="!text-base" />
+          <Icon v-else icon="icon-bookmark-add" class="!text-base" />
         </Button>
         <Button class="!h-auto !p-2.5" color="link" outline>
           <Icon icon="icon-download" class="!text-base" />

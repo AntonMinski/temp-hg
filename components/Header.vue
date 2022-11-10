@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
+</script>
 
 <template>
   <header>
@@ -15,7 +17,7 @@
             </template>
             Login
           </Button>
-          <Button size="sm" color="secondary" class="mr-1">
+          <Button size="sm" color="secondary" class="mr-1" @click="createHaggadah">
             Create Haggadah
             <template #suffix>
               <span class="icon-book-f text-base leading-none"></span>

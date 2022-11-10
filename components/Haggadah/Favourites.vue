@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import type { Haggadah } from '~/components/Haggadah/types';
-import {  PropType, ref } from 'vue';
+import { PropType, ref } from 'vue';
 const { vueApp } = useNuxtApp();
-
-const imgSrc = (await import('@/assets/images/haggadah-card-image.png')).default;
-const avatarSrc = (await import('@/assets/images/avatar.png')).default;
 
 // Haggadahs Data
 // const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.featured_haggadah?.slice(0, 6));
@@ -37,9 +34,12 @@ async function searchHaggadahs(): Promise<void> {
           <Heading :level="3" class="text-4xl"> Our Favourites Haggadahs </Heading>
         </div>
 
-        <Input v-model='searchString' placeholder="Search Haggadahs by keyword or topic" class="h-11.5 w-134 !rounded-full pl-5.5">
+        <Input
+          v-model="searchString"
+          placeholder="Search Haggadahs by keyword or topic"
+          class="h-11.5 w-134 !rounded-full pl-5.5">
           <template #suffix>
-            <Button gradient="gradient1" class="h-8 w-8" square pill @click='searchHaggadahs'>
+            <Button gradient="gradient1" class="h-8 w-8" square pill @click="searchHaggadahs">
               <Icon icon="icon-search" class="!text-sm !text-gray-900" />
             </Button>
           </template>
@@ -52,6 +52,7 @@ async function searchHaggadahs(): Promise<void> {
           :key="n"
           :img-src="item.haggadah.haggadah_image"
           :title="item.haggadah.title"
+          :slug="item.haggadah.handle"
           :read-time="item.haggadah.reading_length || 10"
           :contributorName="item.haggadah.author"
           :contributorAvatar="null"

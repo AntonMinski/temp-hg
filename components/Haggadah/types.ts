@@ -21,7 +21,7 @@ export type HaggadahBook = {
 }
 
 export type Haggadah = {
-  book: {
+  haggadah: {
     author: string;
     haggadah_image: string;
     handle: string;

@@ -1,4 +1,6 @@
 const GlobalSettings = {
+  homePageVideoUrl: 'https://www.youtube.com/embed/5AFnnsYcVJY',
+
   development: {
     apiUrl: 'https://staging.haggadot.com/api/',
   },

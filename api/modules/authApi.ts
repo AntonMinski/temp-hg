@@ -14,8 +14,17 @@ export default class AuthApi {
     this.base = base;
   }
 
-  async login(email: String, password: String): Promise<loginResponse | errorResponse> {
-    return this.base.$auth.loginWith('local', { body: { email, password } });
+  async login(email: String, password: String) {
+    try {
+      const response: loginResponse = await this.base.$auth.loginWith('local', { body: { email, password } });
+      const user = {
+        slug: response.slug,
+        email: email,
+      };
+      this.base.$auth.setUser(user);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async register(data: userData | organizationData): Promise<registerResponse | errorResponse> {

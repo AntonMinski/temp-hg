@@ -26,8 +26,7 @@ export default defineNuxtConfig({
           property: 'access_token',
         },
         user: {
-          property: false,
-          autoFetch: false,
+          property: 'slug',
         },
         endpoints: {
           login: { url: '/login', method: 'post' },
@@ -66,6 +65,7 @@ export default defineNuxtConfig({
       env: appEnv, // development, staging, production
       test: settings.api,
       apiUrl: settings.apiUrl,
+      homePageVideoSrc: GlobalSettings.homePageVideoUrl + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0',
     },
   },
   vite: {
