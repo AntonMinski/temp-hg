@@ -1,3 +1,5 @@
+import { errorResponse, statusResponse } from '~/types/response';
+
 export default class BookApi {
   private base;
   bookUrl: string;
@@ -44,5 +46,21 @@ export default class BookApi {
 
   async useAsATemplate<T>(slug: String, bookData): Promise<T> {
     return this.base.post(`/use-book-template/${slug}`, bookData);
+  }
+
+  async bookmarkBook(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`bookmark-book/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async unBookmarkBook(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`unbookmark-book/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async likeBook(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`/like-book/${slug}`);
+  }
+
+  async unLikeBook(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`/unlike-book/${slug}`);
   }
 }

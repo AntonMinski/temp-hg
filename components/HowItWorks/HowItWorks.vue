@@ -1,6 +1,41 @@
 <script lang="ts" setup>
+import { computed, Ref, ref, onMounted, ComputedRef, onBeforeUnmount } from 'vue';
+
 const nuxtLink = resolveComponent('NuxtLink');
 const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
+
+import { createHaggadah } from './composables/createHaggadah';
+
+// Video
+const modalOpen: Ref<boolean> = ref(false);
+function onToggleModal(): void {
+  modalOpen.value = !modalOpen.value;
+}
+const runtimeConfig = useRuntimeConfig();
+const videoSrc = runtimeConfig.public.homePageVideoSrc;
+
+// Resize event
+const resizeEvent = ref(1);
+function resizeListener(): void {
+  resizeEvent.value += 1;
+}
+onMounted(() => {
+  window.addEventListener('resize', resizeListener);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resizeListener);
+});
+// Height and width
+const videoWidth: ComputedRef<number> = computed(() => {
+  resizeEvent.value++;
+  if (window.innerWidth < 1960) {
+    return window.innerWidth - 40;
+  }
+  return 1920;
+});
+const videoHeight = computed(() => {
+  return videoWidth.value * 0.5625;
+});
 </script>
 
 <template>
@@ -34,14 +69,17 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
       </div>
 
       <div class="mx-auto inline-flex items-center space-x-10">
-        <Button :tag="nuxtLink" to="#" size="xl" color="link" class="py-4">
+        <Button :tag="nuxtLink" to="#" size="xl" color="link" class="py-4" @click="createHaggadah">
           Make your Haggadah
           <template #suffix>
             <span class="icon-arrow-right text-xl leading-none"></span>
           </template>
         </Button>
 
-        <NuxtLink to="#" class="inline-flex items-center text-lg font-bold text-accent-yellow-500">
+        <NuxtLink
+          to="#"
+          class="inline-flex items-center text-lg font-bold text-accent-yellow-500"
+          @click="onToggleModal">
           <Icon
             icon="icon-play"
             shape="circle"
@@ -51,4 +89,35 @@ const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
       </div>
     </Container>
   </div>
+  <transition name="fade">
+    <div v-if="modalOpen" class="fixed top-0 z-20">
+      <div class="absolute inset-0 z-0 h-screen w-screen bg-black opacity-70"></div>
+      <div @click.self="onToggleModal" class="relative z-0 flex h-screen w-screen">
+        <div class="mx-auto my-auto flex flex-col shadow-lg">
+          <span
+            @click="onToggleModal"
+            class="icon-close ml-auto text-4xl text-gray-100 transition-all hover:scale-110 hover:cursor-pointer"></span>
+          <iframe
+            :width="videoWidth"
+            :height="videoHeight"
+            :src="videoSrc"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
+
+<style scoped>
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 500ms ease-out;
+}
+</style>

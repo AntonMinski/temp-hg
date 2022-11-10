@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
-import { computed, ref } from 'vue';
+import { computed, ComputedRef, ref } from 'vue';
 import { useAuthStore } from '~/store/auth';
 import { useAuthModuleStore } from '~/store/authModule';
 import { useHomeStore } from '~/store/home';
@@ -8,6 +8,7 @@ const { setUserEmail } = useAuthStore();
 const { loggedIn } = useAuthModuleStore();
 const homeStore = useHomeStore();
 const { vueApp } = useNuxtApp();
+import { getTextHalfs } from './Composables/textHalfs';
 
 // page data
 const homePageData = computed(() => homeStore.homePageData);
@@ -34,6 +35,10 @@ const getStarted = handleSubmit(async (): Promise<void> => {
   const { _data } = await vueApp.$api.auth.checkUserExist(email.value);
   const emailRegistered = _data.success && _data.response;
 
+  if (emailRegistered && loggedIn) {
+    await navigateTo('/account');
+  }
+
   if (emailRegistered && !loggedIn) {
     await navigateTo('/login');
   }
@@ -41,6 +46,9 @@ const getStarted = handleSubmit(async (): Promise<void> => {
     await navigateTo('/register');
   }
 });
+
+// divide text by 2
+const { firstHalf, secondHalf } = getTextHalfs(homePageData.value?.hero_section?.tag_line);
 </script>
 
 <template>
@@ -49,11 +57,12 @@ const getStarted = handleSubmit(async (): Promise<void> => {
       <div class="mb-16 grid items-start gap-8 lg:mb-24 lg:grid-cols-12 lg:gap-12">
         <div class="relative col-span-6 text-center sm:mb-6 lg:mb-0 lg:text-left">
           <Heading class="mb-4">
-            {{ homePageData.hero_section.tag_line }}
+            {{ firstHalf || homePageData.hero_section?.tag_line }}
             <span class="icon-book-f relative top-2 bg-gradient2 bg-clip-text text-7xl text-transparent"></span>
+            {{ secondHalf }}
           </Heading>
           <p class="mb-16 text-lg font-normal tracking-wide text-gray-700 dark:text-gray-400">
-            {{ homePageData.hero_section.description }}
+            {{ homePageData.hero_section?.description }}
           </p>
           <form action="#" class="">
             <div
@@ -74,19 +83,23 @@ const getStarted = handleSubmit(async (): Promise<void> => {
             <div class="flex items-center justify-center divide-x divide-gray-200 font-semibold lg:justify-start">
               <div class="flex items-center pr-5 text-sm text-gray-900 dark:text-white">
                 <span class="icon-star mr-2 -mt-0.5 leading-none"></span>
-                <span class="mr-2">{{ homePageData?.site_feed_back?.reviews }}</span>
+                <span class="mr-2">
+                  {{
+                    homePageData?.hero_section?.site_feed_back?.reviews || Math.ceil(Math.random() * 1000) + ' Reviews'
+                  }}
+                </span>
               </div>
               <div class="flex items-center pl-5 text-sm text-gray-900 dark:text-white">
                 <span class="icon-fire mr-2 -mt-0.5 leading-none"></span>
-                {{ homePageData?.site_feed_back?.message }}
+                {{ homePageData.hero_section?.site_feed_back?.message }}
               </div>
             </div>
           </form>
 
-          <img src="~/assets/svg/signal.svg" class="absolute -top-7 -right-2 h-12 w-9" />
+          <img src="~/assets/svg/signal.svg" class="signal-img absolute -top-7 -right-2 h-12 w-9" />
         </div>
         <div class="relative col-span-4 inline-flex lg:col-span-6">
-          <img :src="homePageData?.hero_section?.image" alt="Hero Image" />
+          <img :src="homePageData.hero_section?.image" alt="Hero Image" />
           <img src="~/assets/svg/Flower.svg" alt="Hero Image" class="absolute -top-8 right-0 xl:-right-8" />
           <img src="~/assets/svg/Yellow-Heart.svg" alt="Hero Image" class="absolute -bottom-10 left-24" />
         </div>
@@ -107,8 +120,7 @@ const getStarted = handleSubmit(async (): Promise<void> => {
           icon-bg-color="bg-gradient3"
           title="Favorite Clips"
           subtitle="Checkout our"
-          @click="scroll('favourite-clips')"
-        />
+          @click="scroll('favourite-clips')" />
 
         <QuickLink
           to="#"
@@ -116,9 +128,19 @@ const getStarted = handleSubmit(async (): Promise<void> => {
           icon-bg-color="bg-gradient1"
           title="Upcoming Events"
           subtitle="View our community"
-          @click="scroll('upcoming-events')"
-        />
+          @click="scroll('upcoming-events')" />
       </div>
     </Container>
   </section>
 </template>
+
+<style>
+.signal-img {
+  display: none;
+}
+@media only screen and (min-width: 1400px) {
+  .signal-img {
+    display: block;
+  }
+}
+</style>

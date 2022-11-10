@@ -13,8 +13,8 @@ import { useHomeStore } from '~/store/home';
 const { getHomePage } = useHomeStore();
 await useAsyncData(getHomePage);
 
-const { vueApp } = useNuxtApp();
-onMounted(async () => {
-  await vueApp.$api.auth.login('anton_minski5@ukr.net', '602653Qw');
-});
+// const { vueApp } = useNuxtApp();
+// onMounted(async () => {
+//   await vueApp.$api.auth.login('anton_minski5@ukr.net', '602653Qw');
+// });
 </script>

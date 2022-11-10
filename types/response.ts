@@ -10,7 +10,6 @@ export type dataStatusResponse = {
 
 export type statusResponse = {
   status: string;
-  success: boolean;
 };
 
 export type userExistResponse = {
@@ -23,7 +22,7 @@ export type loginResponse = {
   success: boolean;
   message: string;
   access_token?: string;
-  data?: string;
+  slug?: string;
 };
 
 export type logoutResponse = {
