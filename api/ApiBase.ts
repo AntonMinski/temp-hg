@@ -7,6 +7,7 @@ import BookApi from '~/api/modules/bookApi';
 import ClipApi from '~/api/modules/clipApi';
 import LibraryApi from '~/api/modules/libraryApi';
 import PageApi from '~/api/modules/pageApi';
+import ExploreApi from '~/api/modules/exploreApi';
 
 class ApiBase {
   nuxtApp;
@@ -24,6 +25,7 @@ class ApiBase {
   clip;
   library;
   page;
+  explore;
   constructor() {
     // App
     this.nuxtApp = useNuxtApp();
@@ -45,6 +47,7 @@ class ApiBase {
     this.clip = new ClipApi(this);
     this.library = new LibraryApi(this);
     this.page = new PageApi(this);
+    this.explore = new ExploreApi(this);
   }
 
   /** Get requests are syncronized based on their url and query string to prevent the same requests be fired at the same time */

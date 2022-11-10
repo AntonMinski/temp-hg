@@ -4,7 +4,7 @@ interface Props {
   title: string;
   contributorName?: string;
   contributorAvatar?: string;
-  readTime?: string;
+  readTime?: string|number;
   languageTags?: string[];
   topicTags?: string[];
   isOwner?: boolean;
@@ -63,11 +63,11 @@ withDefaults(defineProps<Props>(), {
     <div v-if="contributorName || readTime" class="mb-5 flex items-center space-x-[15px]">
       <div v-if="readTime" class="inline-flex items-center space-x-2">
         <Icon icon="icon-book-o" class="text-secondary-600" />
-        <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">{{ readTime }} read</span>
+        <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">{{ readTime }} minutes read</span>
       </div>
 
       <div v-if="contributorName" class="inline-flex items-center space-x-2">
-        <img :src="contributorAvatar" alt="{{ contributorName }}" class="h-7 w-7" />
+        <img v-if="contributorAvatar" :src="contributorAvatar" :alt="contributorName" class="h-7 w-7" />
         <span class="text-sm font-semibold text-gray-800 dark:text-gray-100"> By {{ contributorName }} </span>
       </div>
     </div>
