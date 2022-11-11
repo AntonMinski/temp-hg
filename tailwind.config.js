@@ -1,7 +1,7 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  important: true,
+  // important: true,
   darkMode: 'media',
   content: [
     './assets/**/*.{vue,js,css}',
@@ -17,11 +17,19 @@ module.exports = {
         center: true,
       },
       fontFamily: {
-        'sans': ['Lota Grotesque', ...defaultTheme.fontFamily.sans],
-        'serif': ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
+        sans: ['Lota Grotesque', ...defaultTheme.fontFamily.sans],
+        serif: ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
+      },
+      width: {
+        134: '33.5rem',
+      },
+      height: {
+        9.5: '2.375rem',
+        11.5: '2.875rem',
       },
       spacing: {
-        '4.5': '1.125rem',
+        4.5: '1.125rem',
+        5.5: '1.375rem',
       },
       colors: {
         primary: {
@@ -131,7 +139,7 @@ module.exports = {
           700: '#D53C3C',
           800: '#C02828',
           900: '#AC1414',
-        }
+        },
       },
       backgroundImage: {
         gradient1: 'linear-gradient(106.74deg, #00FFB9 0%, #40F2FD 100%)',
@@ -140,8 +148,8 @@ module.exports = {
         gradient4: 'linear-gradient(305.46deg, #5CAFE5 11.29%, #63D892 94.29%)',
         gradient5: 'linear-gradient(210deg, #E1ADFA 13.4%, #FCB4B4 86.6%)',
         gradient6: 'linear-gradient(90deg, #9796F0 0%, #FBC7D4 100%)',
-      }
-    }
+      },
+    },
   },
   variants: {
     extend: {},

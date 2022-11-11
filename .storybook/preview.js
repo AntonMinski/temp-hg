@@ -1,5 +1,3 @@
-import '../assets/css/tailwind.css'
+import '../assets/css/tailwind.css';
 
-export const parameters = {
-    
-}
+export const parameters = {};

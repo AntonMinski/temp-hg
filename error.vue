@@ -1,16 +1,13 @@
 <template>
-    <div class="text-center">
-      There was an error 😱
-      <h1>{{ title }}</h1>
-      <NuxtLink to="/">
-        Navigate home
-      </NuxtLink>
-    </div>
+  <div class="text-center">
+    There was an error 😱
+    <h1>{{ title }}</h1>
+    <NuxtLink to="/"> Navigate home </NuxtLink>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, PropType } from "vue";
-import type { nuxtError } from '@/plugins/types/error';
+import { computed, PropType } from 'vue';
 
 // layout
 definePageMeta({
@@ -18,8 +15,10 @@ definePageMeta({
 });
 
 const props = defineProps({
-  error: Object as PropType<nuxtError>,
-})
+  error: Object as PropType<NuxtError>,
+});
 
-const title = computed<string>(() => props.error.statusMessage || props.error.toString() || 'Sorry, some error occurred' );
+const title = computed<string>(
+  () => props.error.statusMessage || props.error.toString() || 'Sorry, some error occurred'
+);
 </script>

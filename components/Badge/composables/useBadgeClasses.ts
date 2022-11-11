@@ -1,68 +1,88 @@
-import type { BadgeType, BadgeSize } from '../types'
-import { computed } from 'vue'
-import type { Ref } from 'vue'
-import classNames from 'classnames'
+import type { BadgeType, BadgeSize } from '../types';
+import { computed } from 'vue';
+import type { Ref } from 'vue';
+import classNames from 'classnames';
 
-const defaultBadgeClasses = 'rounded flex items-center justify-center'
-const badgeLinkClasses = 'bg-blue-100 hover:bg-blue-200 text-blue-800 dark:text-blue-800 dark:hover:bg-blue-300'
-const onlyIconClasses = 'p-1 rounded-full mr-2'
+const defaultBadgeClasses = 'rounded flex items-center justify-center';
+const defaultOutlineBadgeClasses = ' bg-transparent border';
+const badgeLinkClasses = 'bg-blue-100 hover:bg-blue-200 text-blue-800 dark:text-blue-800 dark:hover:bg-blue-300';
+const onlyIconClasses = 'p-1 rounded-full mr-2';
 
 const badgeTextClasses: Record<BadgeType, string> = {
-    default: 'text-blue-800 dark:text-blue-800',
-    dark: 'text-gray-800 dark:bg-gray-700',
-    red: 'text-red-800 dark:text-red-900',
-    green: 'text-green-800 dark:text-green-900',
-    yellow: 'text-yellow-800 dark:text-yellow-900',
-    indigo: 'text-indigo-800 dark:text-indigo-900',
-    purple: 'text-purple-800 dark:text-purple-900',
-    pink: 'text-pink-800 dark:text-pink-900',
-
-    // Custom
-    primary: 'text-gray-900',
-}
+  // Custom
+  primary: 'text-gray-900',
+  tertiary: 'text-tertiary-500',
+  'accent-yellow': 'text-gray-900',
+  danger: '',
+  gray: 'text-white',
+};
 
 const badgeTypeClasses: Record<BadgeType, string> = {
-    default: 'bg-blue-100 dark:bg-blue-200',
-    dark: 'bg-gray-100 dark:bg-gray-700',
-    red: 'bg-red-100 dark:bg-red-200',
-    green: 'bg-green-100 dark:bg-green-200',
-    yellow: 'bg-yellow-100 dark:bg-yellow-200',
-    indigo: 'bg-indigo-100 dark:bg-indigo-200',
-    purple: 'bg-purple-100 dark:bg-purple-200',
-    pink: 'bg-pink-100 dark:bg-pink-200',
+  // Custom
+  primary: 'bg-primary-400',
+  tertiary: '',
+  'accent-yellow': 'bg-accent-yellow-500',
+  danger: '',
+  gray: 'bg-gray-500',
+};
 
-    // Custom
-    primary: 'bg-primary-400',
-}
+const badgeOutlineTextClasses: Record<BadgeType, string> = {
+  primary: 'text-primary-700',
+  tertiary: 'text-tertiary-500',
+  'accent-yellow': '',
+  danger: 'text-danger-500',
+  gray: '',
+};
+
+const badgeOutlineTypeClasses: Record<BadgeType, string> = {
+  // Custom
+  primary: 'border-primary-700',
+  tertiary: 'border-tertiary-500',
+  'accent-yellow': '',
+  danger: 'border-danger-500',
+  gray: '',
+};
 
 const badgeSizeClasses: Record<BadgeSize, string> = {
-    sm: 'text-xs font-normal leading-none px-2 py-1',
-    lg: 'text-sm font-medium leading-none px-3 py-1.5',
-    xl: 'font-medium px-3.5 py-2',
-}
+  sm: 'text-xs font-normal leading-none px-2 py-[5px]',
+  md: 'text-sm font-medium leading-none px-3 py-1.5',
+  lg: 'font-medium px-3.5 py-2',
+};
 
 export type UseBadgeClassesProps = {
-    type: Ref<BadgeType>
-    size: Ref<BadgeSize>
-    href: Ref<string>
-}
+  type: Ref<BadgeType>;
+  size: Ref<BadgeSize>;
+  href: Ref<string>;
+  outline: Ref<boolean>;
+};
 export type UseBadgeClassesOptions = {
-    isContentEmpty: Ref<boolean>
-}
+  isContentEmpty: Ref<boolean>;
+};
 
-export function useBadgeClasses(props: UseBadgeClassesProps, options: UseBadgeClassesOptions): {
-    badgeClasses: Ref<string>
+export function useBadgeClasses(
+  props: UseBadgeClassesProps,
+  options: UseBadgeClassesOptions
+): {
+  badgeClasses: Ref<string>;
 } {
-    const badgeClasses = computed<string>(() => {
-        return classNames(
-            badgeSizeClasses[props.size.value],
-            props.href.value ? '' : badgeTypeClasses[props.type.value],
-            props.href.value ? '' : badgeTextClasses[props.type.value],
-            props.href.value ? badgeLinkClasses : '',
-            options.isContentEmpty.value ? onlyIconClasses : defaultBadgeClasses,
-        )
-    })
-    return {
-        badgeClasses,
-    }
+  const badgeClasses = computed<string>(() => {
+    const badgeClasses = props.outline.value ? defaultBadgeClasses + defaultOutlineBadgeClasses : defaultBadgeClasses;
+    const typeClasses = props.outline.value
+      ? badgeOutlineTypeClasses[props.type.value]
+      : badgeTypeClasses[props.type.value];
+    const textClasses = props.outline.value
+      ? badgeOutlineTextClasses[props.type.value]
+      : badgeTextClasses[props.type.value];
+
+    return classNames(
+      badgeSizeClasses[props.size.value],
+      props.href.value ? '' : typeClasses,
+      props.href.value ? '' : textClasses,
+      props.href.value ? badgeLinkClasses : '',
+      options.isContentEmpty.value ? onlyIconClasses : badgeClasses
+    );
+  });
+  return {
+    badgeClasses,
+  };
 }

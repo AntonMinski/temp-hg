@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/essential",
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:nuxt/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "plugins": ["nuxt", "@typescript-eslint", "prettier"],
+  "rules": {
+    "vue/multi-word-component-names": "off",
+    "vue/no-multiple-template-root": "off",
+    "no-async-promise-executor": "off",
+    "require-await": "off",
+    "camelcase": "off",
+    "require-await": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": true
+      }
+    ]
+  }
+}

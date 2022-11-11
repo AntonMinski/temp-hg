@@ -1,2 +1,2 @@
-export type BadgeType = 'default' | 'dark' | 'red' | 'green' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'primary'
-export type BadgeSize = 'sm' | 'lg' | 'xl'
+export type BadgeType = 'primary' | 'tertiary' | 'accent-yellow' | 'danger' | 'gray';
+export type BadgeSize = 'sm' | 'md' | 'lg';

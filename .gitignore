@@ -9,4 +9,6 @@ dist
 .nuxt-storybook
 storybook-static
 .idea
-.yarn.lock
+yarn.lock
+Dockerfile
+.dockerignore
