@@ -5,27 +5,27 @@ import { createHaggadah } from '~/components/HowItWorks/composables/createHaggad
 <template>
   <header>
     <nav class="fixed top-0 left-0 z-20 w-full bg-white py-2.5 dark:bg-gray-900">
-      <Container class="flex flex-wrap items-center justify-between">
+      <UIContainer class="flex flex-wrap items-center justify-between">
         <a href="https://flowbite.com/" class="flex items-center">
           <img src="~/assets/svg/logo.svg" class="mr-3 block h-6 dark:hidden sm:h-9" alt="Haggadot Logo" />
           <img src="~/assets/svg/logo-light.svg" class="mr-3 hidden h-6 dark:block sm:h-9" alt="Haggadot Logo" />
         </a>
         <div class="flex md:order-2">
-          <Button size="sm" color="link" class="mr-1">
+          <UIButton size="sm" color="link" class="mr-1">
             <template #prefix>
               <span class="icon-password text-base font-normal leading-none"></span>
             </template>
             Login
-          </Button>
-          <Button size="sm" color="secondary" class="mr-1" @click="createHaggadah">
+          </UIButton>
+          <UIButton size="sm" color="secondary" class="mr-1" @click="createHaggadah">
             Create Haggadah
             <template #suffix>
               <span class="icon-book-f text-base leading-none"></span>
             </template>
-          </Button>
-          <Button size="sm" color="link">
+          </UIButton>
+          <UIButton size="sm" color="link">
             <span class="icon-search text-lg leading-none"></span>
-          </Button>
+          </UIButton>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -49,17 +49,17 @@ import { createHaggadah } from '~/components/HowItWorks/composables/createHaggad
         <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-sticky">
           <ul
             class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:font-medium md:dark:bg-gray-900">
-            <NavLink>Explore Haggadahs</NavLink>
-            <NavLink>Explore Clips</NavLink>
-            <NavLink>Events</NavLink>
-            <NavLink>Passover 101</NavLink>
-            <NavLink>
+            <UINavLink>Explore Haggadahs</UINavLink>
+            <UINavLink>Explore Clips</UINavLink>
+            <UINavLink>Events</UINavLink>
+            <UINavLink>Passover 101</UINavLink>
+            <UINavLink>
               <span>Support us</span>
               <img src="~/assets/svg/heart.svg" class="h-4 w-4" />
-            </NavLink>
+            </UINavLink>
           </ul>
         </div>
-      </Container>
+      </UIContainer>
     </nav>
   </header>
 </template>

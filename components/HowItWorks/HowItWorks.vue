@@ -44,9 +44,9 @@ const videoHeight = computed(() => {
     :style="`background-image: url(${bgImage})`">
     <img src="~/assets/svg/Eye.svg" class="absolute bottom-0.5 -right-8 rotate-[-15.69deg]" />
 
-    <Container class="flex flex-col space-y-24 py-28">
+    <UIContainer class="flex flex-col space-y-24 py-28">
       <div class="flex flex-col items-center">
-        <Heading :level="3" class="mb-1 text-white"> How it works </Heading>
+        <UIHeading :level="3" class="mb-1 text-white"> How it works </UIHeading>
 
         <p class="text-lg">We have made it simple with three easy steps</p>
       </div>
@@ -69,25 +69,25 @@ const videoHeight = computed(() => {
       </div>
 
       <div class="mx-auto inline-flex items-center space-x-10">
-        <Button :tag="nuxtLink" to="#" size="xl" color="link" class="py-4" @click="createHaggadah">
+        <UIButton :tag="nuxtLink" to="#" size="xl" color="link" class="py-4" @click="createHaggadah">
           Make your Haggadah
           <template #suffix>
             <span class="icon-arrow-right text-xl leading-none"></span>
           </template>
-        </Button>
+        </UIButton>
 
         <NuxtLink
           to="#"
           class="inline-flex items-center text-lg font-bold text-accent-yellow-500"
           @click="onToggleModal">
-          <Icon
+          <UIIcon
             icon="icon-play"
             shape="circle"
             class="mr-3 h-[47px] w-[47px] bg-accent-yellow-500 px-2.5 py-2.5 !text-gray-700 shadow-md" />
           Watch the video
         </NuxtLink>
       </div>
-    </Container>
+    </UIContainer>
   </div>
   <transition name="fade">
     <div v-if="modalOpen" class="fixed top-0 z-20">

@@ -14,7 +14,7 @@
         :topic-tags="['Trending', 'Humanity']" />
     </div>
     <div v-else-if='loading' class='mx-auto mt-8 flex justify-center'>
-      <Spinner size='12' />
+      <UISpinner size='12' />
     </div>
     <div v-else>
       <Heading :level='3'>No results found</Heading>

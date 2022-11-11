@@ -7,14 +7,14 @@
     :disabled="disabled">
     <div v-if="!isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
       <!--automatically add mr class if slot provided or loading -->
-      <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
+      <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
       <slot name="prefix" v-else />
     </div>
 
     <span :class="spanClasses">
       <div v-if="isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
-        <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
+        <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
         <slot name="prefix" v-else />
       </div>
 
@@ -22,14 +22,14 @@
 
       <div v-if="isOutlineGradient && ($slots.suffix || loadingSuffix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
-        <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
+        <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
         <slot name="suffix" v-else />
       </div>
     </span>
 
     <div v-if="!isOutlineGradient && ($slots.suffix || loadingSuffix)" class="-mt-0.5 inline-flex">
       <!--automatically add ml class if slot provided or loading -->
-      <spinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
+      <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
       <slot name="suffix" v-else />
     </div>
   </flowbite-themable-child>
@@ -37,13 +37,13 @@
 <script lang="ts" setup>
 import { computed, ConcreteComponent, toRefs } from 'vue';
 import type { PropType } from 'vue';
-import Spinner from '../Spinner/Spinner.vue';
+import Spinner from '../Spinner/UISpinner.vue';
 import { useButtonClasses } from './composables/useButtonClasses';
 import { useButtonSpinner } from './composables/useButtonSpinner';
-import FlowbiteThemableChild from '@/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/FlowbiteThemableChild.vue';
+import FlowbiteThemableChild from '~/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/FlowbiteThemableChild.vue';
 
 import type { ButtonGradient, ButtonMonochromeGradient, ButtonSize, ButtonVariant } from './types';
-import type { ThemableChildrenApply } from '@/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/types';
+import type { ThemableChildrenApply } from '~/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/types';
 const props = defineProps({
   tag: {
     type: [String, Object],

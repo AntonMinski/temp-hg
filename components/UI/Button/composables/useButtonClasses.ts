@@ -8,7 +8,7 @@ import type {
   ButtonSize,
   ButtonVariant,
 } from '../types';
-import { useFlowbiteThemable } from '../../utils/FlowbiteThemable/composables/useFlowbiteThemable';
+import { useFlowbiteThemable } from '../../../utils/FlowbiteThemable/composables/useFlowbiteThemable';
 
 export type ButtonClassMap<T extends string> = { hover: Record<T, string>; default: Record<T, string> };
 

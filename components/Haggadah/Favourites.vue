@@ -26,24 +26,24 @@ async function searchHaggadahs(): Promise<void> {
 
 <template>
   <div id="favourite-haggadahs" class="bg-white dark:bg-gray-800">
-    <Container class="py-24">
+    <UIContainer class="py-24">
       <div class="mb-12 flex items-center justify-between">
         <div class="inline-flex items-center space-x-4">
-          <Icon icon="icon-book-f" shape="square" class="bg-gradient2 shadow-md" />
+          <UIIcon  icon="icon-book-f" shape="square" class="bg-gradient2 shadow-md" />
 
-          <Heading :level="3" class="text-4xl"> Our Favourites Haggadahs </Heading>
+          <UIHeading :level="3" class="text-4xl"> Our Favourites Haggadahs </UIHeading>
         </div>
 
-        <Input
+        <UIInput
           v-model="searchString"
           placeholder="Search Haggadahs by keyword or topic"
           class="h-11.5 w-134 !rounded-full pl-5.5">
           <template #suffix>
-            <Button gradient="gradient1" class="h-8 w-8" square pill @click="searchHaggadahs">
-              <Icon icon="icon-search" class="!text-sm !text-gray-900" />
-            </Button>
+            <UIButton gradient="gradient1" class="h-8 w-8" square pill @click="searchHaggadahs">
+              <UIIcon  icon="icon-search" class="!text-sm !text-gray-900" />
+            </UIButton>
           </template>
-        </Input>
+        </UIInput>
       </div>
 
       <div class="grid grid-cols-3 gap-x-[1.56rem] gap-y-[2.8rem]">
@@ -59,6 +59,6 @@ async function searchHaggadahs(): Promise<void> {
           :language-tags="['Trending', 'Humanity']"
           :topic-tags="['Trending', 'Humanity']" />
       </div>
-    </Container>
+    </UIContainer>
   </div>
 </template>
