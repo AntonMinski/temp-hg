@@ -48,7 +48,7 @@ const getStarted = handleSubmit(async (): Promise<void> => {
 });
 
 // divide text by 2
-const { firstHalf, secondHalf } = getTextHalfs(homePageData.value?.hero_section?.tag_line);
+const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section?.tag_line);
 </script>
 
 <template>
@@ -57,12 +57,12 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData.value?.hero_section?
       <div class="mb-16 grid items-start gap-8 lg:mb-24 lg:grid-cols-12 lg:gap-12">
         <div class="relative col-span-6 text-center sm:mb-6 lg:mb-0 lg:text-left">
           <Heading class="mb-4">
-            {{ firstHalf || homePageData.hero_section?.tag_line }}
+            {{ firstHalf || homePageData?.hero_section?.tag_line }}
             <span class="icon-book-f relative top-2 bg-gradient2 bg-clip-text text-7xl text-transparent"></span>
             {{ secondHalf }}
           </Heading>
           <p class="mb-16 text-lg font-normal tracking-wide text-gray-700 dark:text-gray-400">
-            {{ homePageData.hero_section?.description }}
+            {{ homePageData?.hero_section?.description }}
           </p>
           <form action="#" class="">
             <div
@@ -91,7 +91,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData.value?.hero_section?
               </div>
               <div class="flex items-center pl-5 text-sm text-gray-900 dark:text-white">
                 <span class="icon-fire mr-2 -mt-0.5 leading-none"></span>
-                {{ homePageData.hero_section?.site_feed_back?.message }}
+                {{ homePageData?.hero_section?.site_feed_back?.message }}
               </div>
             </div>
           </form>
@@ -99,7 +99,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData.value?.hero_section?
           <img src="~/assets/svg/signal.svg" class="signal-img absolute -top-7 -right-2 h-12 w-9" />
         </div>
         <div class="relative col-span-4 inline-flex lg:col-span-6">
-          <img :src="homePageData.hero_section?.image" alt="Hero Image" />
+          <img :src="homePageData?.hero_section?.image" alt="Hero Image" />
           <img src="~/assets/svg/Flower.svg" alt="Hero Image" class="absolute -top-8 right-0 xl:-right-8" />
           <img src="~/assets/svg/Yellow-Heart.svg" alt="Hero Image" class="absolute -bottom-10 left-24" />
         </div>
