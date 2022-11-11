@@ -27,54 +27,54 @@ function addToBookmark() {
 </script>
 
 <template>
-  <Card variant="image" :img-src="imgSrc">
+  <UICard variant="image" :img-src="imgSrc">
     <div class="mb-[19px] flex items-start justify-between space-x-2">
       <div>
         <div v-if="isOwner" class="mb-3.5 flex items-center space-x-1.5">
-          <Badge outline>
+          <UIBadge outline>
             <template #icon>
-              <Icon icon="icon-eye-open-f mr-[5px]" />
+              <UIIcon  icon="icon-eye-open-f mr-[5px]" />
             </template>
             Public
-          </Badge>
+          </UIBadge>
 
-          <Badge type="danger" outline>
+          <UIBadge type="danger" outline>
             <template #icon>
-              <Icon icon="icon-eye-close-f mr-[5px]" />
+              <UIIcon  icon="icon-eye-close-f mr-[5px]" />
             </template>
             Private
-          </Badge>
+          </UIBadge>
 
-          <Badge type="gray">
+          <UIBadge type="gray">
             <template #icon>
-              <Icon icon="icon-draft mr-[5px]" />
+              <UIIcon  icon="icon-draft mr-[5px]" />
             </template>
             Draft
-          </Badge>
+          </UIBadge>
         </div>
 
         <NuxtLink to="#">
-          <Heading :level="6">{{ title }}</Heading>
+          <UIHeading :level="6">{{ title }}</UIHeading>
         </NuxtLink>
       </div>
 
-      <ButtonGroup>
-        <Button class="!h-auto !p-2.5" color="link" outline @click="addToBookmark">
-          <Icon v-if="inBookmarks" icon="icon-bookmark-remove" class="!text-base" />
-          <Icon v-else icon="icon-bookmark-add" class="!text-base" />
-        </Button>
-        <Button class="!h-auto !p-2.5" color="link" outline>
-          <Icon icon="icon-download" class="!text-base" />
-        </Button>
-        <Button class="!h-auto !p-2.5" color="link" outline>
-          <Icon icon="icon-share" class="!text-base" />
-        </Button>
-      </ButtonGroup>
+      <UIButtonGroup>
+        <UIButton class="!h-auto !p-2.5" color="link" outline @click="addToBookmark">
+          <UIIcon  v-if="inBookmarks" icon="icon-bookmark-remove" class="!text-base" />
+          <UIIcon  v-else icon="icon-bookmark-add" class="!text-base" />
+        </UIButton>
+        <UIButton class="!h-auto !p-2.5" color="link" outline>
+          <UIIcon  icon="icon-download" class="!text-base" />
+        </UIButton>
+        <UIButton class="!h-auto !p-2.5" color="link" outline>
+          <UIIcon  icon="icon-share" class="!text-base" />
+        </UIButton>
+      </UIButtonGroup>
     </div>
 
     <div v-if="contributorName || readTime" class="mb-5 flex items-center space-x-[15px]">
       <div v-if="readTime" class="inline-flex items-center space-x-2">
-        <Icon icon="icon-book-o" class="text-secondary-600" />
+        <UIIcon  icon="icon-book-o" class="text-secondary-600" />
         <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">{{ readTime }} minutes read</span>
       </div>
 
@@ -85,15 +85,15 @@ function addToBookmark() {
     </div>
 
     <div class="mb-3 flex flex-wrap items-center">
-      <Badge v-for="tag in languageTags" type="tertiary" class="mr-[5px] mb-[5px]" outline>
+      <UIBadge v-for="tag in languageTags" type="tertiary" class="mr-[5px] mb-[5px]" outline>
         {{ tag }}
-      </Badge>
+      </UIBadge>
     </div>
 
     <div class="mb-3 flex flex-wrap items-center">
-      <Badge v-for="tag in topicTags" type="accent-yellow" class="mr-[5px] mb-[5px]">
+      <UIBadge v-for="tag in topicTags" type="accent-yellow" class="mr-[5px] mb-[5px]">
         {{ tag }}
-      </Badge>
+      </UIBadge>
     </div>
-  </Card>
+  </UICard>
 </template>

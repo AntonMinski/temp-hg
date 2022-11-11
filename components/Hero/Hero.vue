@@ -53,32 +53,32 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
 
 <template>
   <section class="bg-white dark:bg-gray-900">
-    <Container class="py-8 lg:py-16">
+    <UIContainer class="py-8 lg:py-16">
       <div class="mb-16 grid items-start gap-8 lg:mb-24 lg:grid-cols-12 lg:gap-12">
         <div class="relative col-span-6 text-center sm:mb-6 lg:mb-0 lg:text-left">
-          <Heading class="mb-4">
+          <UIHeading class="mb-4">
             {{ firstHalf || homePageData?.hero_section?.tag_line }}
             <span class="icon-book-f relative top-2 bg-gradient2 bg-clip-text text-7xl text-transparent"></span>
             {{ secondHalf }}
-          </Heading>
+          </UIHeading>
           <p class="mb-16 text-lg font-normal tracking-wide text-gray-700 dark:text-gray-400">
             {{ homePageData?.hero_section?.description }}
           </p>
           <form action="#" class="">
             <div
               class="items-top mx-auto mb-3 justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 lg:justify-start">
-              <Input size="lg" placeholder="Enter email to get started" v-model="email" name="email" class="w-96">
+              <UIInput size="lg" placeholder="Enter email to get started" v-model="email" name="email" class="w-96">
                 <template #prefix>
                   <span class="icon-email leading-none text-gray-500 dark:text-gray-400"></span>
                 </template>
-              </Input>
+              </UIInput>
 
-              <Button size="lg" gradient="gradient1" @click="getStarted" :disabled="!!errors.email">
+              <UIButton size="lg" gradient="gradient1" @click="getStarted" :disabled="!!errors.email">
                 Get started
                 <template #suffix>
                   <span class="icon-arrow-right text-xl font-semibold leading-none"></span>
                 </template>
-              </Button>
+              </UIButton>
             </div>
             <div class="flex items-center justify-center divide-x divide-gray-200 font-semibold lg:justify-start">
               <div class="flex items-center pr-5 text-sm text-gray-900 dark:text-white">
@@ -106,7 +106,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
       </div>
 
       <div class="items-center space-y-4 md:flex md:space-x-4 md:space-y-0 lg:mb-12">
-        <QuickLink
+        <UIQuickLink
           to="#"
           icon="icon-book-f"
           icon-bg-color="bg-gradient2"
@@ -114,7 +114,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
           subtitle="Checkout our"
           @click="scroll('favourite-haggadahs')" />
 
-        <QuickLink
+        <UIQuickLink
           to="#"
           icon="icon-media-image-f"
           icon-bg-color="bg-gradient3"
@@ -122,7 +122,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
           subtitle="Checkout our"
           @click="scroll('favourite-clips')" />
 
-        <QuickLink
+        <UIQuickLink
           to="#"
           icon="icon-calendar-f"
           icon-bg-color="bg-gradient1"
@@ -130,7 +130,7 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
           subtitle="View our community"
           @click="scroll('upcoming-events')" />
       </div>
-    </Container>
+    </UIContainer>
   </section>
 </template>
 

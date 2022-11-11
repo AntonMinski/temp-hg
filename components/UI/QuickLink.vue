@@ -12,11 +12,11 @@ defineProps<Props>();
 
 <template>
   <NuxtLink :to="to" class="flex w-full items-center space-x-5 rounded-lg border border-gray-300 p-5 pr-20 md:w-auto">
-    <Icon :icon="icon" shape="square" :class="iconBgColor" />
+    <UIIcon  :icon="icon" shape="square" :class="iconBgColor" />
 
     <div>
       <span class="mb-0.5 block text-sm font-semibold text-gray-500">{{ subtitle }}</span>
-      <Heading :level="6">{{ title }}</Heading>
+      <UIHeading :level="6">{{ title }}</UIHeading>
     </div>
   </NuxtLink>
 </template>
