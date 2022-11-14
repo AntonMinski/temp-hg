@@ -10,5 +10,6 @@ dist
 storybook-static
 .idea
 yarn.lock
+package-lock.json
 Dockerfile
 .dockerignore
