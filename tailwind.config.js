@@ -21,11 +21,14 @@ module.exports = {
         serif: ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
       },
       width: {
+        10: '2.5rem',
         134: '33.5rem',
       },
       height: {
         9.5: '2.375rem',
+        10: '2.5rem',
         11.5: '2.875rem',
+        14.5: '3.625rem',
       },
       spacing: {
         4.5: '1.125rem',

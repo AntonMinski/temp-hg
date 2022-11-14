@@ -1,4 +1,5 @@
-import { errorResponse, statusResponse } from '~/types/response';
+import { dataResponse, errorResponse, statusResponse } from '~/types/response';
+import { booksSearchKey } from '~/types/books';
 
 export default class BookApi {
   private base;
@@ -62,5 +63,9 @@ export default class BookApi {
 
   async unLikeBook(slug: String): Promise<statusResponse | errorResponse> {
     return this.base.post(`/unlike-book/${slug}`);
+  }
+
+  async exploreBooks(searchKey: booksSearchKey): Promise<dataResponse| errorResponse> {
+    return this.base.get('explore-book', searchKey);
   }
 }

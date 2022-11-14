@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Haggadah } from '~/components/Haggadah/types';
-import { PropType, ref } from 'vue';
-const { vueApp } = useNuxtApp();
+import { PropType } from 'vue';
 
 // Haggadahs Data
 // const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.featured_haggadah?.slice(0, 6));
@@ -11,17 +10,6 @@ const props = defineProps({
     default: '',
   },
 });
-
-// Search
-const searchString = ref('');
-async function searchHaggadahs(): Promise<void> {
-  await navigateTo({
-    path: `/search-haggadahs`,
-    query: {
-      haggadah: searchString.value,
-    },
-  });
-}
 </script>
 
 <template>
@@ -34,16 +22,12 @@ async function searchHaggadahs(): Promise<void> {
           <UIHeading :level="3" class="text-4xl"> Our Favourites Haggadahs </UIHeading>
         </div>
 
-        <UIInput
-          v-model="searchString"
+        <UISearch
+          rules="required"
+          redirect-address='/search-haggadahs'
+          query-key='haggadah'
           placeholder="Search Haggadahs by keyword or topic"
-          class="h-11.5 w-134 !rounded-full pl-5.5">
-          <template #suffix>
-            <UIButton gradient="gradient1" class="h-8 w-8" square pill @click="searchHaggadahs">
-              <UIIcon  icon="icon-search" class="!text-sm !text-gray-900" />
-            </UIButton>
-          </template>
-        </UIInput>
+          />
       </div>
 
       <div class="grid grid-cols-3 gap-x-[1.56rem] gap-y-[2.8rem]">

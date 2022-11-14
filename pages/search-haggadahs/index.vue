@@ -5,11 +5,12 @@
       <HaggadahCard
         v-for="(item, n) in haggadahs"
         :key="n"
-        :img-src="item.book.cover.book_cover_image"
-        :title="item.book.title"
-        :read-time="item.book.reading_length"
-        :contributorName="item.book.author"
-        :contributorAvatar="item.book.image"
+        :img-src="item.haggadah.haggadah_image"
+        :title="item.haggadah.title"
+        :slug="item.haggadah.handle"
+        :read-time="item.haggadah.reading_length || 10"
+        :contributorName="item.haggadah.author"
+        :contributorAvatar="null"
         :language-tags="['Trending', 'Humanity']"
         :topic-tags="['Trending', 'Humanity']" />
     </div>
@@ -25,12 +26,12 @@
 
 <script lang='ts' setup>
 import type { booksSearchKey } from '~/types/books';
-import { HaggadahBook } from '~/components/Haggadah/types';
+import type { Haggadah } from '~/components/Haggadah/types';
 import { Ref } from 'vue';
 const route = useRoute();
 const { vueApp } = useNuxtApp();
 
-const haggadahs: Ref<HaggadahBook[]> = ref([]);
+const haggadahs: Ref<Haggadah[]> = ref([]);
 const loading: Ref<boolean> = ref(true);
 
 async function getData() {
@@ -41,9 +42,9 @@ async function getData() {
     sort: route.query.sort as string || '',
   }
   console.log(searchQuery);
-  const { _data } = await vueApp.$api.explore.exploreBooks(searchQuery);
+  const { _data } = await vueApp.$api.book.exploreBooks(searchQuery);
   console.log(_data.data);
-  haggadahs.value = _data.data.books;
+  haggadahs.value = [..._data.data.searched_books];
 
   loading.value = false;
 }

@@ -6,7 +6,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const imageSrc = (await import(`@/assets/images/how-it-works-0${props.step}.png`)).default;
+// const imageSrc = (await import(`@/assets/images/how-it-works-0${props.step}.png`)).default;
+// Temporary fix for Vite path load error
+const imageSrc = (await import(`./../../assets/images/how-it-works-0${props.step}.png`)).default;
 </script>
 
 <template>

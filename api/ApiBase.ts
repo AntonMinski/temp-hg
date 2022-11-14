@@ -7,7 +7,6 @@ import BookApi from '~/api/modules/bookApi';
 import ClipApi from '~/api/modules/clipApi';
 import LibraryApi from '~/api/modules/libraryApi';
 import PageApi from '~/api/modules/pageApi';
-import ExploreApi from '~/api/modules/exploreApi';
 
 class ApiBase {
   nuxtApp;
@@ -25,7 +24,6 @@ class ApiBase {
   clip;
   library;
   page;
-  explore;
   constructor() {
     // App
     this.nuxtApp = useNuxtApp();
@@ -47,7 +45,6 @@ class ApiBase {
     this.clip = new ClipApi(this);
     this.library = new LibraryApi(this);
     this.page = new PageApi(this);
-    this.explore = new ExploreApi(this);
   }
 
   /** Get requests are syncronized based on their url and query string to prevent the same requests be fired at the same time */
@@ -138,12 +135,12 @@ class ApiBase {
           this.$toast?.show(result.message || 'success', { type: 'success', duration: 5000 });
         }
       } else {
-        showErrorToast(result, this.$toast);
+        showErrorToast(result, this.$toast, options);
       }
       return result;
     } catch (err) {
       const result = err.response;
-      showErrorToast(result, this.$toast);
+      showErrorToast(result, this.$toast, options);
       return null;
     } finally {
       if (requestIncrementTimeout) {
@@ -159,7 +156,7 @@ export default {
   },
 };
 
-function showErrorToast(result, toaster) {
+function showErrorToast(result, toaster, options) {
   if (result.status === 400 || result.status === 409) {
     if (options.showBadRequestToast) {
       toaster?.show(result.message || 'SomethingWentWrong', { type: 'error' });
