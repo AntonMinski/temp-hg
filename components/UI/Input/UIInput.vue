@@ -12,9 +12,9 @@
         v-model="model"
         :disabled="disabled"
         :type="type"
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errorsToShow ? errorClasses : '']"
         @input="showErrors = false"
-        @blur="showErrors = true"
-        :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errorsToShow ? errorClasses : '']" />
+        @blur="showErrors = true" />
       <div v-if="$slots.suffix" class="absolute right-1.5">
         <slot name="suffix" />
       </div>
@@ -27,11 +27,11 @@
 </template>
 <script lang="ts" setup>
 import type { PropType, Ref, ComputedRef } from 'vue';
-import type { InputSize } from './types';
-import { useInputClasses } from './composables/useInputClasses';
 import { toRefs, ref, computed } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { useField } from 'vee-validate';
+import { useInputClasses } from './composables/useInputClasses';
+import type { InputSize } from './types';
 
 const props = defineProps({
   label: {

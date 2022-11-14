@@ -26,7 +26,7 @@ import { createHaggadah } from '~/components/HowItWorks/composables/createHaggad
           <UIButton size="sm" color="link">
             <span class="icon-search text-lg leading-none"></span>
           </UIButton>
-          <button
+          <UIButton
             data-collapse-toggle="navbar-sticky"
             type="button"
             class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
@@ -44,7 +44,7 @@ import { createHaggadah } from '~/components/HowItWorks/composables/createHaggad
                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
                 clip-rule="evenodd"></path>
             </svg>
-          </button>
+          </UIButton>
         </div>
         <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-sticky">
           <ul

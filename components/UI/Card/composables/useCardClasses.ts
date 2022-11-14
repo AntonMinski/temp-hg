@@ -12,7 +12,7 @@ export function useCardsClasses(props: UseCardsClassesProps): {
 } {
   const cardClasses = computed(() => {
     if (props.variant.value === 'default')
-      return 'block max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700';
+      return 'block max-w-sm bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700';
     else if (props.variant.value === 'image')
       return 'w-full bg-white rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-700';
     else if (props.variant.value === 'horizontal')

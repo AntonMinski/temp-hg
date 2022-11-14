@@ -36,6 +36,7 @@
     "@nuxtjs-alt/auth": "^2.0.30",
     "@nuxtjs-alt/http": "^1.4.2",
     "@pinia/nuxt": "^0.4.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@typescript-eslint/parser": "^5.42.0",
     "@vee-validate/rules": "^4.7.2",
     "@vueuse/core": "^9.4.0",
