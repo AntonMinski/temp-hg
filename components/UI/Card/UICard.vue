@@ -6,7 +6,7 @@
       :class="horizontalImageClasses"
       :src="imgSrc"
       :alt="imgAlt" />
-    <div class="p-5">
+    <div class="flex h-full flex-col overflow-hidden p-5">
       <slot />
     </div>
   </component>

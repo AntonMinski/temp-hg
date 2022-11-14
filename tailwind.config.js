@@ -22,6 +22,7 @@ module.exports = {
       },
       width: {
         10: '2.5rem',
+        112: '28rem',
         134: '33.5rem',
       },
       height: {
@@ -33,6 +34,7 @@ module.exports = {
       spacing: {
         4.5: '1.125rem',
         5.5: '1.375rem',
+        16.5: '4.25rem',
       },
       colors: {
         primary: {
@@ -157,5 +159,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [require('@tailwindcss/line-clamp'), require('flowbite/plugin')],
 };

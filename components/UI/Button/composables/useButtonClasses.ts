@@ -21,7 +21,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
       'font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600',
     dark: 'text-white bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg dark:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-700',
     light:
-      'text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-gray-700',
+      'text-gray-600 bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:bg-gray-700 dark:text-white dark:focus:ring-gray-700',
     green:
       'focus:outline-none text-white bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg dark:bg-green-600 dark:focus:ring-green-800',
     red: 'focus:outline-none text-white bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg dark:bg-red-600 dark:focus:ring-red-900',
@@ -40,7 +40,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     blue: 'hover:bg-blue-800 dark:hover:bg-blue-700',
     alternative: 'hover:bg-gray-100 hover:text-blue-700 dark:hover:text-white dark:hover:bg-gray-700',
     dark: 'hover:bg-gray-900 dark:hover:bg-gray-700',
-    light: 'hover:bg-gray-100 dark:hover:border-gray-600',
+    light: 'hover:bg-gray-300 dark:hover:bg-gray-600',
     green: 'hover:bg-green-800 dark:hover:bg-green-700',
     red: 'hover:bg-red-800 dark:hover:bg-red-700',
     yellow: 'hover:bg-yellow-500',
@@ -69,7 +69,8 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
       'text-yellow-400 border border-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm text-center dark:border-yellow-300 dark:text-yellow-300 dark:focus:ring-yellow-900',
 
     // Custom
-    secondary: 'text-secondary-500 bg-transparent focus:outline-none focus:ring-2 focus:ring-secondary-200',
+    secondary:
+      'text-secondary-500 bg-transparent border border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
     link: 'text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none',
   },
   hover: {

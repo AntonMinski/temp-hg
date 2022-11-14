@@ -16,5 +16,7 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
     <HowItWorksMain />
 
     <HaggadahFavourites :haggadahs='haggadahs' />
+
+    <ClipFavourites />
   </div>
 </template>
