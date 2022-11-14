@@ -1,7 +1,7 @@
-import type { BadgeType, BadgeSize } from '../types';
 import { computed } from 'vue';
 import type { Ref } from 'vue';
 import classNames from 'classnames';
+import type { BadgeType, BadgeSize } from '../types';
 
 const defaultBadgeClasses = 'rounded flex items-center justify-center';
 const defaultOutlineBadgeClasses = ' bg-transparent border';
@@ -45,8 +45,8 @@ const badgeOutlineTypeClasses: Record<BadgeType, string> = {
 
 const badgeSizeClasses: Record<BadgeSize, string> = {
   sm: 'text-xs font-normal leading-none px-2 py-[5px]',
-  md: 'text-sm font-medium leading-none px-3 py-1.5',
-  lg: 'font-medium px-3.5 py-2',
+  md: 'text-sm font-semibold leading-none px-3 py-1.5',
+  lg: 'font-semibold px-3.5 py-2',
 };
 
 export type UseBadgeClassesProps = {

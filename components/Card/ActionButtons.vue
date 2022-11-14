@@ -1,0 +1,47 @@
+<script lang="ts" setup>
+interface Props {
+  index: string | number | symbol;
+  isAddedToBookmark: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isAddedToBookmark: false,
+});
+
+const isAddedToBookmark = ref(props.isAddedToBookmark);
+</script>
+
+<template>
+  <UIButtonGroup>
+    <UIButton
+      class="!h-auto !p-2.5"
+      :class="
+        isAddedToBookmark
+          ? 'border-tertiary-300 bg-tertiary-500'
+          : 'hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-gray-100'
+      "
+      color="link"
+      outline
+      :data-tooltip-target="`tooltip-bookmark-${String(index)}`"
+      @click="isAddedToBookmark = !isAddedToBookmark">
+      <UIIcon :icon="isAddedToBookmark ? 'icon-bookmark-remove' : 'icon-bookmark-add'" class="!text-base" />
+    </UIButton>
+    <BlockTooltip :id="`tooltip-bookmark-${String(index)}`">
+      {{ isAddedToBookmark ? 'Remove Bookmark' : 'Add to Bookmark' }}
+    </BlockTooltip>
+
+    <UIButton
+      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-500 dark:hover:bg-gray-600"
+      color="link"
+      outline>
+      <UIIcon icon="icon-download" class="!text-base" />
+    </UIButton>
+
+    <UIButton
+      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-500 dark:hover:bg-gray-600"
+      color="link"
+      outline>
+      <UIIcon icon="icon-share" class="!text-base" />
+    </UIButton>
+  </UIButtonGroup>
+</template>
