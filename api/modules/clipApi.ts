@@ -1,4 +1,6 @@
 import type { apiBase } from '~/types/api';
+import type { clipSearchParams, clipSearchResult } from '~/types/clip';
+import { errorResponse } from '~/types/response';
 
 export default class ClipApi {
   private base: apiBase;
@@ -38,5 +40,9 @@ export default class ClipApi {
 
   async unSaveClip<T>(slug: String): Promise<T> {
     return this.base.post(`/unsave-clip/${slug}`);
+  }
+
+  async exploreClips(searchOptions: clipSearchParams): Promise<clipSearchResult| errorResponse> {
+    return this.base.get('explore-clip', searchOptions);
   }
 }

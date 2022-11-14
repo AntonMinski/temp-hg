@@ -30,13 +30,12 @@ const clips = [
           <UIHeading :level="3" class="text-4xl"> Our Favourites Clips </UIHeading>
         </div>
 
-        <UIInput placeholder="Search clips by keyword or topic" class="h-11.5 !rounded-full lg:w-134 lg:pl-5.5">
-          <template #suffix>
-            <UIButton gradient="gradient1" class="h-8 w-8" square pill>
-              <UIIcon icon="icon-search" class="!text-sm !text-gray-900" />
-            </UIButton>
-          </template>
-        </UIInput>
+        <UISearch
+          rules='required|min:2'
+          redirect-address='/clip-search'
+          query-key='key'
+          placeholder="Search clips by keyword or topic"
+          />
       </div>
 
       <div class="w-full items-start md:flex">

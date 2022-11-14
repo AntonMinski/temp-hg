@@ -1,5 +1,7 @@
 export type dataResponse = {
-  data;
+  _data: {
+    data;
+  };
 };
 
 export type dataStatusResponse = {
