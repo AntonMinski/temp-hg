@@ -1,6 +1,6 @@
 <template>
   <div class='mt-[3rem]'>
-    <Heading class='text-center' :level='1'>Search haggadah results</Heading>
+    <UIHeading class='text-center' :level='1'>Search haggadah results</UIHeading>
     <div v-if='haggadahs.length' class="grid grid-cols-3 gap-x-[1.56rem] gap-y-[2.8rem]">
       <HaggadahCard
         v-for="(item, n) in haggadahs"
@@ -17,7 +17,7 @@
       <UISpinner size='12' />
     </div>
     <div v-else>
-      <Heading :level='3'>No results found</Heading>
+      <UIHeading :level='3'>No results found</UIHeading>
     </div>
   </div>
 </template>

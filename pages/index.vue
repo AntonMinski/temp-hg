@@ -11,9 +11,9 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
 
 <template>
   <div>
-    <Hero />
+    <HeroMain />
 
-    <HowItWorks />
+    <HowItWorksMain />
 
     <HaggadahFavourites :haggadahs='haggadahs' />
   </div>
