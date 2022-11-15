@@ -1,12 +1,12 @@
 <template>
-  <component :is="wrapperType" :href="href" :class="cardClasses">
+  <component :is="wrapperType" :href="href" class="flex flex-col" :class="cardClasses">
     <img
       v-if="imgSrc"
       class="h-[15.875rem] w-full rounded-t-lg"
       :class="horizontalImageClasses"
       :src="imgSrc"
       :alt="imgAlt" />
-    <div class="flex h-full flex-col overflow-hidden p-5">
+    <div class="flex flex-1 flex-col overflow-hidden p-5">
       <slot />
     </div>
   </component>
