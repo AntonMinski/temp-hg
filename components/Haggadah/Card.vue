@@ -114,8 +114,8 @@ const selectedClip = ref(props.clips?.[0] || null);
         <span class="mt-1 font-bold text-gray-900 dark:text-white">Choose section</span>
       </div>
 
-      <UIDropdown :text="selectedClip" class="w-full" outline>
-        <UIListGroup>
+      <UIDropdown :text="selectedClip" class="w-full" list-classes="w-full inset-x-0" color="dark" outline input>
+        <UIListGroup class="!w-full">
           <UIListGroupItem v-for="clip in clips" :key="clip" @click="selectedClip = clip">
             {{ clip }}
           </UIListGroupItem>

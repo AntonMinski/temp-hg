@@ -2,47 +2,46 @@
   <flowbite-themable-child
     :tag="tag"
     :apply="appliableTheme"
-    class="space-x-2.5"
+    class="justify-center space-x-2.5"
     :class="wrapperClasses"
     :disabled="disabled">
     <div v-if="!isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
       <!--automatically add mr class if slot provided or loading -->
-      <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
-      <slot name="prefix" v-else />
+      <UISpinner v-if="loadingPrefix" :color="spinnerColor" :size="spinnerSize" />
+      <slot v-else name="prefix" />
     </div>
 
     <span :class="spanClasses">
       <div v-if="isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
-        <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingPrefix" />
-        <slot name="prefix" v-else />
+        <UISpinner v-if="loadingPrefix" :color="spinnerColor" :size="spinnerSize" />
+        <slot v-else name="prefix" />
       </div>
 
       <slot />
 
       <div v-if="isOutlineGradient && ($slots.suffix || loadingSuffix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
-        <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
-        <slot name="suffix" v-else />
+        <UISpinner v-if="loadingSuffix" :color="spinnerColor" :size="spinnerSize" />
+        <slot v-else name="suffix" />
       </div>
     </span>
 
     <div v-if="!isOutlineGradient && ($slots.suffix || loadingSuffix)" class="-mt-0.5 inline-flex">
       <!--automatically add ml class if slot provided or loading -->
-      <UISpinner :color="spinnerColor" :size="spinnerSize" v-if="loadingSuffix" />
-      <slot name="suffix" v-else />
+      <UISpinner v-if="loadingSuffix" :color="spinnerColor" :size="spinnerSize" />
+      <slot v-else name="suffix" />
     </div>
   </flowbite-themable-child>
 </template>
 <script lang="ts" setup>
-import { computed, ConcreteComponent, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import type { PropType } from 'vue';
-import Spinner from '../Spinner/UISpinner.vue';
 import { useButtonClasses } from './composables/useButtonClasses';
 import { useButtonSpinner } from './composables/useButtonSpinner';
+import type { ButtonGradient, ButtonMonochromeGradient, ButtonSize, ButtonVariant } from './types';
 import FlowbiteThemableChild from '~/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/FlowbiteThemableChild.vue';
 
-import type { ButtonGradient, ButtonMonochromeGradient, ButtonSize, ButtonVariant } from './types';
 import type { ThemableChildrenApply } from '~/components/utils/FlowbiteThemable/components/FlowbiteThemableChild/types';
 const props = defineProps({
   tag: {

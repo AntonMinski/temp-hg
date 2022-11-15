@@ -39,7 +39,7 @@ const card = getCurrentInstance();
 </script>
 
 <template>
-  <UICard class="w-112 !max-w-none flex-none">
+  <UICard class="h-full w-full !max-w-[28rem] flex-none text-left">
     <div>
       <span class="mb-1 block text-xs font-semibold text-gray-500">{{ sectionTitle }}</span>
 
@@ -147,8 +147,8 @@ const card = getCurrentInstance();
           View Clip
         </UIButton>
         <UIButton
-          class="flex-1 !rounded-none border-b-0 border-r-0 !text-gray-700 dark:!text-gray-100"
-          color="link"
+          class="flex-1 !rounded-none border-b-0 border-r-0 !border-gray-300 text-gray-700 dark:!border-gray-700 dark:!text-gray-100"
+          color="dark"
           outline>
           <UIIcon icon="icon-book-o" class="mr-[7px] text-xl" />
           Add to Haggadah

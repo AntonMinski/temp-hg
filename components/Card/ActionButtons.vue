@@ -18,7 +18,7 @@ const isAddedToBookmark = ref(props.isAddedToBookmark);
       :class="
         isAddedToBookmark
           ? 'border-tertiary-300 bg-tertiary-500'
-          : 'hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-gray-100'
+          : 'hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400'
       "
       color="link"
       outline
@@ -31,15 +31,19 @@ const isAddedToBookmark = ref(props.isAddedToBookmark);
     </BlockTooltip>
 
     <UIButton
-      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-500 dark:hover:bg-gray-600"
+      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400"
       color="link"
+      :data-tooltip-target="`tooltip-download-${String(index)}`"
       outline>
       <UIIcon icon="icon-download" class="!text-base" />
     </UIButton>
+    <BlockTooltip :id="`tooltip-download-${String(index)}`"> Download </BlockTooltip>
 
+    <BlockTooltip :id="`tooltip-share-${String(index)}`"> Share </BlockTooltip>
     <UIButton
-      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-500 dark:hover:bg-gray-600"
+      class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400"
       color="link"
+      :data-tooltip-target="`tooltip-share-${String(index)}`"
       outline>
       <UIIcon icon="icon-share" class="!text-base" />
     </UIButton>

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.carousel__slide:not(:last-child) {
+    padding-right: 17px !important;
+}
+
+.carousel__pagination {
+    margin-top: 85px !important;
+}
+
+.carousel__pagination-button::after {
+    --vc-pgn-width: 13px;
+    --vc-pgn-height: 13px;
+    @apply !rounded-full !bg-gray-200;
+}
+
+.carousel__pagination-button--active::after {
+    @apply !bg-secondary-500;
+}
