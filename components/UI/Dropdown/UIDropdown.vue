@@ -3,7 +3,12 @@
     <div class="inline-flex w-full items-center">
       <slot-listener @click="onToggle">
         <slot name="trigger">
-          <UIButton class="w-full justify-between" :color="color" :size="size" :outline="outline">
+          <UIButton
+            class="w-full justify-between"
+            :class="input ? inputColorClass : null"
+            :color="!input ? color : null"
+            :size="size"
+            :outline="outline">
             {{ text }}
             <template v-if="!hideIcon" #suffix>
               <svg
@@ -32,10 +37,10 @@
 import { computed, ref, toRef } from 'vue';
 import type { PropType } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import SlotListener from '@/components/utils/SlotListener/SlotListener.vue';
 import { ButtonSize, ButtonVariant } from '../Button/types';
 import { useDropdownClasses } from './composables/useDropdownClasses';
 import type { DropdownPlacement } from './types';
+import SlotListener from '@/components/utils/SlotListener/SlotListener.vue';
 
 const visible = ref(false);
 
@@ -68,6 +73,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  input: {
+    type: Boolean,
+    default: false,
+  },
   listClasses: {
     type: String,
     default: '',
@@ -77,6 +86,25 @@ const props = defineProps({
     default: null,
   },
 });
+
+const inputColorClasses: Record<ButtonVariant, string> = {
+  default: '',
+  alternative: '',
+  dark: 'border !border-gray-300 dark:!border-gray-700 hover:!bg-transparent',
+  light: '',
+  green: '',
+  red: '',
+  yellow: '',
+  purple: '',
+  pink: '',
+  blue: '',
+
+  // Custom
+  secondary: '',
+  link: '',
+};
+
+const inputColorClass = computed<string>(() => inputColorClasses[props.color]);
 
 const placementTransitionMap: Record<DropdownPlacement, string> = {
   bottom: 'to-bottom',
