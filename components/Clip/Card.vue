@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-type CardType = 'text' | 'image' | 'audio' | 'video';
+import type { CardType } from '@/types/clip';
+import { HTML } from 'mdast';
+import { computed, ComputedRef } from 'vue';
 
 interface Props {
-  route: string | object;
+  handle: string;
   type: CardType;
   sectionTitle: string;
   title: string;
   src?: string;
-  text?: string;
+  text?: string | HTML;
   contributorName?: string;
   contributorAvatar?: string;
   downloadsCount?: number;
-  likesCount?: number;
+  likesCount?: number | string;
   languageTags?: string[];
   topicTags?: string[];
   isAddedToBookmark?: boolean;
@@ -36,10 +38,12 @@ const iconClass = computed<string>(() => iconClasses[props.type]);
 
 const nuxtLink = resolveComponent('NuxtLink');
 const card = getCurrentInstance();
+
+const route: ComputedRef<string> = computed(() => 'clip/' + props.handle);
 </script>
 
 <template>
-  <UICard class="h-full w-full !max-w-[28rem] flex-none text-left">
+  <UICard class="my-2 h-full w-full min-w-[350px] !max-w-[28rem] flex-none text-left">
     <div>
       <span class="mb-1 block text-xs font-semibold text-gray-500">{{ sectionTitle }}</span>
 
@@ -78,9 +82,10 @@ const card = getCurrentInstance();
     </div>
 
     <div class="relative -mx-5 mt-4 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-      <div v-if="type == 'text'" class="px-[36px] py-10 text-sm leading-normal text-gray-900 dark:text-gray-100">
-        {{ text }}
-      </div>
+      <div
+        v-if="type == 'text'"
+        v-html="text"
+        class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100" />
       <img v-else :src="src" class="h-[251px] w-full object-cover object-center" />
       <UIIcon
         v-if="type == 'video'"
@@ -90,7 +95,7 @@ const card = getCurrentInstance();
     </div>
 
     <div class="mt-5 flex items-center justify-between">
-      <CardActionButtons :index="card.vnode.key" :is-added-to-bookmark="isAddedToBookmark" />
+      <CardActionButtons :index="card.vnode.key || card.uid" :is-added-to-bookmark="isAddedToBookmark" />
 
       <div class="ineline-flex items-center space-x-3">
         <div class="inline-flex items-center space-x-1.5">
@@ -106,7 +111,7 @@ const card = getCurrentInstance();
     </div>
 
     <div v-if="contributorName" class="mt-5 inline-flex items-center space-x-2">
-      <img :src="contributorAvatar" alt="{{ contributorName }}" class="h-7 w-7" />
+      <img v-if="contributorAvatar" :src="contributorAvatar" :alt="contributorName" class="h-7 w-7" />
       <span class="text-sm font-semibold text-gray-600 dark:text-gray-300">
         Contributed by <span class="font-semibold text-gray-900 dark:text-gray-100">{{ contributorName }}</span>
       </span>
@@ -142,7 +147,9 @@ const card = getCurrentInstance();
         <UIButton
           class="flex-1 !rounded-none border-b-0 border-l-0 !border-gray-300 dark:!border-gray-700"
           color="secondary"
-          outline>
+          outline
+          :tag="nuxtLink"
+          :to="route">
           <UIIcon icon="icon-eye-open" class="mr-[7px] text-xl" />
           View Clip
         </UIButton>

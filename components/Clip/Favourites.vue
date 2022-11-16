@@ -1,37 +1,36 @@
 <script lang="ts" setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-const avatarSrc = (await import('@/assets/images/avatar.png')).default;
+import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/types/clip';
+import { useHomeStore } from '~/store/home';
+import { computed, ComputedRef, ref, Ref } from 'vue';
+const homeStore = useHomeStore();
+const { vueApp } = useNuxtApp();
 
-const categories = ['Identity', 'Wellness', 'Culture', 'Food', 'Entertainment', 'Jewish Movements'];
-const selectedCategory = ref(categories[0]);
+const clips: Ref<Clip[]> = ref([]);
 
-const clips = [
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Dayenu With English Hebrew And Transliteration',
-    text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, aliquid odit consequuntur rerum et nulla natus pariatur ducimus eligendi iusto blanditiis libero ab optio vitae minus dicta. Eveniet, distinctio quaerat!',
-  },
-  {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich',
-    src: '/_nuxt/assets/images/clip-image.png',
-  },
-  {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich',
-    src: '/_nuxt/assets/images/clip-image.png',
-  },
-  {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich',
-    src: '/_nuxt/assets/images/clip-image.png',
-  },
-];
+const categories: ComputedRef<ClipCategory[]> = computed(() => {
+  const categories = homeStore?.homePageData?.clip_categories;
+  if (categories.length) {
+    setCategory(categories[0]);
+
+    /* DELETE when the API search by category is fixed */
+    clips.value = homeStore?.homePageData?.favorite_clips.map((clip: clipContainer) => clip.clip);
+  }
+  return categories;
+});
+const selectedCategory: Ref<ClipCategory> = ref(null);
+
+async function setClips(categoryHandle: string) {
+  /* UNCOMMENT when the API search by category is fixed */
+  // const response: clipSearchResult = await vueApp.$api.clip.exploreClips({ 'category[]': categoryHandle });
+  // clips.value = response._data.data.searched_clips.map((clip: clipContainer) => clip.clip);
+}
+
+async function setCategory(category: ClipCategory) {
+  selectedCategory.value = category;
+  await setClips(category.handle);
+}
 </script>
 
 <template>
@@ -57,9 +56,9 @@ const clips = [
             <BlockCategoryPill
               v-for="category in categories"
               :key="category"
-              :is-active="selectedCategory == category"
-              @click="selectedCategory = category">
-              {{ category }}
+              :is-active="selectedCategory?.handle == category?.handle"
+              @click="setCategory(category)">
+              {{ category?.name }}
             </BlockCategoryPill>
           </div>
         </div>
@@ -72,16 +71,18 @@ const clips = [
               1024: { itemsToShow: 2.6, snapAlign: 'start' },
               1280: { itemsToShow: 2.2, snapAlign: 'start' },
             }">
-            <Slide v-for="clip in clips" :key="clip.title">
+            <Slide v-for="(clip, key) in clips" :key="key">
               <ClipCard
-                route="#"
-                :type="clip.type"
-                :section-title="clip.sectionTitle"
+                :handle="clip.handle"
+                :type="clip.cliptype"
+                :section-title="clip.clip_section"
                 :title="clip.title"
-                :src="clip.src"
-                :text="clip.text"
-                contributor-name="Haggadot"
-                :contributor-avatar="avatarSrc"
+                :src="clip.image"
+                :text="clip.body"
+                :contributor-name="clip.author"
+                :contributor-avatar="null"
+                :downloads-count="clip.downloads"
+                :likes-count="clip.likes"
                 :language-tags="['English', 'Hebrew']"
                 :topic-tags="['Chad Gadya', 'Dayenu']" />
             </Slide>
