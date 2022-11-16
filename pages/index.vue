@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import type { Haggadah } from '~/components/Haggadah/types';
 import { computed, ComputedRef } from 'vue';
+import type { Haggadah } from '~/components/Haggadah/types';
 import { useHomeStore } from '~/store/home';
 const homeStore = useHomeStore();
 
 // Haggadahs Data
 const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.favorite_haggadahs?.slice(0, 6));
-
 </script>
 
 <template>
@@ -15,8 +14,10 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
 
     <HowItWorksMain />
 
-    <GlobalHaggadahFavourites :haggadahs='haggadahs' />
+    <GlobalHaggadahFavourites :haggadahs="haggadahs" />
 
     <GlobalClipFavourites />
+
+    <GlobalUpcomingEvents />
   </div>
 </template>

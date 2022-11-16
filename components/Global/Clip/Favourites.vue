@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import type { ClipCategory, clipContainer, Clip, clipSearchResult } from './types';
-import { useHomeStore } from '~/store/home';
 import { computed, ComputedRef, ref, Ref } from 'vue';
+import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
+import { useHomeStore } from '~/store/home';
 const homeStore = useHomeStore();
 const { vueApp } = useNuxtApp();
 
@@ -23,7 +23,6 @@ const selectedCategory: Ref<ClipCategory> = ref(null);
 
 async function setClips(categoryHandle: string) {
   /* UNCOMMENT when the API search by category is fixed */
-
   // const response: clipSearchResult = await vueApp.$api.clip.exploreClips({ 'category[]': categoryHandle });
   // clips.value = response._data.data.searched_clips.map((clip: clipContainer) => clip.clip);
 }
@@ -72,7 +71,7 @@ async function setCategory(category: ClipCategory) {
               1024: { itemsToShow: 2.6, snapAlign: 'start' },
               1280: { itemsToShow: 2.2, snapAlign: 'start' },
             }">
-            <Slide v-for="(clip, key) in clips" :key="key">
+            <Slide v-for="(clip, key) in clips" :key="key" class="!pr-[17px] last:!pr-0">
               <GlobalClipCard
                 :handle="clip.handle"
                 :type="clip.cliptype"
@@ -90,7 +89,7 @@ async function setCategory(category: ClipCategory) {
             </Slide>
 
             <template #addons>
-              <Pagination />
+              <Pagination class="!mt-[85px]" />
             </template>
           </Carousel>
 
