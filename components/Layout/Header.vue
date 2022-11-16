@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
+import { useHomeStore } from '~/store/home';
+import { computed } from 'vue';
+const homeStore = useHomeStore();
+const homePageData = computed(() => homeStore.homePageData);
+
+const logoUrl = computed(() => homePageData?.value?.logo || '~/assets/svg/logo.svg');
+// TODO: add dark mode Logo
 </script>
 
 <template>
   <header>
     <nav class="fixed top-0 left-0 z-20 w-full bg-white py-2.5 dark:bg-gray-900">
       <UIContainer class="flex flex-wrap items-center justify-between">
-        <a href="https://flowbite.com/" class="flex items-center">
-          <img src="~/assets/svg/logo.svg" class="mr-3 block h-6 dark:hidden sm:h-9" alt="Haggadot Logo" />
+        <a href="/" class="flex items-center">
+          <img :src="logoUrl" class="mr-3 block h-6 dark:hidden sm:h-9" alt="Haggadot Logo" />
           <img src="~/assets/svg/logo-light.svg" class="mr-3 hidden h-6 dark:block sm:h-9" alt="Haggadot Logo" />
         </a>
         <div class="flex md:order-2">
