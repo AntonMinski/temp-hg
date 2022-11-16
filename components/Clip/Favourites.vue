@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/types/clip';
+import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
 import { useHomeStore } from '~/store/home';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 const homeStore = useHomeStore();
@@ -23,6 +23,7 @@ const selectedCategory: Ref<ClipCategory> = ref(null);
 
 async function setClips(categoryHandle: string) {
   /* UNCOMMENT when the API search by category is fixed */
+
   // const response: clipSearchResult = await vueApp.$api.clip.exploreClips({ 'category[]': categoryHandle });
   // clips.value = response._data.data.searched_clips.map((clip: clipContainer) => clip.clip);
 }
@@ -84,7 +85,8 @@ async function setCategory(category: ClipCategory) {
                 :downloads-count="clip.downloads"
                 :likes-count="clip.likes"
                 :language-tags="['English', 'Hebrew']"
-                :topic-tags="['Chad Gadya', 'Dayenu']" />
+                :topic-tags="['Chad Gadya', 'Dayenu']"
+                :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
             </Slide>
 
             <template #addons>

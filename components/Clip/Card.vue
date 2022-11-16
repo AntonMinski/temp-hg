@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import type { CardType } from '@/types/clip';
+import type { CardType } from '@/components/Clip/types';
 import { HTML } from 'mdast';
-import { computed, ComputedRef } from 'vue';
+import { computed, ComputedRef, Ref, ref } from 'vue';
+import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
+const { vueApp } = useNuxtApp();
 
 interface Props {
   handle: string;
@@ -40,6 +42,13 @@ const nuxtLink = resolveComponent('NuxtLink');
 const card = getCurrentInstance();
 
 const route: ComputedRef<string> = computed(() => 'clip/' + props.handle);
+
+// bookmarks
+const isAddedToBookmark: Ref<boolean> = ref(props.isAddedToBookmark);
+function addToBookmark(value: boolean): void {
+  isAddedToBookmark.value = value;
+  handleAddToBookmark(value, props.handle, vueApp, 'clip');
+}
 </script>
 
 <template>
@@ -95,7 +104,10 @@ const route: ComputedRef<string> = computed(() => 'clip/' + props.handle);
     </div>
 
     <div class="mt-5 flex items-center justify-between">
-      <CardActionButtons :index="card.vnode.key || card.uid" :is-added-to-bookmark="isAddedToBookmark" />
+      <CardActionButtons
+        :index="card.vnode.key || card.uid"
+        :is-added-to-bookmark="isAddedToBookmark"
+        @update:is-added-to-bookmark="addToBookmark" />
 
       <div class="ineline-flex items-center space-x-3">
         <div class="inline-flex items-center space-x-1.5">

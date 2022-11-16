@@ -1,5 +1,27 @@
 import { HTML } from 'mdast';
 
+export type Clip = {
+  handle: string;
+  title: string;
+  author: string;
+  author_initials: string;
+  image: string;
+  body: HTML;
+  clip_section: string;
+  clipsource: string;
+  cliptype: CardType;
+  downloads: number;
+  is_bookmarked: '0' | '1' | Boolean;
+  keywords: string[];
+  language: string[];
+  likes: `${number}` | number;
+  media: {
+    audio: string;
+    image;
+    video;
+  };
+};
+
 export type clipSearchParams = {
   key?: string;
   'media_type[]'?: string[];
@@ -23,6 +45,17 @@ export type clipSearchResult = {
   };
 };
 
+export type clipContainer = {
+  clip: Clip;
+};
+
+export type CardType = 'text' | 'image' | 'audio' | 'video';
+
+export type ClipCategory = {
+  handle: string;
+  name: string;
+};
+
 export type clipFindAllResult = {
   _data: {
     data: {
@@ -37,36 +70,4 @@ export type clipFindAllResult = {
       support_us_arr;
     };
   };
-};
-
-export type clipContainer = {
-  clip: Clip;
-};
-export type Clip = {
-  handle: string;
-  title: string;
-  author: string;
-  author_initials: string;
-  image: string;
-  body: HTML;
-  clip_section: string;
-  clipsource: string;
-  cliptype: CardType;
-  downloads: number;
-  is_bookmarked: '0' | '1' | Boolean;
-  keywords: string[];
-  language: string[];
-  likes: `${number}` | number;
-  media: {
-    audio: string;
-    image;
-    video;
-  };
-};
-
-export type CardType = 'text' | 'image' | 'audio' | 'video';
-
-export type ClipCategory = {
-  handle: string;
-  name: string;
 };

@@ -5,7 +5,7 @@ export type HaggadahBook = {
       background: string;
       book_cover_image: string;
       image: string;
-    }
+    };
     covertext: string;
     details;
     followers: string;
@@ -17,8 +17,8 @@ export type HaggadahBook = {
     tags: string;
     title: string;
     updated_at: Date;
-  }
-}
+  };
+};
 
 export type Haggadah = {
   haggadah: {
@@ -29,5 +29,6 @@ export type Haggadah = {
     keywords: string | string[];
     reading_length: number;
     title: string;
-  }
-}
+    is_bookmarked: '0' | '1';
+  };
+};
