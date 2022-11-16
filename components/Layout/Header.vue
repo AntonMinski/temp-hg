@@ -1,12 +1,48 @@
 <script lang="ts" setup>
 import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
+import type { HeaderItem } from '~/components/Layout/types';
 import { useHomeStore } from '~/store/home';
-import { computed } from 'vue';
+import { computed, ComputedRef } from 'vue';
 const homeStore = useHomeStore();
 const homePageData = computed(() => homeStore.homePageData);
 
 const logoUrl = computed(() => homePageData?.value?.logo || '~/assets/svg/logo.svg');
 // TODO: add dark mode Logo
+
+const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
+  if (homePageData?.value?.header_menu_items.length) {
+    return homePageData?.value?.header_menu_items?.map((item) => {
+      item.handle = item.handle === '0' ? '#' : item.handle;
+      return item;
+    });
+  } else {
+    return defaultHeaders;
+  }
+});
+
+const defaultHeaders = [
+  {
+    label: 'Explore Haggadahs',
+    handle: '#',
+  },
+  {
+    label: 'Explore Clips',
+    handle: '#',
+  },
+  {
+    label: 'Events',
+    handle: '#',
+  },
+  {
+    label: 'Passover 101',
+    handle: '#',
+  },
+  {
+    label: 'Support us',
+    handle: '#',
+    imageSrc: '~/assets/svg/heart.svg',
+  },
+];
 </script>
 
 <template>
@@ -56,13 +92,9 @@ const logoUrl = computed(() => homePageData?.value?.logo || '~/assets/svg/logo.s
         <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-sticky">
           <ul
             class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:font-medium md:dark:bg-gray-900">
-            <UINavLink>Explore Haggadahs</UINavLink>
-            <UINavLink>Explore Clips</UINavLink>
-            <UINavLink>Events</UINavLink>
-            <UINavLink>Passover 101</UINavLink>
-            <UINavLink>
-              <span>Support us</span>
-              <img src="~/assets/svg/heart.svg" class="h-4 w-4" />
+            <UINavLink v-for="(item, key) in headerItems" :key="key" :to="item.handle">
+              <span>{{ item.label }}</span>
+              <img v-if="item.imageSrc" :src="item.imageSrc" class="h-4 w-4" />
             </UINavLink>
           </ul>
         </div>
