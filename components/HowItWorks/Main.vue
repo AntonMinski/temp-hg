@@ -1,10 +1,16 @@
 <script lang="ts" setup>
 import { computed, Ref, ref, onMounted, ComputedRef, onBeforeUnmount } from 'vue';
+import type { HowItWorksData, Step } from './types';
+import { useHomeStore } from '~/store/home';
+const homeStore = useHomeStore();
 
 const nuxtLink = resolveComponent('NuxtLink');
 const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
 
 import { createHaggadah } from './composables/createHaggadah';
+
+// Data
+const storeData: ComputedRef<HowItWorksData> = computed(() => homeStore.homePageData?.how_it_works_arr);
 
 // Video
 const modalOpen: Ref<boolean> = ref(false);
@@ -12,7 +18,7 @@ function onToggleModal(): void {
   modalOpen.value = !modalOpen.value;
 }
 const runtimeConfig = useRuntimeConfig();
-const videoSrc = runtimeConfig.public.homePageVideoSrc;
+const videoSrc = storeData?.value?.youtube_video_link || runtimeConfig.public.homePageVideoSrc;
 
 // Resize event
 const resizeEvent = ref(1);
@@ -46,26 +52,19 @@ const videoHeight = computed(() => {
 
     <UIContainer class="flex flex-col space-y-24 py-28">
       <div class="flex flex-col items-center">
-        <UIHeading :level="3" class="mb-1 text-white"> How it works </UIHeading>
+        <UIHeading :level="3" class="mb-1 text-white">{{ storeData?.title }}</UIHeading>
 
-        <p class="text-lg">We have made it simple with three easy steps</p>
+        <p class="text-lg">{{ storeData?.tagline }}</p>
       </div>
 
       <div class="flex items-center space-x-16">
         <HowItWorksCard
-          :step="1"
-          title="Start with pre-defined templates"
-          paragraph="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sollicitudin vulputate sodales turpis habitant risus ac." />
-
-        <HowItWorksCard
-          :step="2"
-          title="Add or edit Haggadah sections"
-          paragraph="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sollicitudin vulputate sodales turpis habitant risus ac." />
-
-        <HowItWorksCard
-          :step="3"
-          title="Print or share online"
-          paragraph="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sollicitudin vulputate sodales turpis habitant risus ac." />
+          v-for="(step, key) in storeData?.steps"
+          :title="step.title"
+          :paragraph="step.description"
+          :image="step.image"
+          :label="step.label"
+          :key="key" />
       </div>
 
       <div class="mx-auto inline-flex items-center space-x-10">
