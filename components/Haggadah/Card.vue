@@ -71,7 +71,7 @@ const selectedClip = ref(props.clips?.[0] || null);
 
       <CardActionButtons
         :class="col == 6 ? '!ml-0 w-[205px] flex-shrink-0' : null"
-        :index="card.vnode.key"
+        :index="card.vnode.key || card.uid"
         :is-added-to-bookmark="isAddedToBookmark" />
     </div>
 
