@@ -7,7 +7,7 @@
 
 <script lang='ts' setup>
 import { ref, Ref } from 'vue';
-import type { clipSearchResult } from '~/types/clip';
+import type { clipSearchResult } from '~/components/Clip/types';
 const route = useRoute();
 const { vueApp } = useNuxtApp();
 

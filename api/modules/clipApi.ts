@@ -1,6 +1,6 @@
 import type { apiBase } from '~/types/api';
-import type { clipSearchParams, clipSearchResult } from '~/types/clip';
-import { errorResponse } from '~/types/response';
+import type { clipSearchParams, clipSearchResult } from '~/components/Clip/types';
+import { errorResponse, statusResponse } from '~/types/response';
 
 export default class ClipApi {
   private base: apiBase;
@@ -45,4 +45,13 @@ export default class ClipApi {
   async exploreClips(searchOptions: clipSearchParams): Promise<clipSearchResult| errorResponse> {
     return this.base.get('explore-clip', searchOptions);
   }
+
+  async bookmarkClip(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`bookmark-clip/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async unBookmarkClip(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`unbookmark-clip/${slug}`, {}, { showSuccessToast: false });
+  }
+
 }

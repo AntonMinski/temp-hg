@@ -1,14 +1,20 @@
 <script lang="ts" setup>
+import { useVModel } from '@vueuse/core';
+
 interface Props {
   index: string | number | symbol;
   isAddedToBookmark: boolean;
 }
-
 const props = withDefaults(defineProps<Props>(), {
   isAddedToBookmark: false,
 });
+const emit = defineEmits(['update:isAddedToBookmark']);
 
-const isAddedToBookmark = ref(props.isAddedToBookmark);
+const isAddedToBookmark = useVModel(props, 'isAddedToBookmark', emit);
+
+function handleAddToBookmark(): void {
+  isAddedToBookmark.value = !isAddedToBookmark.value;
+}
 </script>
 
 <template>
@@ -23,7 +29,7 @@ const isAddedToBookmark = ref(props.isAddedToBookmark);
       color="link"
       outline
       :data-tooltip-target="`tooltip-bookmark-${String(index)}`"
-      @click="isAddedToBookmark = !isAddedToBookmark">
+      @click="handleAddToBookmark">
       <UIIcon :icon="isAddedToBookmark ? 'icon-bookmark-remove' : 'icon-bookmark-add'" class="!text-base" />
     </UIButton>
     <BlockTooltip :id="`tooltip-bookmark-${String(index)}`">

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { handleAddToBookmark } from './composables/handleAddToBookmark';
+import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 const { vueApp } = useNuxtApp();
 interface Props {
   col?: 4 | 6;
@@ -27,8 +27,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // bookmarks
-function addToBookmark() {
-  handleAddToBookmark(isAddedToBookmark.value, props.slug, vueApp);
+function addToBookmark(value: boolean): void {
+  isAddedToBookmark.value = value;
+  handleAddToBookmark(value, props.slug, vueApp, 'book');
 }
 const card = getCurrentInstance();
 const nuxtLink = resolveComponent('NuxtLink');
@@ -72,7 +73,8 @@ const selectedClip = ref(props.clips?.[0] || null);
       <CardActionButtons
         :class="col == 6 ? '!ml-0 w-[205px] flex-shrink-0' : null"
         :index="card.vnode.key || card.uid"
-        :is-added-to-bookmark="isAddedToBookmark" />
+        v-model:is-added-to-bookmark="isAddedToBookmark"
+        @update:is-added-to-bookmark="addToBookmark" />
     </div>
 
     <div class="flex items-start" :class="col == 6 ? 'flex-row' : 'flex-col'">

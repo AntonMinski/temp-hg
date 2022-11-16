@@ -44,7 +44,8 @@ const props = defineProps({
           :language-tags="['Trending', 'Humanity']"
           :topic-tags="['Trending', 'Humanity']"
           :completed-progress="50"
-          :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']" />
+          :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
+          :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'" />
       </div>
 
       <UIButton class="mx-auto mt-16.5 !flex" color="dark" size="xl">
