@@ -7,46 +7,93 @@ const events = [
   {
     type: 'text',
     sectionTitle: 'Maggid - Beginning',
-    title: 'Dayenu With English Hebrew And Transliteration',
+    title: 'Outdoor Yoga at Golden Gate Park',
     src: '/_nuxt/assets/images/clip-image.png',
-  },
-  {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich',
-    src: '/_nuxt/assets/images/clip-image.png',
-  },
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Dayenu With English Hebrew And Transliteration 2',
-    src: '/_nuxt/assets/images/clip-image.png',
-  },
-  {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich 2',
-    src: '/_nuxt/assets/images/clip-image.png',
+    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
+    day: 'Wednesday',
+    date: 'May 31',
+    time: '2:00 pm - 4:00 pm (EDT)',
+    location: 'Golden Gate Park • San Francisco, CA',
+    contributorName: 'Custom & Craft',
+    contributorInitials: 'CC',
+    totalAttendees: 11,
+    attendeesCount: 9,
+    isAttending: false,
   },
   {
     type: 'text',
     sectionTitle: 'Maggid - Beginning',
-    title: 'Dayenu With English Hebrew And Transliteration 3',
+    title: 'Outdoor Yoga at Golden Gate Park',
     src: '/_nuxt/assets/images/clip-image.png',
+    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
+    day: 'Wednesday',
+    date: 'May 31',
+    time: '2:00 pm - 4:00 pm (EDT)',
+    location: 'Golden Gate Park • San Francisco, CA',
+    contributorName: 'Custom & Craft',
+    contributorInitials: 'CC',
+    totalAttendees: 11,
+    attendeesCount: 9,
+    isAttending: true,
   },
   {
-    type: 'video',
-    sectionTitle: 'Koreich',
-    title: 'Step-By-Step Seder: Step 10, Koreich 3',
+    type: 'text',
+    sectionTitle: 'Maggid - Beginning',
+    title: 'Outdoor Yoga at Golden Gate Park',
     src: '/_nuxt/assets/images/clip-image.png',
+    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
+    day: 'Wednesday',
+    date: 'May 31',
+    time: '2:00 pm - 4:00 pm (EDT)',
+    location: 'Golden Gate Park • San Francisco, CA',
+    contributorName: 'Custom & Craft',
+    contributorInitials: 'CC',
+    totalAttendees: 11,
+    attendeesCount: 9,
+    isAttending: false,
+  },
+  {
+    type: 'text',
+    sectionTitle: 'Maggid - Beginning',
+    title: 'Outdoor Yoga at Golden Gate Park',
+    src: '/_nuxt/assets/images/clip-image.png',
+    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
+    day: 'Wednesday',
+    date: 'May 31',
+    time: '2:00 pm - 4:00 pm (EDT)',
+    location: 'Golden Gate Park • San Francisco, CA',
+    contributorName: 'Custom & Craft',
+    contributorInitials: 'CC',
+    totalAttendees: 11,
+    attendeesCount: 9,
+    isAttending: false,
+  },
+  {
+    type: 'text',
+    sectionTitle: 'Maggid - Beginning',
+    title: 'Outdoor Yoga at Golden Gate Park',
+    src: '/_nuxt/assets/images/clip-image.png',
+    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
+    day: 'Wednesday',
+    date: 'May 31',
+    time: '2:00 pm - 4:00 pm (EDT)',
+    location: 'Golden Gate Park • San Francisco, CA',
+    contributorName: 'Custom & Craft',
+    contributorInitials: 'CC',
+    totalAttendees: 11,
+    attendeesCount: 9,
+    isAttending: false,
   },
 ];
+
+const locations = ['San Francisco', 'Chicago', 'New York', 'Los Angelss', 'more...'];
+const topics = ['Cooking', 'Seder', 'Karaoke', 'more...'];
 </script>
 
 <template>
   <div id="upcoming-events" class="bg-white dark:bg-gray-800">
     <UIContainer class="py-24">
-      <div class="mb-[65px] items-center justify-between space-y-12 lg:flex lg:space-y-0">
+      <div class="items-center justify-between space-y-12 lg:flex lg:space-y-0">
         <div class="inline-flex items-center space-x-4">
           <UIIcon icon="icon-calendar-f" shape="square" class="bg-gradient1 shadow-md" />
 
@@ -59,20 +106,51 @@ const events = [
           query-key="key"
           placeholder="Search events by topic, location or keyword" />
       </div>
-      <div class="mt-12">
-        <Carousel :items-to-show="2" snap-align="start">
-          <Slide v-for="event in events" :key="event.title" class="pr-[35px]">
-            <UpcomingEventsCard
+
+      <div class="mt-6.5 flex flex-col items-start justify-between lg:flex-row lg:items-center">
+        <div class="inline-flex items-center space-x-[15px]">
+          <span>See Events in</span>
+          <NuxtLink
+            v-for="location in locations"
+            :key="location"
+            to="#"
+            class="font-semibold text-secondary-500 hover:text-secondary-700">
+            {{ location }}
+          </NuxtLink>
+        </div>
+
+        <div class="inline-flex items-center space-x-[15px]">
+          <span>See in Topics</span>
+          <NuxtLink v-for="topic in topics" :key="topic" to="#" class="font-semibold text-gray-800 dark:text-white">
+            {{ topic }}
+          </NuxtLink>
+        </div>
+      </div>
+
+      <div class="mt-[70px]">
+        <Carousel
+          :items-to-show="1"
+          snap-align="center"
+          :breakpoints="{ 1280: { itemsToShow: 2, snapAlign: 'start' } }">
+          <Slide v-for="event in events" :key="event.title" class="xl:!px-[17.5px]">
+            <GlobalUpcomingEventsCard
               :col="6"
               route="#"
-              :type="event.type"
               :section-title="event.sectionTitle"
               :title="event.title"
               :src="event.src"
-              contributor-name="Haggadot"
+              :text="event.text"
+              :day="event.day"
+              :date="event.date"
+              :time="event.time"
+              :location="event.location"
+              :contributor-name="event.contributorName"
+              :contributor-initials="event.contributorInitials"
               :contributor-avatar="avatarSrc"
-              :language-tags="['English', 'Hebrew']"
-              :topic-tags="['Chad Gadya', 'Dayenu']" />
+              :user-tags="['Fitness', 'Outdoor']"
+              :total-attendees="event.totalAttendees"
+              :attendees-count="event.attendeesCount"
+              :is-attending="event.isAttending" />
           </Slide>
 
           <template #addons>

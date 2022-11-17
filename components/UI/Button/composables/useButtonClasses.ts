@@ -31,7 +31,9 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     pink: 'focus:outline-none text-white bg-pink-700 focus:ring-4 focus:ring-pink-300 dark:bg-pink-600 dark:focus:ring-pink-900',
 
     // Custom
+    primary: '',
     secondary: 'text-white bg-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
+    success: '',
     link: 'text-gray-700 dark:text-white bg-white dark:bg-gray-900 focus:outline-none',
   },
   hover: {
@@ -47,7 +49,9 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     pink: 'hover:bg-pink-800 dark:hover:bg-pink-700',
 
     // Custom
+    primary: '',
     secondary: 'hover:bg-secondary-600',
+    success: '',
     link: '',
   },
 };
@@ -68,8 +72,12 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
       'text-yellow-400 border border-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-300 text-center dark:border-yellow-300 dark:text-yellow-300 dark:focus:ring-yellow-900',
 
     // Custom
+    primary:
+      'text-primary-700 bg-transparent border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-200',
     secondary:
       'text-secondary-500 bg-transparent border border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
+    success:
+      'text-success-500 bg-transparent border border-success-500 focus:outline-none focus:ring-2 focus:ring-success-200',
     link: 'text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none',
   },
   hover: {
@@ -83,7 +91,9 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
     yellow: 'hover:text-white hover:bg-yellow-500 dark:hover:text-white dark:hover:bg-yellow-400',
 
     // Custom
+    primary: 'hover:text-white hover:bg-primary-700',
     secondary: 'hover:text-white hover:bg-secondary-500',
+    success: 'hover:text-white hover:bg-success-500',
     link: '',
   },
 };
