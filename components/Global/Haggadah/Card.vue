@@ -101,7 +101,7 @@ const selectedClip = ref(props.clips?.[0] || null);
       </div>
     </div>
 
-    <BlockProgress v-if="isOwner && col == 4" :progress="completedProgress" class="mt-5.5" />
+    <UIProgress v-if="isOwner && col == 4" :progress="completedProgress" class="mt-5.5" />
 
     <div v-if="isOwner && col == 4" class="mt-[37px] flex items-center space-x-2.5">
       <UIButton :tag="nuxtLink" :to="route" class="w-1/2 justify-center" color="secondary" size="sm">

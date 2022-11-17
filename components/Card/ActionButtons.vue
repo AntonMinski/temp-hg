@@ -32,9 +32,9 @@ function handleAddToBookmark(): void {
       @click="handleAddToBookmark">
       <UIIcon :icon="isAddedToBookmark ? 'icon-bookmark-remove' : 'icon-bookmark-add'" class="!text-base" />
     </UIButton>
-    <BlockTooltip :id="`tooltip-bookmark-${String(index)}`">
+    <UITooltip :id="`tooltip-bookmark-${String(index)}`">
       {{ isAddedToBookmark ? 'Remove Bookmark' : 'Add to Bookmark' }}
-    </BlockTooltip>
+    </UITooltip>
 
     <UIButton
       class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400"
@@ -43,9 +43,9 @@ function handleAddToBookmark(): void {
       outline>
       <UIIcon icon="icon-download" class="!text-base" />
     </UIButton>
-    <BlockTooltip :id="`tooltip-download-${String(index)}`"> Download </BlockTooltip>
+    <UITooltip :id="`tooltip-download-${String(index)}`"> Download </UITooltip>
 
-    <BlockTooltip :id="`tooltip-share-${String(index)}`"> Share </BlockTooltip>
+    <UITooltip :id="`tooltip-share-${String(index)}`"> Share </UITooltip>
     <UIButton
       class="!h-auto !p-2.5 hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400"
       color="link"

@@ -2,7 +2,7 @@
   <div class='mt-[3rem]'>
     <UIHeading class='text-center' :level='1'>Search haggadah results</UIHeading>
     <div v-if='haggadahs.length' class="grid grid-cols-3 gap-x-[1.56rem] gap-y-[2.8rem]">
-      <HaggadahCard
+      <GlobalHaggadahCard
         v-for="(item, n) in haggadahs"
         :key="n"
         :img-src="item.haggadah.haggadah_image"
