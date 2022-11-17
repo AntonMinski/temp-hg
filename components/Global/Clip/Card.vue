@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { CardType } from '@/components/Clip/types';
+import type { CardType } from './types';
 import { HTML } from 'mdast';
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';

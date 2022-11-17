@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
+import type { ClipCategory, clipContainer, Clip, clipSearchResult } from './types';
 import { useHomeStore } from '~/store/home';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 const homeStore = useHomeStore();
