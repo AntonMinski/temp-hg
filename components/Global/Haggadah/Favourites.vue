@@ -30,7 +30,7 @@ const props = defineProps({
       </div>
 
       <div class="grid gap-x-[1.56rem] gap-y-[2.8rem] md:grid-cols-2 lg:grid-cols-3">
-        <HaggadahCard
+        <GlobalHaggadahCard
           v-for="(item, n) in haggadahs"
           :key="n"
           route="#"

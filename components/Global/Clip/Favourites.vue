@@ -54,13 +54,13 @@ async function setCategory(category: ClipCategory) {
       <div class="w-full items-start xl:flex">
         <div class="flex w-full flex-shrink-0 flex-row overflow-x-auto xl:w-[211px] xl:flex-col">
           <div class="flex flex-row flex-nowrap space-x-4 xl:flex-col xl:space-x-0 xl:space-y-[15px]">
-            <BlockCategoryPill
+            <UICategoryPill
               v-for="category in categories"
               :key="category"
               :is-active="selectedCategory?.handle == category?.handle"
               @click="setCategory(category)">
               {{ category?.name }}
-            </BlockCategoryPill>
+            </UICategoryPill>
           </div>
         </div>
         <div class="mt-12 flex-1 overflow-hidden xl:mt-0 xl:ml-[50px]">
@@ -73,7 +73,7 @@ async function setCategory(category: ClipCategory) {
               1280: { itemsToShow: 2.2, snapAlign: 'start' },
             }">
             <Slide v-for="(clip, key) in clips" :key="key">
-              <ClipCard
+              <GlobalClipCard
                 :handle="clip.handle"
                 :type="clip.cliptype"
                 :section-title="clip.clip_section"
