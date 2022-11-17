@@ -15,4 +15,12 @@ export default class ContributorApi {
   async getContributorsDetails<T>(slug: String): Promise<T> {
     return this.base.get(this.contributorsUrl + '/' + slug);
   }
+
+  async followContributor<T>(slug: String): Promise<T> {
+    return this.base.post('follow/' + slug, {}, { showSuccessToast: false });
+  }
+
+  async unFollowContributor<T>(slug: String): Promise<T> {
+    return this.base.post('unfollow/' + slug, {}, { showSuccessToast: false });
+  }
 }
