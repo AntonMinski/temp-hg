@@ -45,9 +45,10 @@ const route: ComputedRef<string> = computed(() => 'clip/' + props.handle);
 
 // bookmarks
 const isAddedToBookmark: Ref<boolean> = ref(props.isAddedToBookmark);
-function addToBookmark(value: boolean): void {
-  isAddedToBookmark.value = value;
-  handleAddToBookmark(value, props.handle, vueApp, 'clip');
+async function addToBookmark(value: boolean): Promise<void> {
+  if (await handleAddToBookmark(value, props.handle, vueApp, 'clip')) {
+    isAddedToBookmark.value = value;
+  }
 }
 </script>
 

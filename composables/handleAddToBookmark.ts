@@ -1,12 +1,10 @@
 import { capitalizeFirstLetter } from '~/composables/capitalize';
+import { loginModal } from '~/composables/loginModal';
 
-export async function handleAddToBookmark(
-  add: boolean,
-  slug: string,
-  vueApp,
-  apiRoute: apiRoute
-): Promise<void | Error> {
-  // TODO: if !loggedIn, show login modal
+export async function handleAddToBookmark(add: boolean, slug: string, vueApp, apiRoute: apiRoute) {
+  if (loginModal()) {
+    return false;
+  }
 
   const capApiRoute = capitalizeFirstLetter(apiRoute);
 
@@ -24,6 +22,7 @@ export async function handleAddToBookmark(
         vueApp.$toast.success(`${capApiRoute} removed from bookmarks`);
       }
     }
+    return true;
   } catch (error) {
     console.error(error);
   }

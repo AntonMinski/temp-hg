@@ -27,9 +27,10 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // bookmarks
-function addToBookmark(value: boolean): void {
-  isAddedToBookmark.value = value;
-  handleAddToBookmark(value, props.slug, vueApp, 'book');
+async function addToBookmark(value: boolean): Promise<void> {
+  if (await handleAddToBookmark(value, props.slug, vueApp, 'book')) {
+    isAddedToBookmark.value = value;
+  }
 }
 const card = getCurrentInstance();
 const nuxtLink = resolveComponent('NuxtLink');
