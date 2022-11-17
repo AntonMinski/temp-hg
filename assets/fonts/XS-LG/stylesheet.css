@@ -3,7 +3,7 @@
   src: url('LotaGrotesque-LightIt.woff2') format('woff2'), url('LotaGrotesque-LightIt.woff') format('woff');
   font-weight: 300;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   src: url('LotaGrotesque-SemiBoldIt.woff2') format('woff2'), url('LotaGrotesque-SemiBoldIt.woff') format('woff');
   font-weight: 600;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   src: url('LotaGrotesque-Bold.woff2') format('woff2'), url('LotaGrotesque-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -27,7 +27,7 @@
   src: url('LotaGrotesque-Black.woff2') format('woff2'), url('LotaGrotesque-Black.woff') format('woff');
   font-weight: 900;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -35,7 +35,7 @@
   src: url('LotaGrotesque-BoldIt.woff2') format('woff2'), url('LotaGrotesque-BoldIt.woff') format('woff');
   font-weight: bold;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -43,7 +43,7 @@
   src: url('LotaGrotesque-BlackIt.woff2') format('woff2'), url('LotaGrotesque-BlackIt.woff') format('woff');
   font-weight: 900;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -51,7 +51,7 @@
   src: url('LotaGrotesque-SemiBold.woff2') format('woff2'), url('LotaGrotesque-SemiBold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -59,7 +59,7 @@
   src: url('LotaGrotesque-Regular.woff2') format('woff2'), url('LotaGrotesque-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -67,7 +67,7 @@
   src: url('LotaGrotesque-RegularIt.woff2') format('woff2'), url('LotaGrotesque-RegularIt.woff') format('woff');
   font-weight: normal;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -75,5 +75,5 @@
   src: url('LotaGrotesque-Light.woff2') format('woff2'), url('LotaGrotesque-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
