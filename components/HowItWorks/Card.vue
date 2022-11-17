@@ -18,7 +18,7 @@ const props = defineProps<Props>();
 
     <UIBadge class="mb-5 uppercase">{{ label }}</UIBadge>
 
-    <UIHeading :level="6" class="mb-2 text-white">
+    <UIHeading :level="6" class="mb-2 !text-white">
       {{ title }}
     </UIHeading>
 
