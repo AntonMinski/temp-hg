@@ -184,7 +184,8 @@ const buttonOutlineGradientClasses: ButtonClassMap<ButtonDuotoneGradient> = {
       'relative inline-flex items-center justify-center overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 dark:text-white focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800',
 
     // Custom
-    gradient1: '',
+    gradient1:
+      'text-primary-600 bg-transparent border border-primary-600 focus:ring-2 focus:outline-none focus:ring-primary-600 dark:focus:ring-primary-800',
     gradient2: '',
     gradient3: '',
     gradient4: '',
@@ -335,21 +336,21 @@ export function useButtonClasses(props: UseButtonClassesProps): {
       shadowClass,
       props.pill.value ? '!rounded-full' : '',
       props.disabled.value ? 'cursor-not-allowed opacity-50' : '',
-      isGradient && isOutline ? 'p-0.5' : sizeClasses.value,
+      sizeClasses.value,
       slots.prefix || slots.suffix || props.loading.value ? 'inline-flex items-center' : ''
     );
   });
 
   const spanClasses = computed(() => {
-    if (!!props.gradient.value && props.outline.value) {
-      // ONLY FOR GRADIENT OUTLINE BUTTON
-      return classNames(
-        'relative bg-white dark:bg-gray-900 rounded-md inline-flex items-center',
-        sizeClasses.value,
-        !props.disabled.value ? 'group-hover:bg-opacity-0 transition-all ease-in duration-75' : ''
-      );
-    }
-    return 'flex justify-center';
+    // if (!!props.gradient.value && props.outline.value) {
+    //   // ONLY FOR GRADIENT OUTLINE BUTTON
+    //   return classNames(
+    //     'relative bg-white dark:bg-gray-900 rounded-md inline-flex items-center',
+    //     sizeClasses.value,
+    //     !props.disabled.value ? 'group-hover:bg-opacity-0 transition-all ease-in duration-75' : ''
+    //   );
+    // }
+    return 'flex items-center justify-center';
   });
 
   return {

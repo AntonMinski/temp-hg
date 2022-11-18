@@ -40,8 +40,7 @@ const route = 'events/';
 const dateObj = computed(() => {
   try {
     return new Date(props.date);
-  } catch (e) {
-  }
+  } catch (e) {}
 });
 
 const cardWeekDay = computed(() => {
@@ -51,21 +50,21 @@ const cardWeekDay = computed(() => {
 });
 
 const cardDate = computed(() => {
-  if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime()) ) {
-  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(dateObj.value);
+  if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime())) {
+    return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(dateObj.value);
   }
 });
 
 const cardTime = computed(() => {
   if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime())) {
-  return dateObj.value.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    return dateObj.value.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   }
 });
 </script>
 
 <template>
   <UICard variant="image" :img-src="imageSrc" class="h-full w-full !max-w-none flex-none text-left">
-    <div :class="{ 'p-12.5': col == 6 }">
+    <div class="flex flex-1 flex-col" :class="{ 'p-12.5': col == 6 }">
       <div class="flex flex-col items-start lg:flex-row">
         <div :class="col == 6 ? 'flex-shrink-0 lg:w-48 xl:w-[233px]' : 'w-full'">
           <UIHeading v-if="col == 4" :level="5">{{ title }}</UIHeading>
@@ -107,8 +106,8 @@ const cardTime = computed(() => {
       </div>
 
       <div
-        class="flex flex-col items-center justify-between space-y-5 sm:flex-row sm:space-y-0"
-        :class="col == 6 ? 'mt-[45px]' : 'mt-[25px]'">
+        class="mt-auto flex flex-col items-center justify-between space-y-5 sm:flex-row sm:space-y-0"
+        :class="col == 6 ? 'pt-[45px]' : 'mt-[25px]'">
         <div class="space-x-2.5">
           <UIButtonGroup
             class="group"

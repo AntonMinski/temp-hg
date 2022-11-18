@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed, Ref, ref, onMounted, ComputedRef, onBeforeUnmount } from 'vue';
 import type { HowItWorksData, Step } from './types';
+import { createHaggadah } from './composables/createHaggadah';
 import { useHomeStore } from '~/store/home';
+
 const homeStore = useHomeStore();
 
 const nuxtLink = resolveComponent('NuxtLink');
 const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
-
-import { createHaggadah } from './composables/createHaggadah';
 
 // Data
 const storeData: ComputedRef<HowItWorksData> = computed(() => homeStore.homePageData?.how_it_works_arr);
@@ -52,7 +52,7 @@ const videoHeight = computed(() => {
 
     <UIContainer class="flex flex-col space-y-24 py-28">
       <div class="flex flex-col items-center">
-        <UIHeading :level="3" class="mb-1 text-white">{{ storeData?.title }}</UIHeading>
+        <UIHeading :level="3" class="mb-1 !text-white">{{ storeData?.title }}</UIHeading>
 
         <p class="text-lg">{{ storeData?.tagline }}</p>
       </div>
@@ -60,11 +60,11 @@ const videoHeight = computed(() => {
       <div class="flex items-center space-x-16">
         <HowItWorksCard
           v-for="(step, key) in storeData?.steps"
+          :key="key"
           :title="step.title"
           :paragraph="step.description"
           :image="step.image"
-          :label="step.label"
-          :key="key" />
+          :label="step.label" />
       </div>
 
       <div class="mx-auto inline-flex items-center space-x-10">
@@ -91,11 +91,11 @@ const videoHeight = computed(() => {
   <transition name="fade">
     <div v-if="modalOpen" class="fixed top-0 z-20">
       <div class="absolute inset-0 z-0 h-screen w-screen bg-black opacity-70"></div>
-      <div @click.self="onToggleModal" class="relative z-0 flex h-screen w-screen">
+      <div class="relative z-0 flex h-screen w-screen" @click.self="onToggleModal">
         <div class="mx-auto my-auto flex flex-col shadow-lg">
           <span
-            @click="onToggleModal"
-            class="icon-close ml-auto text-4xl text-gray-100 transition-all hover:scale-110 hover:cursor-pointer"></span>
+            class="icon-close ml-auto text-4xl text-gray-100 transition-all hover:scale-110 hover:cursor-pointer"
+            @click="onToggleModal"></span>
           <iframe
             :width="videoWidth"
             :height="videoHeight"
