@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import { computed, ComputedRef, ref, Ref, resolveComponent } from 'vue';
+
 interface Props {
   col?: 4 | 6;
-  route: string | object;
+  host: string | object;
   title: string;
-  src?: string;
+  imageSrc?: string;
   text?: string;
-  day?: string;
   date?: string;
-  time?: string;
   location: string;
   contributorName?: string;
   contributorAvatar?: string;
@@ -18,6 +18,7 @@ interface Props {
   attendeesCount: number;
   isAttending?: boolean;
   isOwner?: boolean;
+  type: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,22 +26,54 @@ const props = withDefaults(defineProps<Props>(), {
   isAddedToBookmark: false,
   isAttending: false,
   isOwner: true,
+  type: 'text',
 });
 
 const isAddedToBookmark = ref(props.isAddedToBookmark);
 
 const nuxtLink = resolveComponent('NuxtLink');
+
+// const route: ComputedRef<string> = computed(() => 'events/' + props.handle);
+const route = 'events/';
+
+// Date & Time
+const dateObj = computed(() => {
+  try {
+    return new Date(props.date);
+  } catch (e) {
+  }
+});
+
+const cardWeekDay = computed(() => {
+  if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime())) {
+    return new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dateObj.value);
+  }
+});
+
+const cardDate = computed(() => {
+  if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime()) ) {
+  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(dateObj.value);
+  }
+});
+
+const cardTime = computed(() => {
+  if (dateObj.value instanceof Date && !isNaN(dateObj.value.getTime())) {
+  return dateObj.value.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  }
+});
 </script>
 
 <template>
-  <UICard variant="image" :img-src="src" class="h-full w-full !max-w-none flex-none text-left">
+  <UICard variant="image" :img-src="imageSrc" class="h-full w-full !max-w-none flex-none text-left">
     <div :class="{ 'p-12.5': col == 6 }">
       <div class="flex flex-col items-start lg:flex-row">
         <div :class="col == 6 ? 'flex-shrink-0 lg:w-48 xl:w-[233px]' : 'w-full'">
           <UIHeading v-if="col == 4" :level="5">{{ title }}</UIHeading>
-          <span v-if="col == 6" class="block text-sm font-semibold leading-tight">{{ day }}</span>
-          <span v-if="col == 6" class="block font-serif text-[30px] font-semibold leading-tight">{{ date }}</span>
-          <span class="block font-semibold text-secondary-500" :class="col == 6 ? 'mt-2' : 'mt-1.5'">{{ time }}</span>
+          <span v-if="col == 6" class="block text-sm font-semibold leading-tight">{{ cardWeekDay }}</span>
+          <span v-if="col == 6" class="block font-serif text-[30px] font-semibold leading-tight">{{ cardDate }}</span>
+          <span class="block font-semibold text-secondary-500" :class="col == 6 ? 'mt-2' : 'mt-1.5'">{{
+            cardTime
+          }}</span>
 
           <div class="mt-2 flex items-start text-gray-500">
             <UIIcon icon="icon-location" class="mr-1.5 text-[17px]" />
