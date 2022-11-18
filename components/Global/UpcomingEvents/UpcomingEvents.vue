@@ -1,93 +1,22 @@
 <script lang="ts" setup>
+import type { Event, EventCategory } from './types';
+import { computed, ComputedRef } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-const avatarSrc = (await import('@/assets/images/avatar.png')).default;
+import { useHomeStore } from '~/store/home';
+const homeStore = useHomeStore();
 
-const events = [
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Outdoor Yoga at Golden Gate Park',
-    src: '/_nuxt/assets/images/clip-image.png',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
-    day: 'Wednesday',
-    date: 'May 31',
-    time: '2:00 pm - 4:00 pm (EDT)',
-    location: 'Golden Gate Park • San Francisco, CA',
-    contributorName: 'Custom & Craft',
-    contributorInitials: 'CC',
-    totalAttendees: 11,
-    attendeesCount: 9,
-    isAttending: false,
-  },
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Outdoor Yoga at Golden Gate Park',
-    src: '/_nuxt/assets/images/clip-image.png',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
-    day: 'Wednesday',
-    date: 'May 31',
-    time: '2:00 pm - 4:00 pm (EDT)',
-    location: 'Golden Gate Park • San Francisco, CA',
-    contributorName: 'Custom & Craft',
-    contributorInitials: 'CC',
-    totalAttendees: 11,
-    attendeesCount: 9,
-    isAttending: true,
-  },
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Outdoor Yoga at Golden Gate Park',
-    src: '/_nuxt/assets/images/clip-image.png',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
-    day: 'Wednesday',
-    date: 'May 31',
-    time: '2:00 pm - 4:00 pm (EDT)',
-    location: 'Golden Gate Park • San Francisco, CA',
-    contributorName: 'Custom & Craft',
-    contributorInitials: 'CC',
-    totalAttendees: 11,
-    attendeesCount: 9,
-    isAttending: false,
-  },
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Outdoor Yoga at Golden Gate Park',
-    src: '/_nuxt/assets/images/clip-image.png',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
-    day: 'Wednesday',
-    date: 'May 31',
-    time: '2:00 pm - 4:00 pm (EDT)',
-    location: 'Golden Gate Park • San Francisco, CA',
-    contributorName: 'Custom & Craft',
-    contributorInitials: 'CC',
-    totalAttendees: 11,
-    attendeesCount: 9,
-    isAttending: false,
-  },
-  {
-    type: 'text',
-    sectionTitle: 'Maggid - Beginning',
-    title: 'Outdoor Yoga at Golden Gate Park',
-    src: '/_nuxt/assets/images/clip-image.png',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis cupiditate possimus necessitatibus incidunt, praesentium et veritatis omnis aliquid nam dignissimos in odit numquam inventore eaque dolor animi qui suscipit.',
-    day: 'Wednesday',
-    date: 'May 31',
-    time: '2:00 pm - 4:00 pm (EDT)',
-    location: 'Golden Gate Park • San Francisco, CA',
-    contributorName: 'Custom & Craft',
-    contributorInitials: 'CC',
-    totalAttendees: 11,
-    attendeesCount: 9,
-    isAttending: false,
-  },
-];
+const events: ComputedRef<Event[]> = computed(() => homeStore?.homePageData?.events);
+const categories: ComputedRef<EventCategory[]> = computed(() => homeStore?.homePageData?.event_categories.slice(0, 5));
+
+async function navigateEvents(searchBy) {
+  // Not implemented yet
+}
 
 const locations = ['San Francisco', 'Chicago', 'New York', 'Los Angelss', 'more...'];
 const topics = ['Cooking', 'Seder', 'Karaoke', 'more...'];
+
+const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Data No Api Data No Api Data';
 </script>
 
 <template>
@@ -101,8 +30,8 @@ const topics = ['Cooking', 'Seder', 'Karaoke', 'more...'];
         </div>
 
         <UISearch
-          rules="required|min:2"
-          redirect-address="/clip-search"
+          rules="required"
+          redirect-address="/event-search"
           query-key="key"
           placeholder="Search events by topic, location or keyword" />
       </div>
@@ -111,11 +40,11 @@ const topics = ['Cooking', 'Seder', 'Karaoke', 'more...'];
         <div class="inline-flex items-center space-x-[15px]">
           <span>See Events in</span>
           <NuxtLink
-            v-for="location in locations"
-            :key="location"
+            v-for="location in categories"
+            :key="location.handle"
             to="#"
             class="font-semibold text-secondary-500 hover:text-secondary-700">
-            {{ location }}
+            {{ location.area }}
           </NuxtLink>
         </div>
 
@@ -134,23 +63,27 @@ const topics = ['Cooking', 'Seder', 'Karaoke', 'more...'];
           :breakpoints="{ 1280: { itemsToShow: 2, snapAlign: 'start' } }">
           <Slide v-for="event in events" :key="event.title" class="xl:!px-[17.5px]">
             <GlobalUpcomingEventsCard
-              :col="6"
-              route="#"
-              :section-title="event.sectionTitle"
-              :title="event.title"
-              :src="event.src"
-              :text="event.text"
-              :day="event.day"
-              :date="event.date"
-              :time="event.time"
-              :location="event.location"
-              :contributor-name="event.contributorName"
-              :contributor-initials="event.contributorInitials"
-              :contributor-avatar="avatarSrc"
+              :col='6'
+              :text="noApiDataText"
+              :contributor-name="event.host"
+              :contributor-initials="event.host_initials"
+              :contributor-avatar="null"
               :user-tags="['Fitness', 'Outdoor']"
-              :total-attendees="event.totalAttendees"
-              :attendees-count="event.attendeesCount"
-              :is-attending="event.isAttending" />
+              :total-attendees="0"
+              :attendees-count="0"
+              :is-attending="false"
+              :type="event.type"
+              :title="event.title"
+              :src="event.cover_image"
+              :language-tags="['English', 'Hebrew']"
+              :topic-tags="['Chad Gadya', 'Dayenu']"
+              :host="event.host"
+              section-title="No Api data yet"
+              :image-src="event.cover_image"
+              :date="event.scheduled_at"
+              :location="event.timezone"
+              :durationl="event.duration"
+              :category="event.category" />
           </Slide>
 
           <template #addons>
