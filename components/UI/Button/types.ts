@@ -25,6 +25,8 @@ export type ButtonVariant =
   | 'purple'
   | 'pink'
   | 'blue'
+  | 'primary'
   | 'secondary'
+  | 'success'
   | 'link';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
