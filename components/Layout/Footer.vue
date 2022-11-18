@@ -15,6 +15,9 @@ const { vueApp } = useNuxtApp();
 
 const footerData: ComputedRef<FooterItems> = computed(() => homeStore.homePageData?.footer_details);
 
+// logo
+const logoUrl = computed(() => homeStore.homePageData?.dark_logo || '~/assets/svg/logo-light.svg');
+
 // part below logo:
 const siteDescription: ComputedRef<string> = computed(() => footerData?.value?.footer_site_description);
 

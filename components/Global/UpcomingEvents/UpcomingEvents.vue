@@ -81,7 +81,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
               section-title="No Api data yet"
               :image-src="event.cover_image"
               :date="event.scheduled_at"
-              :location="event.timezone"
+              :location="event.venue"
               :durationl="event.duration"
               :category="event.category" />
           </Slide>

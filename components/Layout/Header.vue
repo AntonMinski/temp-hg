@@ -7,6 +7,7 @@ const homeStore = useHomeStore();
 const homePageData = computed(() => homeStore.homePageData);
 
 const logoUrl = computed(() => homePageData?.value?.logo || '~/assets/svg/logo.svg');
+const darkLogoUrl = computed(() => homePageData?.value?.dark_logo || '~/assets/svg/logo-light.svg');
 // TODO: add dark mode Logo
 
 const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
@@ -51,7 +52,7 @@ const defaultHeaders = [
       <UIContainer class="flex flex-wrap items-center justify-between">
         <a href="/" class="flex items-center">
           <img :src="logoUrl" class="mr-3 block h-6 dark:hidden sm:h-9" alt="Haggadot Logo" />
-          <img src="~/assets/svg/logo-light.svg" class="mr-3 hidden h-6 dark:block sm:h-9" alt="Haggadot Logo" />
+          <img :src="darkLogoUrl" class="mr-3 hidden h-6 dark:block sm:h-9" alt="Haggadot Logo" />
         </a>
         <div class="flex md:order-2">
           <UIButton size="sm" color="link" class="mr-1">
