@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { CardType } from './types';
 import { HTML } from 'mdast';
 import { computed, ComputedRef, Ref, ref } from 'vue';
+import type { CardType } from './types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 const { vueApp } = useNuxtApp();
 
@@ -94,8 +94,8 @@ async function addToBookmark(value: boolean): Promise<void> {
     <div class="relative -mx-5 mt-4 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
       <div
         v-if="type == 'text'"
-        v-html="text"
-        class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100" />
+        class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100"
+        v-html="text" />
       <img v-else :src="src" class="h-[251px] w-full object-cover object-center" />
       <UIIcon
         v-if="type == 'video'"
@@ -158,7 +158,7 @@ async function addToBookmark(value: boolean): Promise<void> {
     <div class="-mx-5 -mb-5 mt-auto">
       <UIButtonGroup class="mt-5 flex !w-full overflow-hidden rounded-t-none">
         <UIButton
-          class="flex-1 !rounded-none border-b-0 border-l-0 !border-gray-300 dark:!border-gray-700"
+          class="!h-[49px] flex-1 !rounded-none border-b-0 border-l-0 !border-gray-300 !text-sm dark:!border-gray-700"
           color="secondary"
           outline
           :tag="nuxtLink"
@@ -167,7 +167,7 @@ async function addToBookmark(value: boolean): Promise<void> {
           View Clip
         </UIButton>
         <UIButton
-          class="flex-1 !rounded-none border-b-0 border-r-0 !border-gray-300 text-gray-700 dark:!border-gray-700 dark:!text-gray-100"
+          class="!h-[49px] flex-1 !rounded-none border-b-0 border-r-0 !border-gray-300 !text-sm text-gray-700 dark:!border-gray-700 dark:!text-gray-100"
           color="dark"
           outline>
           <UIIcon icon="icon-book-o" class="mr-[7px] text-xl" />

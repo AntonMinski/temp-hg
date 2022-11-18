@@ -6,7 +6,7 @@
       :class="horizontalImageClasses"
       :src="imgSrc"
       :alt="imgAlt" />
-    <div class="flex flex-1 flex-col overflow-hidden p-5">
+    <div class="flex flex-1 flex-col overflow-hidden" :class="contentClasses">
       <slot />
     </div>
   </component>
@@ -33,6 +33,10 @@ const props = defineProps({
   variant: {
     type: String as PropType<CardsVariant>,
     default: 'default',
+  },
+  contentClasses: {
+    type: String,
+    default: 'p-5',
   },
 });
 

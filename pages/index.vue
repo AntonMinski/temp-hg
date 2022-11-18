@@ -19,5 +19,7 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
     <GlobalClipFavourites />
 
     <GlobalUpcomingEvents />
+
+    <GlobalTopContributors />
   </div>
 </template>
