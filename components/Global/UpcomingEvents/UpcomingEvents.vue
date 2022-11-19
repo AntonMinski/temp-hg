@@ -36,7 +36,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
           placeholder="Search events by topic, location or keyword" />
       </div>
 
-      <div class="mt-6.5 flex flex-col items-start justify-between lg:flex-row lg:items-center">
+      <div class="mt-7 flex flex-col items-start justify-between lg:flex-row lg:items-center">
         <div class="inline-flex items-center space-x-[15px]">
           <span>See Events in</span>
           <NuxtLink
@@ -63,7 +63,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
           :breakpoints="{ 1280: { itemsToShow: 2, snapAlign: 'start' } }">
           <Slide v-for="event in events" :key="event.title" class="xl:!px-[17.5px]">
             <GlobalUpcomingEventsCard
-              :col='6'
+              :col="6"
               :text="noApiDataText"
               :contributor-name="event.host"
               :contributor-initials="event.host_initials"
