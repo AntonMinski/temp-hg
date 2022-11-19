@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import { computed, ComputedRef } from 'vue';
 import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
 import type { HeaderItem } from '~/components/Layout/types';
 import { useHomeStore } from '~/store/home';
-import { computed, ComputedRef } from 'vue';
 const homeStore = useHomeStore();
 const homePageData = computed(() => homeStore.homePageData);
 
-const logoUrl = computed(() => homePageData?.value?.logo || '~/assets/svg/logo.svg');
-const darkLogoUrl = computed(() => homePageData?.value?.dark_logo || '~/assets/svg/logo-light.svg');
+const logoUrl = computed(() => homePageData?.value?.logo || '/_nuxt/assets/svg/logo.svg');
+const darkLogoUrl = computed(() => homePageData?.value?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
 // TODO: add dark mode Logo
 
 const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
@@ -90,7 +90,7 @@ const defaultHeaders = [
             </svg>
           </UIButton>
         </div>
-        <div class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-sticky">
+        <div id="navbar-sticky" class="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto">
           <ul
             class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:font-medium md:dark:bg-gray-900">
             <UINavLink v-for="(item, key) in headerItems" :key="key" :to="item.handle">
