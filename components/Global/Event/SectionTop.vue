@@ -62,7 +62,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
           snap-align="center"
           :breakpoints="{ 1280: { itemsToShow: 2, snapAlign: 'start' } }">
           <Slide v-for="event in events" :key="event.title" class="xl:!px-[17.5px]">
-            <GlobalUpcomingEventsCard
+            <GlobalEventCard
               :col="6"
               :text="noApiDataText"
               :contributor-name="event.host"

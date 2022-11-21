@@ -24,11 +24,15 @@ export type Haggadah = {
   haggadah: {
     author: string;
     haggadah_image: string;
+    author_initials: string;
+    covertext: string;
     handle: string;
     is_saved: boolean;
     keywords: string | string[];
     reading_length: number;
     title: string;
     is_bookmarked: '0' | '1';
+    is_liked: '0' | '1';
+    download_url: string;
   };
 };
