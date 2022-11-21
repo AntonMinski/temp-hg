@@ -1,4 +1,4 @@
-import { App, ref } from 'vue';
+import { ref } from 'vue';
 import { useNuxtApp } from '#app';
 import type { dataResponse } from '~/types/response';
 

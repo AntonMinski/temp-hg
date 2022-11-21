@@ -8,7 +8,7 @@ export default class PageApi {
     this.pageUrl = 'pages';
   }
 
-  async getPages(slug: String): Promise<dataResponse | errorResponse> {
-    return this.base.get(this.pageUrl + '/' + slug);
+  async getPage(slug: string): Promise<dataResponse | errorResponse> {
+    return this.base.get(this.pageUrl + slug);
   }
 }
