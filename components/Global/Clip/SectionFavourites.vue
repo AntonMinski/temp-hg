@@ -80,6 +80,7 @@ async function setCategory(category: ClipCategory) {
                 :src="clip.image"
                 :text="clip.body"
                 :contributor-name="clip.author"
+                :contributor-initials="clip.author_initials"
                 :contributor-avatar="null"
                 :downloads-count="clip.downloads"
                 :likes-count="clip.likes"

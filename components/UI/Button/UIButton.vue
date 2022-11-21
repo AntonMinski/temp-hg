@@ -5,6 +5,7 @@
     class="justify-center space-x-2.5"
     :class="wrapperClasses"
     :disabled="disabled">
+    <!--     ICON LEFT-->
     <div v-if="!isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
       <!--automatically add mr class if slot provided or loading -->
       <UISpinner v-if="loadingPrefix" :color="spinnerColor" :size="spinnerSize" />
@@ -19,7 +20,7 @@
       </div>
 
       <slot />
-
+      <!--     ICON RIGHT -->
       <div v-if="isOutlineGradient && ($slots.suffix || loadingSuffix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
         <UISpinner v-if="loadingSuffix" :color="spinnerColor" :size="spinnerSize" />

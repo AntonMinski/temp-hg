@@ -32,7 +32,7 @@ async function showAll() {
             1152: { itemsToShow: 4, snapAlign: 'start' },
           }">
           <Slide v-for="(contributor, key) in contributorsData" :key="key" class="xl:!px-[7.5px]">
-            <GlobalTopContributorsCard
+            <GlobalContributorCard
               :name="contributor.data.name"
               :handle="contributor.data.handle"
               :user-image="contributor.data.user_image"

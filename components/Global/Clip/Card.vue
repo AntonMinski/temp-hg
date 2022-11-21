@@ -13,6 +13,7 @@ interface Props {
   src?: string;
   text?: string | HTML;
   contributorName?: string;
+  contributorInitials?: string;
   contributorAvatar?: string;
   downloadsCount?: number;
   likesCount?: number | string;
@@ -68,26 +69,7 @@ async function addToBookmark(value: boolean): Promise<void> {
       </div>
 
       <div v-if="isOwner" class="mt-2.5 flex items-center space-x-1.5">
-        <UIBadge outline>
-          <template #icon>
-            <UIIcon icon="icon-eye-open-f mr-[5px]" />
-          </template>
-          Public
-        </UIBadge>
-
-        <UIBadge type="danger" outline>
-          <template #icon>
-            <UIIcon icon="icon-eye-close-f mr-[5px]" />
-          </template>
-          Private
-        </UIBadge>
-
-        <UIBadge type="gray">
-          <template #icon>
-            <UIIcon icon="icon-draft mr-[5px]" />
-          </template>
-          Draft
-        </UIBadge>
+        <BlockOwnerBadge />
       </div>
     </div>
 
@@ -105,34 +87,31 @@ async function addToBookmark(value: boolean): Promise<void> {
     </div>
 
     <div class="mt-5 flex items-center justify-between">
-      <CardActionButtons
+      <BlockActionButtons
         :index="card.vnode.key || card.uid"
         :is-added-to-bookmark="isAddedToBookmark"
         @update:is-added-to-bookmark="addToBookmark" />
 
       <div class="ineline-flex items-center space-x-3">
-        <div class="inline-flex items-center space-x-1.5">
-          <UIIcon icon="icon-download" class="text-secondary-500" />
-          <span class="text-sm font-semibold">{{ downloadsCount }} downloads</span>
-        </div>
-
-        <div class="inline-flex items-center space-x-1.5">
-          <UIIcon icon="icon-heart" class="text-secondary-500" />
-          <span class="text-sm font-semibold">{{ likesCount }} likes</span>
-        </div>
+        <BlockActivitiesCount :count="downloadsCount" action="download" />
+        <BlockActivitiesCount :count="likesCount" action="like" />
       </div>
     </div>
 
     <div v-if="contributorName" class="mt-5 inline-flex items-center space-x-2">
       <img v-if="contributorAvatar" :src="contributorAvatar" :alt="contributorName" class="h-7 w-7" />
-      <span class="text-sm font-semibold text-gray-600 dark:text-gray-300">
-        Contributed by <span class="font-semibold text-gray-900 dark:text-gray-100">{{ contributorName }}</span>
-      </span>
+
+      <BlockContributor
+        size="md"
+        :name="contributorName"
+        :initials="contributorInitials"
+        :avatar="contributorAvatar"
+        text="Contributed" />
     </div>
 
-    <BlockTags v-if="languageTags.length" :tags="languageTags" type="tertiary" outline />
+    <UITags v-if="languageTags.length" :tags="languageTags" type="tertiary" outline />
 
-    <BlockTags v-if="topicTags.length" :tags="topicTags" type="accent-yellow" size="md" />
+    <UITags v-if="topicTags.length" :tags="topicTags" type="accent-yellow" size="md" />
 
     <div v-if="isOwner" class="mt-10 flex items-center space-x-2.5">
       <UIButton :tag="nuxtLink" :to="route" class="w-1/2 justify-center" color="secondary" size="sm">

@@ -80,9 +80,9 @@ const cardTime = computed(() => {
           </div>
 
           <div class="flex items-end justify-between space-x-4">
-            <BlockTags v-if="userTags.length" :tags="userTags" type="accent-yellow" size="md" />
+            <UITags v-if="userTags.length" :tags="userTags" type="accent-yellow" size="md" />
 
-            <UIContributor
+            <BlockContributor
               v-if="col == 4"
               class="w-[124px]"
               size="sm"
@@ -97,7 +97,7 @@ const cardTime = computed(() => {
           <UIHeading :level="5">{{ title }}</UIHeading>
           <div class="mt-3 text-sm text-gray-700 dark:text-gray-200">{{ text }}</div>
 
-          <UIContributor
+          <BlockContributor
             :initials="contributorInitials"
             :name="contributorName"
             :avatar="contributorAvatar"

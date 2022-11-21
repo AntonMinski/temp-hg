@@ -2,7 +2,7 @@
   <component :is="wrapperType" :href="href" class="flex flex-col" :class="cardClasses">
     <img
       v-if="imgSrc"
-      class="h-[15.875rem] w-full rounded-t-lg"
+      class="h-[15.875rem] h-auto max-h-[254px] object-cover w-full rounded-t-lg"
       :class="horizontalImageClasses"
       :src="imgSrc"
       :alt="imgAlt" />

@@ -14,12 +14,12 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
 
     <HowItWorksMain />
 
-    <GlobalHaggadahFavourites :haggadahs="haggadahs" />
+    <GlobalHaggadahSectionFavourites :haggadahs="haggadahs" />
 
-    <GlobalClipFavourites />
+    <GlobalClipSectionFavourites />
 
-    <GlobalUpcomingEvents />
+    <GlobalContributorSectionTop />
 
-    <GlobalTopContributors />
+    <GlobalEventSectionTop />
   </div>
 </template>

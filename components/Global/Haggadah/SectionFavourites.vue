@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
-import type { Haggadah } from '~/components/Haggadah/types';
+import type { Haggadah } from './types';
 
 // Haggadahs Data
 // const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.featured_haggadah?.slice(0, 6));
@@ -40,12 +40,15 @@ const props = defineProps({
           text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
           :read-time="item.haggadah.reading_length || 10"
           :contributor-name="item.haggadah.author"
+          :contributor-initials="item.haggadah.author_initials"
           :contributor-avatar="null"
           :language-tags="['Trending', 'Humanity']"
           :topic-tags="['Trending', 'Humanity']"
           :completed-progress="50"
           :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
-          :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'" />
+          :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'"
+          :is-liked="item.haggadah.is_liked !== '0'"
+          :download-url="item.haggadah.download_url" />
       </div>
 
       <UIButton class="mx-auto mt-16.5 !flex" color="dark" size="xl">
