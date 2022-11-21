@@ -33,6 +33,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     // Custom
     primary: '',
     secondary: 'text-white bg-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
+    tertiary: 'text-white bg-tertiary-500 focus:outline-none focus:ring-2 focus:ring-tertiary-200',
     success: '',
     link: 'text-gray-700 dark:text-white bg-white dark:bg-gray-900 focus:outline-none',
   },
@@ -51,6 +52,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     // Custom
     primary: '',
     secondary: 'hover:bg-secondary-600',
+    tertiary: 'hover:bg-tertiary-600',
     success: '',
     link: '',
   },
@@ -76,6 +78,7 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
       'text-primary-700 bg-transparent border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-200',
     secondary:
       'text-secondary-500 bg-transparent border border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-200',
+    tertiary: '',
     success:
       'text-success-500 bg-transparent border border-success-500 focus:outline-none focus:ring-2 focus:ring-success-200',
     link: 'text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none',
@@ -93,6 +96,7 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
     // Custom
     primary: 'hover:text-white hover:bg-primary-700',
     secondary: 'hover:text-white hover:bg-secondary-500',
+    tertiary: '',
     success: 'hover:text-white hover:bg-success-500',
     link: '',
   },
