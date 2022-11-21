@@ -1,11 +1,21 @@
 <script lang="ts" setup>
-import { computed, ComputedRef } from 'vue';
-import type { Haggadah } from '~/components/Haggadah/types';
+import type { Haggadah } from '~/components/Global/Haggadah/types';
+import { getMetaObject } from '~/composables/meta';
 import { useHomeStore } from '~/store/home';
+import { useHead } from '#head';
+import { storeToRefs } from 'pinia';
 const homeStore = useHomeStore();
+const { homePageData } = storeToRefs(homeStore);
 
 // Haggadahs Data
-const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.favorite_haggadahs?.slice(0, 6));
+const haggadahs: Haggadah[] = homePageData.value?.favorite_haggadahs?.slice(0, 6);
+
+// Meta
+const metaObject = getMetaObject(homePageData.value?.metas);
+useHead({
+  title: homePageData.value?.metas?.title,
+  meta: metaObject,
+});
 </script>
 
 <template>

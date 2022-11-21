@@ -141,7 +141,7 @@ class ApiBase {
     } catch (err) {
       const result = err.response;
       showErrorToast(result, this.$toast, options);
-      return null;
+      throw err;
     } finally {
       if (requestIncrementTimeout) {
         clearTimeout(requestIncrementTimeout);
@@ -161,13 +161,10 @@ function showErrorToast(result, toaster, options) {
     if (options.showBadRequestToast) {
       toaster?.show(result.message || 'SomethingWentWrong', { type: 'error' });
     }
-    return result;
   } else if (result.status === 401) {
     toaster?.show('SessionExpired', { type: 'error' });
-    return null;
   } else if (result.status === 404) {
     toaster?.show('NotFound', { type: 'error' });
-    return null;
   } else {
     toaster?.show(result.message || 'ServerErrorTryAgainLater', {
       type: 'error',
