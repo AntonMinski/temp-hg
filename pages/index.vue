@@ -21,5 +21,7 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData
     <GlobalContributorSectionTop />
 
     <GlobalEventSectionTop />
+
+    <GlobalBannerHaggadahAndClips />
   </div>
 </template>
