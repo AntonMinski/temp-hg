@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <BannerOther
+  <GlobalBannerOther
     route="#"
     title="Passover Guide"
     title-class="!text-tertiary-500"

@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <BannerOther
+  <GlobalBannerOther
     route="#"
     title="Support Us"
     title-class="!text-primary-600"
