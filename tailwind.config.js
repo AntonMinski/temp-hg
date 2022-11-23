@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   // important: true,
-  darkMode: 'media',
+  darkMode: 'class',
   content: [
     './assets/**/*.{vue,js,css}',
     './components/**/*.{vue,js,ts}',

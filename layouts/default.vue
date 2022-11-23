@@ -13,7 +13,15 @@
 <script lang="ts" setup>
 import { useHomeStore } from '~/store/home';
 const { getHomePage } = useHomeStore();
+const runtimeConfig = useRuntimeConfig();
+
 await useAsyncData(getHomePage);
+
+useHead({
+  htmlAttrs: {
+    class: runtimeConfig.public.theme,
+  },
+});
 
 // const { vueApp } = useNuxtApp();
 // onMounted(async () => {

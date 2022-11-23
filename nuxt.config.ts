@@ -62,6 +62,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
+      theme: process.env.theme,
       env: appEnv, // development, staging, production
       test: settings.api,
       apiUrl: settings.apiUrl,
