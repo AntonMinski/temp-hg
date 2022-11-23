@@ -59,7 +59,7 @@ async function addToBookmark(value: boolean): Promise<void> {
       <span class="mb-1 block text-xs font-semibold text-gray-500">{{ sectionTitle }}</span>
 
       <div class="flex items-start space-x-[15px]">
-        <NuxtLink :to="route">
+        <NuxtLink :to="route" class="flex-1">
           <UIHeading :level="6" class="line-clamp-2">{{ title }}</UIHeading>
         </NuxtLink>
         <UIIcon
