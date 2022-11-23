@@ -42,7 +42,7 @@ export default class ClipApi {
     return this.base.post(`/unsave-clip/${slug}`);
   }
 
-  async exploreClips(searchOptions: clipSearchParams): Promise<clipSearchResult| errorResponse> {
+  async exploreClips(searchOptions: clipSearchParams | string): Promise<clipSearchResult| errorResponse> {
     return this.base.get('explore-clip', searchOptions);
   }
 
@@ -52,6 +52,10 @@ export default class ClipApi {
 
   async unBookmarkClip(slug: String): Promise<statusResponse | errorResponse> {
     return this.base.post(`unbookmark-clip/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async getPopularClipCategories() {
+    return this.base.get('clip-categories');
   }
 
 }

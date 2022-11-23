@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 import classNames from 'classnames';
 import type { BadgeType, BadgeSize } from '../types';
 
-const defaultBadgeClasses = 'rounded flex items-center justify-center';
+const defaultBadgeClasses = 'rounded flex items-center justify-center cursor-pointer';
 const defaultOutlineBadgeClasses = ' bg-transparent border';
 const badgeLinkClasses = 'bg-blue-100 hover:bg-blue-200 text-blue-800 dark:text-blue-800 dark:hover:bg-blue-300';
 const onlyIconClasses = 'p-1 rounded-full mr-2';
@@ -12,6 +12,7 @@ const badgeTextClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'text-gray-900',
   tertiary: 'text-tertiary-500',
+  'tertiary-reverse': 'text-white',
   'accent-yellow': 'text-gray-900',
   danger: '',
   gray: 'text-white',
@@ -21,6 +22,7 @@ const badgeTypeClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'bg-primary-400',
   tertiary: '',
+  'tertiary-reverse': 'bg-tertiary-500',
   'accent-yellow': 'bg-accent-yellow-500',
   danger: '',
   gray: 'bg-gray-500',
@@ -45,7 +47,7 @@ const badgeOutlineTypeClasses: Record<BadgeType, string> = {
 
 const badgeSizeClasses: Record<BadgeSize, string> = {
   sm: 'text-xs font-normal leading-none px-2 py-[5px]',
-  md: 'text-sm font-semibold leading-none px-3 py-1.5',
+  md: 'text-sm font-semibold leading-none px-3.5 py-[0.5625rem]',
   lg: 'font-semibold px-3.5 py-2',
 };
 

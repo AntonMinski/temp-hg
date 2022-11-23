@@ -20,8 +20,14 @@ module.exports = {
         sans: ['Lota Grotesque', ...defaultTheme.fontFamily.sans],
         serif: ['Sharp Grotesk', ...defaultTheme.fontFamily.serif],
       },
+      padding: {
+        6: '1.5rem',
+        20: '5rem',
+      },
       width: {
         10: '2.5rem',
+        17.5: '4.375rem',
+        56: '14',
         112: '28rem',
         134: '33.5rem',
       },

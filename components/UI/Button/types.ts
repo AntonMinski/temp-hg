@@ -29,5 +29,6 @@ export type ButtonVariant =
   | 'secondary'
   | 'tertiary'
   | 'success'
-  | 'link';
+  | 'link'
+  | 'gray';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

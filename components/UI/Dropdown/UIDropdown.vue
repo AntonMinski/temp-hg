@@ -35,12 +35,6 @@ import { useDropdownClasses } from './composables/useDropdownClasses';
 import type { DropdownPlacement } from './types';
 import SlotListener from '@/components/utils/SlotListener/SlotListener.vue';
 
-const visible = ref(false);
-
-const onShow = () => (visible.value = true);
-const onHide = () => (visible.value = false);
-const onToggle = () => (visible.value = !visible.value);
-
 const props = defineProps({
   color: {
     type: String as PropType<ButtonVariant>,
@@ -78,7 +72,19 @@ const props = defineProps({
     type: [String, null] as PropType<string | null>,
     default: null,
   },
+  keepOpen: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const visible = ref(false);
+
+const onShow = () => (visible.value = true);
+const onHide = () => {
+  if (!props.keepOpen) visible.value = false;
+};
+const onToggle = () => (visible.value = !visible.value);
 
 const inputColorClasses: Record<ButtonVariant, string> = {
   default: '',

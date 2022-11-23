@@ -36,6 +36,7 @@ const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
     tertiary: 'text-white bg-tertiary-500 focus:outline-none focus:ring-2 focus:ring-tertiary-200',
     success: '',
     link: 'text-gray-700 dark:text-white bg-white dark:bg-gray-900 focus:outline-none',
+    gray: 'bg-gray-600 text-white focus:outline-none',
   },
   hover: {
     default: 'hover:bg-blue-800 dark:hover:bg-blue-700',
@@ -82,6 +83,7 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
     success:
       'text-success-500 bg-transparent border border-success-500 focus:outline-none focus:ring-2 focus:ring-success-200',
     link: 'text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none',
+    gray: 'text-gray-600 border border-gray-200 focus:outline-none',
   },
   hover: {
     dark: 'hover:text-white hover:bg-gray-600',
@@ -92,6 +94,7 @@ const buttonOutlineColorClasses: ButtonClassMap<Exclude<ButtonVariant, 'light' |
     pink: 'hover:text-white hover:bg-pink-800 dark:hover:text-white dark:hover:bg-pink-500',
     red: 'hover:text-white hover:bg-red-800 dark:hover:text-white dark:hover:bg-red-600',
     yellow: 'hover:text-white hover:bg-yellow-500 dark:hover:text-white dark:hover:bg-yellow-400',
+    gray: 'hover:text-white hover:bg-gray-500',
 
     // Custom
     primary: 'hover:text-white hover:bg-primary-700',
