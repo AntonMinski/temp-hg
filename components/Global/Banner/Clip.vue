@@ -54,7 +54,7 @@ const imageClass = computed<string>(() => imageClasses[props.variant]);
       <p class="pt-[7px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem officiis eaque.</p>
 
       <UIButton color="tertiary" :size="buttonSize" class="mt-6.5">
-        Create your own Haggadah
+        Create your own Clip
         <template #suffix>
           <UIIcon icon="icon-arrow-right" class="text-xl" />
         </template>

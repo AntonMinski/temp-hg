@@ -21,6 +21,9 @@ const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
   }
 });
 
+// Temporarily
+headerItems.value[1].handle = '/explore/clips';
+
 const defaultHeaders = [
   {
     label: 'Explore Haggadahs',
@@ -50,10 +53,10 @@ const defaultHeaders = [
   <header>
     <nav class="fixed top-0 left-0 z-20 w-full bg-white py-2.5 dark:bg-gray-900">
       <UIContainer class="flex flex-wrap items-center justify-between">
-        <a href="/" class="flex items-center">
+        <NuxtLink to="/" class="flex items-center">
           <img :src="logoUrl" class="mr-3 block h-6 dark:hidden sm:h-9" alt="Haggadot Logo" />
           <img :src="darkLogoUrl" class="mr-3 hidden h-6 dark:block sm:h-9" alt="Haggadot Logo" />
-        </a>
+        </NuxtLink>
         <div class="flex md:order-2">
           <UIButton size="sm" color="link" class="mr-1">
             <template #prefix>
