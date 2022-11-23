@@ -17,12 +17,17 @@ export function useCardsClasses(props: UseCardsClassesProps): {
       return 'w-full bg-white rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-700';
     else if (props.variant.value === 'horizontal')
       return 'items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700';
+    else if (props.variant.value === 'horizontal-full')
+      return 'items-center bg-white rounded-2xl border shadow-md md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 w-full';
     return '';
   });
 
   const horizontalImageClasses = computed(() => {
     if (props.variant.value === 'horizontal')
       return 'object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg';
+    return '';
+    if (props.variant.value === 'horizontal-full')
+      return 'object-cover w-full';
     return '';
   });
 

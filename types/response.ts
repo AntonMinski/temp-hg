@@ -1,3 +1,5 @@
+import { ClipCategory } from '~/components/Global/Clip/types';
+
 export type dataResponse = {
   _data: {
     data;
@@ -45,3 +47,11 @@ export type errorResponse = {
   statusCode?: number;
   toString: Function;
 };
+
+export type ClipCategoryResponse = {
+  'clip_categories': {
+    name: string;
+    handle: string;
+    child: ClipCategory[];
+  }
+}
