@@ -32,16 +32,16 @@
         </div>
         <div id="filter-dropdown-group" class="mt-6 flex w-full flex-col items-center justify-around lg:flex-row">
           <UIFilterDropdown
+            v-model="selectedHaggadahSections"
             class="flex-grow px-2"
             text="Haggadah Section"
-            :items="haggadahSections"
-            v-model="selectedHaggadahSections" />
+            :items="haggadahSections" />
           <UIFilterDropdown
+            v-model="selectedCategories"
             class="flex-grow px-2"
             text="Clip Categories"
-            :items="categories"
-            v-model="selectedCategories" />
-          <UIFilterDropdown class="flex-grow px-2" text="Media Type" :items="mediaTypes" v-model="selectedMediaTypes" />
+            :items="categories" />
+          <UIFilterDropdown v-model="selectedMediaTypes" class="flex-grow px-2" text="Media Type" :items="mediaTypes" />
           <UIButton
             gradient="gradient1"
             class="mx-2 mt-2 flex min-w-[128px] items-center lg:mt-0"
@@ -63,16 +63,16 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onBeforeMount, ref, Ref } from 'vue';
+import type { clipSearchResult, Clip, ClipCategory } from '~/components/Global/Clip/types';
+import { useAsyncData, useNuxtApp, useRoute } from '#app';
+import { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
+
 type Mode = 'base' | 'group' | 'keyword';
 type MediaType = {
   name: string;
   handle: string;
 };
-
-import { computed, onBeforeMount, ref, Ref } from 'vue';
-import type { clipSearchResult, Clip, ClipCategory } from '~/components/Global/Clip/types';
-import { useAsyncData, useNuxtApp, useRoute } from '#app';
-import { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 const route = useRoute();
 const { vueApp } = useNuxtApp();
 
@@ -88,7 +88,6 @@ const mediaTypes: Ref<MediaType[]> = ref([
 const selectedMediaTypes: Ref<String[]> = ref([]);
 const selectedCategories: Ref<string[]> = ref([]);
 const selectedHaggadahSections: Ref<string[]> = ref([]);
-
 
 async function getClipsByCategory(categoryHandle: string) {
   await getClips({ 'parent_category[]': categoryHandle }, 'group');
@@ -162,7 +161,6 @@ async function getPageData() {
 }
 // await useAsyncData(getPageData);
 onBeforeMount(getPageData);
-
 
 const mode = ref<Mode>('base');
 function setMode() {

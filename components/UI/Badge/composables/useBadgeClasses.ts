@@ -11,8 +11,7 @@ const onlyIconClasses = 'p-1 rounded-full mr-2';
 const badgeTextClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'text-gray-900',
-  tertiary: 'text-tertiary-500',
-  'tertiary-reverse': 'text-white',
+  tertiary: 'text-white',
   'accent-yellow': 'text-gray-900',
   danger: '',
   gray: 'text-white',
@@ -21,8 +20,7 @@ const badgeTextClasses: Record<BadgeType, string> = {
 const badgeTypeClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'bg-primary-400',
-  tertiary: '',
-  'tertiary-reverse': 'bg-tertiary-500',
+  tertiary: 'bg-tertiary-500',
   'accent-yellow': 'bg-accent-yellow-500',
   danger: '',
   gray: 'bg-gray-500',

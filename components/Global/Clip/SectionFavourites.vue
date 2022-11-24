@@ -42,7 +42,7 @@ async function setCategory(category: ClipCategory) {
     <UIContainer class="py-24">
       <div class="mb-[65px] items-center justify-between space-y-12 lg:flex lg:space-y-0">
         <div class="inline-flex items-center space-x-4">
-          <UIIcon icon="icon-media-image-f" shape="square" class="bg-gradient3 shadow-md" />
+          <GlobalClipIcon />
 
           <UIHeading :level="3" class="text-4xl"> {{ globalData?.headings?.clips_description }} </UIHeading>
         </div>
