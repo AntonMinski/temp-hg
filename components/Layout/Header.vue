@@ -2,17 +2,16 @@
 import { computed, ComputedRef } from 'vue';
 import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
 import type { HeaderItem } from '~/components/Layout/types';
-import { useHomeStore } from '~/store/home';
-const homeStore = useHomeStore();
-const homePageData = computed(() => homeStore.homePageData);
+import { useGlobalStore } from '~/store/global';
+const globalStore = useGlobalStore();
+const globalData = computed(() => globalStore.globalData);
 
-const logoUrl = computed(() => homePageData?.value?.logo || '/_nuxt/assets/svg/logo.svg');
-const darkLogoUrl = computed(() => homePageData?.value?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
-// TODO: add dark mode Logo
+const logoUrl = computed(() => globalData?.value?.logo || '/_nuxt/assets/svg/logo.svg');
+const darkLogoUrl = computed(() => globalData?.value?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
 
 const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
-  if (homePageData?.value?.header_menu_items.length) {
-    return homePageData?.value?.header_menu_items?.map((item) => {
+  if (globalData?.value?.header_menu_items?.length) {
+    return globalData?.value?.header_menu_items?.map((item) => {
       item.handle = item.handle === '0' ? '#' : item.handle;
       return item;
     });

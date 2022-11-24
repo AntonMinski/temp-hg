@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { Clip, clipContainer } from '~~/components/Global/Clip/types';
-import { useHomeStore } from '~~/store/home';
+import { usePageStore } from '~/store/page';
 
-const homeStore = useHomeStore();
+const pageStore = usePageStore();
 const clips: Ref<Clip[]> = ref([]);
 
-clips.value = homeStore?.homePageData?.favorite_clips.slice(0, 6).map((clip: clipContainer) => clip.clip);
+clips.value = pageStore?.homePageData?.favorite_clips.slice(0, 6).map((clip: clipContainer) => clip.clip);
 
 const sections = ['Introduction', 'Kadesh'];
 </script>

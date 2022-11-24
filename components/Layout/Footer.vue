@@ -2,14 +2,16 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import type { FooterItems, FooterMenuItem, FooterMenuItemChild } from './types';
-import { useHomeStore } from '~/store/home';
-const homeStore = useHomeStore();
+import { useGlobalStore} from '~/store/global';
+import { useNuxtApp } from '#app';
+
+const globalStore = useGlobalStore();
 const { vueApp } = useNuxtApp();
 
-const footerData: ComputedRef<FooterItems> = computed(() => homeStore.homePageData?.footer_details);
+const footerData: ComputedRef<FooterItems> = computed(() => globalStore.globalData?.footer_details);
 
 // logo
-const logoUrl = computed(() => homeStore.homePageData?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
+const logoUrl = computed(() => globalStore.globalData?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
 
 // part below logo:
 const siteDescription: ComputedRef<string> = computed(() => footerData?.value?.footer_site_description);

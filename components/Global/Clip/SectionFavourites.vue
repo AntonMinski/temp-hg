@@ -3,19 +3,23 @@ import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
-import { useHomeStore } from '~/store/home';
-const homeStore = useHomeStore();
+import { usePageStore } from '~/store/page';
+const pageStore = usePageStore();
+import { useGlobalStore } from '~/store/global';
+const globalStore = useGlobalStore();
+const globalData = computed(() => globalStore.globalData);
+import { useNuxtApp } from '#app';
 const { vueApp } = useNuxtApp();
 
 const clips: Ref<Clip[]> = ref([]);
 
 const categories: ComputedRef<ClipCategory[]> = computed(() => {
-  const categories = homeStore?.homePageData?.clip_categories;
+  const categories = pageStore?.homePageData?.clip_categories;
   if (categories.length) {
     setCategory(categories[0]);
 
     /* DELETE when the API search by category is fixed */
-    clips.value = homeStore?.homePageData?.favorite_clips.map((clip: clipContainer) => clip.clip);
+    clips.value = pageStore?.homePageData?.favorite_clips.map((clip: clipContainer) => clip.clip);
   }
   return categories;
 });
@@ -40,7 +44,7 @@ async function setCategory(category: ClipCategory) {
         <div class="inline-flex items-center space-x-4">
           <UIIcon icon="icon-media-image-f" shape="square" class="bg-gradient3 shadow-md" />
 
-          <UIHeading :level="3" class="text-4xl"> Our Favourites Clips </UIHeading>
+          <UIHeading :level="3" class="text-4xl"> {{ globalData?.headings?.clips_description }} </UIHeading>
         </div>
 
         <UISearch

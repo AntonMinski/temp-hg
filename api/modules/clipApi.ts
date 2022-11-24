@@ -1,5 +1,5 @@
 import type { apiBase } from '~/types/api';
-import type { clipSearchParams, clipSearchResult } from '~/components/Clip/types';
+import type { clipSearchParams, clipSearchResult } from '~/components/Global/Clip/types';
 import { errorResponse, statusResponse } from '~/types/response';
 
 export default class ClipApi {

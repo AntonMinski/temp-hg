@@ -3,10 +3,13 @@ import { computed, ComputedRef } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import type { Contributor } from './types';
-import { useHomeStore } from '~/store/home';
-const homeStore = useHomeStore();
+import { usePageStore } from '~/store/page';
+const pageStore = usePageStore();
+import { useGlobalStore } from '~/store/global';
+const globalStore = useGlobalStore();
+const globalData = computed(() => globalStore.globalData);
 
-const contributorsData: ComputedRef<Contributor[]> = computed(() => homeStore?.homePageData?.top_contributors);
+const contributorsData: ComputedRef<Contributor[]> = computed(() => pageStore?.homePageData?.top_contributors);
 
 async function showAll() {
   await navigateTo('/contributors');
@@ -18,7 +21,9 @@ async function showAll() {
     <UIContainer class="py-20">
       <div class="mx-auto !max-w-[1080px]">
         <div class="flex items-center justify-between">
-          <UIHeading :level="5" class="text-[30px] !text-white"> Follow our top contributors </UIHeading>
+          <UIHeading :level="5" class="text-[30px] !text-white">
+            {{ globalData?.headings?.contributor_description }}
+          </UIHeading>
 
           <NuxtLink to="#" class="text-sm font-semibold text-white"> Show All </NuxtLink>
         </div>

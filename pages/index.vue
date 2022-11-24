@@ -2,10 +2,13 @@
 import { storeToRefs } from 'pinia';
 import type { Haggadah } from '~/components/Global/Haggadah/types';
 import { getMetaObject } from '~/composables/meta';
-import { useHomeStore } from '~/store/home';
 import { useHead } from '#head';
-const homeStore = useHomeStore();
-const { homePageData } = storeToRefs(homeStore);
+import { usePageStore } from '~/store/page';
+import { useAsyncData } from '#app';
+const pageStore = usePageStore();
+const { homePageData } = storeToRefs(pageStore);
+
+await useAsyncData(pageStore.getHomePage);
 
 // Haggadahs Data
 const haggadahs: Haggadah[] = homePageData.value?.favorite_haggadahs?.slice(0, 6);

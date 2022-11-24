@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { PropType } from 'vue';
+import { computed, PropType } from 'vue';
 import type { Haggadah } from './types';
+import { useGlobalStore } from '~/store/global';
+const globalStore = useGlobalStore();
+const globalData = computed(() => globalStore.globalData);
 
 // Haggadahs Data
-// const haggadahs: ComputedRef<Haggadah[]> = computed(() => homeStore.homePageData.featured_haggadah?.slice(0, 6));
+// const haggadahs: ComputedRef<Haggadah[]> = computed(() => pageStore.homePageData.featured_haggadah?.slice(0, 6));
 const props = defineProps({
   haggadahs: {
     type: Array as PropType<Haggadah[]>,
@@ -19,7 +22,7 @@ const props = defineProps({
         <div class="inline-flex items-center space-x-4">
           <UIIcon icon="icon-book-f" shape="square" class="bg-gradient2 shadow-md" />
 
-          <UIHeading :level="3" class="text-4xl"> Our Favourites Haggadahs </UIHeading>
+          <UIHeading :level="3" class="text-4xl"> {{ globalData?.headings?.haggadah_description }}</UIHeading>
         </div>
 
         <UISearch
