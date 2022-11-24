@@ -1,11 +1,11 @@
 <template>
-  <div v-bind="$attrs" class='pl-5.5'>
+  <div v-bind="$attrs" :class="inputClasses">
     <UIInput
+      id="searchField"
       v-model="searchString"
       name="searchField"
-      id="searchField"
       :placeholder="placeholder"
-      :class="inputClasses" >
+      :class="inputClasses">
       <template #suffix>
         <UIButton gradient="gradient1" :class="buttonClasses" square pill @click="search">
           <UIIcon icon="icon-search" :class="iconClasses" />
@@ -19,9 +19,8 @@
 import { ref, PropType, toRefs } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useForm } from 'vee-validate';
-import type { size } from './types'
+import type { size } from './types';
 import { useSearchClasses } from '~/components/UI/Search/composables/useSearchClasses';
-
 
 import { useAuthModuleStore } from '~/store/authModule';
 const { loggedIn } = useAuthModuleStore();
@@ -34,7 +33,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-    rules: {
+  rules: {
     type: String,
     default: 'required',
   },
