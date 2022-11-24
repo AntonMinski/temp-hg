@@ -3,15 +3,15 @@ import { useForm } from 'vee-validate';
 import { computed, ComputedRef, ref } from 'vue';
 import { useAuthStore } from '~/store/auth';
 import { useAuthModuleStore } from '~/store/authModule';
-import { useHomeStore } from '~/store/home';
+import { usePageStore } from '~/store/page';
 const { setUserEmail } = useAuthStore();
 const { loggedIn } = useAuthModuleStore();
-const homeStore = useHomeStore();
+const pageStore = usePageStore();
 const { vueApp } = useNuxtApp();
 import { getTextHalfs } from './Composables/textHalfs';
 
 // page data
-const homePageData = computed(() => homeStore.homePageData);
+const homePageData = computed(() => pageStore.homePageData);
 
 // scroll to element
 function scroll(id) {

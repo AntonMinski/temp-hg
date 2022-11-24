@@ -6,7 +6,7 @@ export type apiBase = {
   $toast;
   baseUrl: string;
   _ongoingRequests;
-  home;
+  page;
   auth;
   get: Function;
   post: Function;

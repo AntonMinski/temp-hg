@@ -2,15 +2,15 @@
 import { computed, Ref, ref, onMounted, ComputedRef, onBeforeUnmount } from 'vue';
 import type { HowItWorksData, Step } from './types';
 import { createHaggadah } from './composables/createHaggadah';
-import { useHomeStore } from '~/store/home';
+import { usePageStore } from '~/store/page';
 
-const homeStore = useHomeStore();
+const pageStore = usePageStore();
 
 const nuxtLink = resolveComponent('NuxtLink');
 const bgImage = (await import('@/assets/images/how-it-works-bg.png')).default;
 
 // Data
-const storeData: ComputedRef<HowItWorksData> = computed(() => homeStore.homePageData?.how_it_works_arr);
+const storeData: ComputedRef<HowItWorksData> = computed(() => pageStore.homePageData?.how_it_works_arr);
 
 // Video
 const modalOpen: Ref<boolean> = ref(false);

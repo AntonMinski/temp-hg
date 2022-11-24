@@ -3,11 +3,14 @@ import type { Event, EventCategory } from './types';
 import { computed, ComputedRef } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import { useHomeStore } from '~/store/home';
-const homeStore = useHomeStore();
+import { usePageStore } from '~/store/page';
+const pageStore = usePageStore();
+import { useGlobalStore } from '~/store/global';
+const globalStore = useGlobalStore();
+const globalData = computed(() => globalStore.globalData);
 
-const events: ComputedRef<Event[]> = computed(() => homeStore?.homePageData?.events);
-const categories: ComputedRef<EventCategory[]> = computed(() => homeStore?.homePageData?.event_categories.slice(0, 5));
+const events: ComputedRef<Event[]> = computed(() => pageStore?.homePageData?.events);
+const categories: ComputedRef<EventCategory[]> = computed(() => pageStore?.homePageData?.event_categories.slice(0, 5));
 
 async function navigateEvents(searchBy) {
   // Not implemented yet
@@ -26,7 +29,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
         <div class="inline-flex items-center space-x-4">
           <UIIcon icon="icon-calendar-f" shape="square" class="bg-gradient1 shadow-md" />
 
-          <UIHeading :level="3" class="text-4xl"> Upcoming Events </UIHeading>
+          <UIHeading :level="3" class="text-4xl"> {{ globalData?.headings?.events_description }} </UIHeading>
         </div>
 
         <UISearch

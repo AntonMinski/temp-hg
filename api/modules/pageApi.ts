@@ -11,4 +11,13 @@ export default class PageApi {
   async getPage(slug: string): Promise<dataResponse | errorResponse> {
     return this.base.get(this.pageUrl + slug);
   }
+
+  async getHomePage(): Promise<dataResponse | errorResponse> {
+    return this.base.get('home-page');
+  }
+
+  async getGlobalData(): Promise<dataResponse | errorResponse> {
+    return this.base.get('global-response');
+  }
+
 }

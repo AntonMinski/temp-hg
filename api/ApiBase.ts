@@ -1,5 +1,4 @@
 import { useNuxtApp } from '#app';
-import HomePageApi from './modules/homePageApi';
 import AuthApi from '~/api/modules/authApi';
 import ContributorApi from '~/api/modules/contributorApi';
 import BlogApi from '~/api/modules/blogApi';
@@ -16,7 +15,6 @@ class ApiBase {
   $toast;
   baseUrl: string;
   _ongoingRequests;
-  home;
   auth;
   contributor;
   blog;
@@ -37,7 +35,6 @@ class ApiBase {
     this._ongoingRequests = {};
 
     // Apis
-    this.home = new HomePageApi(this);
     this.auth = new AuthApi(this);
     this.contributor = new ContributorApi(this);
     this.blog = new BlogApi(this);
