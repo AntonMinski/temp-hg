@@ -9,3 +9,11 @@
     <LayoutFooter />
   </div>
 </template>
+
+<script lang="ts" setup>
+import { usePageStore} from '~/store/page';
+import { useAsyncData } from '#app';
+const { getHomePage } = usePageStore();
+
+await useAsyncData(getHomePage);
+</script>

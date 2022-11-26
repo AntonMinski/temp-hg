@@ -44,6 +44,7 @@ export type clipSearchResult = {
       filter_clips: {
         haggadah_sections: HaggadahSection[];
       }
+      clip_in: ClipsBySections;
       support_us_arr;
     };
   };
@@ -64,3 +65,20 @@ export type ClipCategory = {
   handle: string;
   name: string;
 };
+
+export type ClipCategoryParent = {
+  handle: string;
+  name: string;
+  child: ClipCategory[];
+};
+
+export type ClipsBySections = {
+  [key: string]: Clip[];
+}
+
+export type ClipsSectionsPreview = {
+  [key: string]: {
+    total: number;
+    clips: Clip[];
+  }
+}

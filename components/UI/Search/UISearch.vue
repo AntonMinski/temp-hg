@@ -16,13 +16,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType, toRefs } from 'vue';
+import { ref, PropType, toRefs, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useForm } from 'vee-validate';
 import type { size } from './types';
 import { useSearchClasses } from '~/components/UI/Search/composables/useSearchClasses';
 
 import { useAuthModuleStore } from '~/store/authModule';
+import { navigateTo, useRouter } from '#app';
+import test from 'node:test';
 const { loggedIn } = useAuthModuleStore();
 const props = defineProps({
   redirectAddress: {
@@ -45,6 +47,10 @@ const props = defineProps({
     type: String as PropType<size>,
     default: 'default',
   },
+  redirect: {
+    type: Boolean,
+    default: true
+  }
 });
 const { inputClasses, buttonClasses, iconClasses } = useSearchClasses(toRefs(props));
 
@@ -56,16 +62,26 @@ const { handleSubmit, errors } = useForm({
 });
 
 const searchString = ref('');
+const emit = defineEmits(['search'])
 
 // Search function
 const search = handleSubmit(async (): Promise<void> => {
   const query = {};
   query[props.queryKey] = searchString.value;
 
-  await navigateTo({
-    path: props.redirectAddress,
-    query,
-  });
+  if (props.redirect) {
+    await navigateTo({
+      path: props.redirectAddress,
+      query,
+    });
+  } else {
+    const router = useRouter();
+    await router.push({
+      path: props.redirectAddress,
+      query
+    })
+    emit('search')
+  }
 });
 
 // Enter key press

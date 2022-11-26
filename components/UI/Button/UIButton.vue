@@ -12,7 +12,7 @@
       <slot v-else name="prefix" />
     </div>
 
-    <span :class="spanClasses">
+    <span :class="spanClasses + ' ' + propSpanClasses">
       <div v-if="isOutlineGradient && ($slots.prefix || loadingPrefix)" class="-mt-0.5 inline-flex">
         <!--if outline gradient - need to place slots inside span -->
         <UISpinner v-if="loadingPrefix" :color="spinnerColor" :size="spinnerSize" />
@@ -89,6 +89,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  propSpanClasses: {
+    type: String,
+    default: ''
+  }
 });
 
 const isOutlineGradient = computed(() => props.outline && props.gradient);
