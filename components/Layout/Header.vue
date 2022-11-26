@@ -20,9 +20,6 @@ const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
   }
 });
 
-// Temporarily
-headerItems.value[1].handle = '/explore/clips';
-
 const defaultHeaders = [
   {
     label: 'Explore Haggadahs',

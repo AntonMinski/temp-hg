@@ -2,7 +2,7 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import type { FooterItems, FooterMenuItem, FooterMenuItemChild } from './types';
-import { useGlobalStore} from '~/store/global';
+import { useGlobalStore } from '~/store/global';
 import { useNuxtApp } from '#app';
 
 const globalStore = useGlobalStore();
@@ -16,12 +16,24 @@ const logoUrl = computed(() => globalStore.globalData?.dark_logo || '/_nuxt/asse
 // part below logo:
 const siteDescription: ComputedRef<string> = computed(() => footerData?.value?.footer_site_description);
 
-const socialLinks: ComputedRef<string[]> = computed(() => footerData?.value?.footer_social_media_links);
+const socialLinks = computed(() => footerData?.value?.footer_social_media_links);
+const socialLinksTypes = ['facebook', 'twitter', 'instagram', 'pinterest'];
 
 const copyrightText: ComputedRef<string> = computed(() => footerData?.value?.footer_copyright_text);
 
 // Sitemap
-const menuItems: ComputedRef<FooterMenuItem[]> = computed(() => footerData?.value?.footer_menu_items);
+const menuItems: ComputedRef<FooterMenuItem[]> = computed(() =>
+  footerData?.value?.footer_menu_items.map((parentItem) => {
+    return {
+      ...parentItem,
+      child: parentItem.child.map((childItem) => {
+        return {
+          ...childItem,
+          handle: childItem.handle === '0' ? '#' : childItem.handle,
+        };
+      }),
+    };
+  }));
 
 // email
 const email: Ref<string> = ref('');
@@ -56,52 +68,19 @@ const subscribeNewsletter = handleSubmit(async (): Promise<void> => {
           </p>
 
           <div class="mt-[35px] flex items-center space-x-5.5 text-3xl text-primary-500">
-            <NuxtLink to="#" class="hover:text-primary-300">
-              <UIIcon icon="icon-facebook-f" />
-            </NuxtLink>
-            <NuxtLink to="#" class="hover:text-primary-300">
-              <UIIcon icon="icon-twitter-f" />
-            </NuxtLink>
-            <NuxtLink to="#" class="hover:text-primary-300">
-              <UIIcon icon="icon-instagram-f" />
-            </NuxtLink>
-            <NuxtLink to="#" class="hover:text-primary-300">
-              <UIIcon icon="icon-pinterest-f" />
-            </NuxtLink>
+            <template v-for="type in socialLinksTypes" :key="type">
+              <NuxtLink v-if="socialLinks[type]" :to="socialLinks[type]" class="hover:text-primary-300">
+                <UIIcon :icon="`icon-${type}-f`" />
+              </NuxtLink>
+            </template>
           </div>
         </div>
 
         <div
           class="mt-10 grid flex-1 grid-cols-1 items-start gap-y-10 sm:grid-cols-2 lg:mt-0 lg:grid-cols-4 lg:gap-y-0">
-          <div class="flex flex-1 flex-col space-y-4">
-            <span class="text-sm font-bold uppercase">Haggadahs</span>
-            <NuxtLink to="#">Editor's choice</NuxtLink>
-            <NuxtLink to="#">Most popular</NuxtLink>
-            <NuxtLink to="#">Most viewed</NuxtLink>
-            <NuxtLink to="#">Most rated</NuxtLink>
-            <NuxtLink to="#">Make a Haggadah</NuxtLink>
-          </div>
-          <div class="flex flex-1 flex-col space-y-4">
-            <span class="text-sm font-bold uppercase">Clips</span>
-            <NuxtLink to="#">Editor's choice</NuxtLink>
-            <NuxtLink to="#">Most popular</NuxtLink>
-            <NuxtLink to="#">Most viewed</NuxtLink>
-            <NuxtLink to="#">Most rated</NuxtLink>
-            <NuxtLink to="#">Make a Haggadah</NuxtLink>
-          </div>
-          <div class="flex flex-1 flex-col space-y-4">
-            <span class="text-sm font-bold uppercase">Resources</span>
-            <NuxtLink to="#">Events</NuxtLink>
-            <NuxtLink to="#">Passover 101</NuxtLink>
-            <NuxtLink to="#">Contributors</NuxtLink>
-            <NuxtLink to="#">Blog</NuxtLink>
-          </div>
-          <div class="flex flex-1 flex-col space-y-4">
-            <span class="text-sm font-bold uppercase">Other</span>
-            <NuxtLink to="#">Help Center</NuxtLink>
-            <NuxtLink to="#">About us</NuxtLink>
-            <NuxtLink to="#">Donate</NuxtLink>
-            <NuxtLink to="#">Create an account</NuxtLink>
+          <div v-for="parent in menuItems" :key="parent.name" class="flex flex-1 flex-col space-y-4">
+            <span class="text-sm font-bold uppercase">{{ parent.name }}</span>
+            <NuxtLink v-for="child in parent.child" :to="child.handle">{{ child.label }}</NuxtLink>
           </div>
         </div>
       </div>
