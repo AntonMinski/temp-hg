@@ -54,8 +54,12 @@ export default class ClipApi {
     return this.base.post(`unbookmark-clip/${slug}`, {}, { showSuccessToast: false });
   }
 
-  async getPopularClipCategories() {
+  async getClipCategories() {
     return this.base.get('clip-categories');
+  }
+
+  async getClipsSectionsPreview() {
+    return this.base.get('clip-section');
   }
 
 }

@@ -12,6 +12,7 @@ const badgeTextClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'text-gray-900',
   tertiary: 'text-white',
+  'tertiary-reverse': 'text-white',
   'accent-yellow': 'text-gray-900',
   danger: '',
   gray: 'text-white',
@@ -21,6 +22,7 @@ const badgeTypeClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'bg-primary-400',
   tertiary: 'bg-tertiary-500',
+  'tertiary-reverse': 'bg-tertiary-500',
   'accent-yellow': 'bg-accent-yellow-500',
   danger: '',
   gray: 'bg-gray-500',
@@ -29,6 +31,7 @@ const badgeTypeClasses: Record<BadgeType, string> = {
 const badgeOutlineTextClasses: Record<BadgeType, string> = {
   primary: 'text-primary-700',
   tertiary: 'text-tertiary-500',
+  'tertiary-reverse': '',
   'accent-yellow': '',
   danger: 'text-danger-500',
   gray: '',
@@ -38,6 +41,7 @@ const badgeOutlineTypeClasses: Record<BadgeType, string> = {
   // Custom
   primary: 'border-primary-700',
   tertiary: 'border-tertiary-500',
+  'tertiary-reverse': '',
   'accent-yellow': '',
   danger: 'border-danger-500',
   gray: '',
