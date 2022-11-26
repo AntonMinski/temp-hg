@@ -42,7 +42,7 @@ const iconClass = computed<string>(() => iconClasses[props.type]);
 const nuxtLink = resolveComponent('NuxtLink');
 const card = getCurrentInstance();
 
-const route: ComputedRef<string> = computed(() => 'clip/' + props.handle);
+const route: ComputedRef<string> = computed(() => '/clip/' + props.handle);
 
 // bookmarks
 const isAddedToBookmark: Ref<boolean> = ref(props.isAddedToBookmark);
