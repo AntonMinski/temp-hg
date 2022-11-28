@@ -6,6 +6,7 @@ interface Props {
   type?: BadgeType;
   size?: BadgeSize;
   outline?: boolean;
+  tagClass?: string;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -16,7 +17,14 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div class="mt-5 flex flex-wrap items-center">
-    <UIBadge v-for="tag in tags" :key="tag" :type="type" :size="size" class="mr-[5px] mb-[5px]" :outline="outline">
+    <UIBadge
+      v-for="tag in tags"
+      :key="tag"
+      :type="type"
+      :size="size"
+      class="mr-[5px] mb-[5px]"
+      :class="tagClass"
+      :outline="outline">
       {{ tag }}
     </UIBadge>
   </div>

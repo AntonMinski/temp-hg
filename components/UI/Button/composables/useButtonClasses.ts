@@ -357,7 +357,7 @@ export function useButtonClasses(props: UseButtonClassesProps): {
     //     !props.disabled.value ? 'group-hover:bg-opacity-0 transition-all ease-in duration-75' : ''
     //   );
     // }
-    return 'flex items-center justify-center';
+    return 'flex items-center justify-center h-full';
   });
 
   return {
