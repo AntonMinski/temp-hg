@@ -82,7 +82,7 @@ async function setCategory(category: ClipCategory) {
                 :section-title="clip.clip_section"
                 :title="clip.title"
                 :src="clip.image"
-                :text="clip.body"
+                :text="clip.covertext"
                 :contributor-name="clip.author"
                 :contributor-initials="clip.author_initials"
                 :contributor-avatar="null"
