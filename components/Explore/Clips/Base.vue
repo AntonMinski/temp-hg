@@ -14,7 +14,7 @@
           :redirect="false"
           @search="emit('search')" />
 
-        <div class="mt-[50px]">
+        <div class="mt-[50px] flex flex-col items-center">
           <span class="text-sm leading-none text-gray-500"> Popular categories </span>
 
           <div class="mt-[22px] flex flex-wrap space-x-1.5">
@@ -114,9 +114,9 @@
 import { computed, ComputedRef, onMounted, PropType, ref, Ref } from 'vue';
 import { Clip, ClipCategory, ClipsSectionsPreview } from '~/components/Global/Clip/types';
 import { useAsyncData, useNuxtApp } from '#app';
-const { vueApp } = useNuxtApp();
 
 import { usePageStore } from '~/store/page';
+const { vueApp } = useNuxtApp();
 const pageStore = usePageStore();
 const favoriteClips: ComputedRef<Clip[]> = computed(
   () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
@@ -134,7 +134,7 @@ const emit = defineEmits(['search', 'getClipsByCategory']);
 
 async function fetchClipsSectionsPreview() {
   const response = await vueApp.$api.clip.getClipsSectionsPreview();
-  const clipsBySections = {...response._data.data.sections}
+  const clipsBySections = { ...response._data.data.sections };
   return clipsBySections as ClipsSectionsPreview;
 }
 

@@ -6,7 +6,7 @@
     @getClipsByCategory="getClipsByCategory">
     <template #filterGroup>
       <UICard
-        class="[-50px] mt-16"
+        class="mb-[-50px] mt-16"
         variant="horizontal-full"
         content-classes="flex flex-col items-center w-full !p-6 !overflow-visible">
         <div id="filter-heading" class="mb-6 flex items-center">
@@ -17,18 +17,18 @@
           id="filter-dropdown-group"
           class="flex-wap mt-6 flex w-full flex-col flex-wrap items-center justify-around lg:flex-row">
           <UIFilterDropdown
+            v-model="selectedHaggadahSections"
             class="flex-grow px-2"
             text="Haggadah Section"
-            :items="haggadahSections"
-            v-model="selectedHaggadahSections" />
+            :items="haggadahSections" />
           <UIFilterDropdown
+            v-model="selectedCategories"
+            v-model:child="selectedChildCategories"
             class="flex-grow px-2"
             text="Clip Categories"
             :items="categories"
-            v-model="selectedCategories"
-            v-model:child="selectedChildCategories"
             menu-type="group" />
-          <UIFilterDropdown class="flex-grow px-2" text="Media Type" :items="mediaTypes" v-model="selectedMediaTypes" />
+          <UIFilterDropdown v-model="selectedMediaTypes" class="flex-grow px-2" text="Media Type" :items="mediaTypes" />
           <UIButton
             gradient="gradient1"
             class="mx-2 mt-2 flex min-w-[128px] items-center lg:mt-0"
@@ -50,18 +50,18 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onBeforeMount, ref, Ref } from 'vue';
 import { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
+
+import type { clipSearchResult, Clip, ClipCategory } from '~/components/Global/Clip/types';
+import { useAsyncData, useNuxtApp, useRoute } from '#app';
+import { ClipCategoryParent, clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 
 type Mode = 'base' | 'group' | 'keyword';
 type MediaType = {
   name: string;
   handle: string;
 };
-
-import { computed, onBeforeMount, ref, Ref } from 'vue';
-import type { clipSearchResult, Clip, ClipCategory } from '~/components/Global/Clip/types';
-import { useAsyncData, useNuxtApp, useRoute } from '#app';
-import { ClipCategoryParent, clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 const route = useRoute();
 const { vueApp } = useNuxtApp();
 
