@@ -1,7 +1,17 @@
 <script lang="ts" setup>
+import { ComputedRef } from 'vue';
+import { Clip } from '~~/components/Global/Clip/types';
+import { usePageStore } from '~/store/page';
+
+const pageStore = usePageStore();
+
 const type = 'image';
 const languageTags = ['English'];
 const topicTags = ['Chad Gadya', 'Dayenu'];
+
+const favoriteClips: ComputedRef<Clip[]> = computed(
+  () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
+);
 </script>
 
 <template>
@@ -156,5 +166,93 @@ const topicTags = ['Chad Gadya', 'Dayenu'];
         </div>
       </UIContainer>
     </div>
+
+    <GlobalBannerHaggadahAndClips class="!pt-20 !pb-[50px]" />
+
+    <UIContainer>
+      <div class="py-[70px]">
+        <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
+          <div>
+            <UIHeading :level="5"> More Clips from <span class="text-secondary-500">#Friendseder</span> </UIHeading>
+          </div>
+          <NuxtLink to="#" class="ml-4 flex-shrink-0">Show all</NuxtLink>
+        </div>
+
+        <div class="mt-[50px]">
+          <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <GlobalClipCard
+              v-for="(clip, key) in favoriteClips.slice(0, 3)"
+              :key="key"
+              :handle="clip.handle"
+              :type="clip.cliptype"
+              :section-title="clip.clip_section"
+              :title="clip.title"
+              :src="clip.image"
+              :text="clip.body"
+              :contributor-name="clip.author"
+              :contributor-initials="clip.author_initials"
+              :contributor-avatar="null"
+              :downloads-count="clip.downloads"
+              :likes-count="clip.likes"
+              :language-tags="['English', 'Hebrew']"
+              :topic-tags="['Chad Gadya', 'Dayenu']"
+              :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
+          </div>
+        </div>
+      </div>
+    </UIContainer>
+
+    <UIContainer class="flex flex-col items-center py-[70px]">
+      <div class="items-center justify-between space-y-12 self-stretch lg:flex lg:space-y-0">
+        <div class="inline-flex items-center space-x-4">
+          <GlobalClipIcon />
+
+          <UIHeading :level="3" class="text-4xl"> Our Favourites Clips </UIHeading>
+        </div>
+
+        <UISearch
+          rules="required|min:2"
+          redirect-address="/clip-search"
+          query-key="key"
+          placeholder="Search clips by keyword or topic" />
+      </div>
+
+      <div class="mt-[92px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <GlobalClipCard
+          v-for="(clip, key) in favoriteClips"
+          :key="key"
+          :handle="clip.handle"
+          :type="clip.cliptype"
+          :section-title="clip.clip_section"
+          :title="clip.title"
+          :src="clip.image"
+          :text="clip.body"
+          :contributor-name="clip.author"
+          :contributor-initials="clip.author_initials"
+          :contributor-avatar="null"
+          :downloads-count="clip.downloads"
+          :likes-count="clip.likes"
+          :language-tags="['English', 'Hebrew']"
+          :topic-tags="['Chad Gadya', 'Dayenu']"
+          :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
+      </div>
+
+      <div class="mx-auto mt-[91px]">
+        <UIButton gradient="gradient1" size="lg" class="mr-[25px]">
+          View More Favourites Clips
+          <template #suffix>
+            <UIIcon icon="icon-arrow-right" class="text-xl" />
+          </template>
+        </UIButton>
+        <UIButton color="link" size="lg" outline>
+          View All Clips
+          <template #suffix>
+            <UIIcon icon="icon-arrow-right" class="text-xl" />
+          </template>
+        </UIButton>
+      </div>
+    </UIContainer>
+
+    <GlobalBannerPassoverAndSupport />
   </div>
 </template>
