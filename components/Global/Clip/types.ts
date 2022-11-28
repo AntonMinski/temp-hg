@@ -6,6 +6,7 @@ export type Clip = {
   author: string;
   author_initials: string;
   image: string;
+  covertext: string;
   body: HTML;
   clip_section: string;
   clipsource: string;

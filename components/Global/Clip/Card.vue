@@ -75,12 +75,12 @@ async function addToBookmark(value: boolean): Promise<void> {
 
     <div class="relative -mx-5 mt-4 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
       <div
-        v-if="type == 'text'"
+        v-if="type === 'text'"
         class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100"
-        v-html="text" />
-      <img v-else :src="src" class="h-[251px] w-full object-cover object-center" />
+        >{{ text }}</div>
+      <img v-if="type === 'image'" :src="src" class="h-[251px] w-full object-cover object-center" />
       <UIIcon
-        v-if="type == 'video'"
+        v-if="type === 'video'"
         icon="icon-play"
         shape="circle"
         class="absolute mr-3 h-16 w-16 bg-gray-600 px-3.5 py-3 !text-[42px] !text-white opacity-[0.85] shadow-md" />
