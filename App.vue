@@ -5,12 +5,18 @@
   </NuxtLayout>
 </template>
 
-
 <script lang="ts" setup>
 import { useAsyncData } from '#app';
-
 import { useGlobalStore } from '~/store/global';
+
 const { getGlobalData } = useGlobalStore();
+const runtimeConfig = useRuntimeConfig();
+
+useHead({
+  htmlAttrs: {
+    class: runtimeConfig.public.theme,
+  },
+});
 
 await useAsyncData(getGlobalData);
 
@@ -19,5 +25,3 @@ await useAsyncData(getGlobalData);
 //   await vueApp.$api.auth.login('anton_minski5@ukr.net', '602653Qw');
 // });
 </script>
-
-
