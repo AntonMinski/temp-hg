@@ -60,39 +60,34 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
       </div>
 
       <div class="mt-[70px]">
-        <Carousel
-          :items-to-show="1"
-          snap-align="center"
-          :breakpoints="{ 1280: { itemsToShow: 2, snapAlign: 'start' } }">
-          <Slide v-for="event in events" :key="event.title" class="xl:!px-[17.5px]">
-            <GlobalEventCard
-              :col="6"
-              :text="noApiDataText"
-              :contributor-name="event.host"
-              :contributor-initials="event.host_initials"
-              :contributor-avatar="null"
-              :user-tags="['Fitness', 'Outdoor']"
-              :total-attendees="0"
-              :attendees-count="0"
-              :is-attending="false"
-              :type="event.type"
-              :title="event.title"
-              :src="event.cover_image"
-              :language-tags="['English', 'Hebrew']"
-              :topic-tags="['Chad Gadya', 'Dayenu']"
-              :host="event.host"
-              section-title="No Api data yet"
-              :image-src="event.cover_image"
-              :date="event.scheduled_at"
-              :location="event.venue"
-              :durationl="event.duration"
-              :category="event.category" />
-          </Slide>
-
-          <template #addons>
-            <Pagination class="!mt-[35px]" />
+        <UICarousel :items-per-row="1" :items="events" :breakpoints="{ 0: 1, 1280: 2 }">
+          <template v-slot:slide="slide">
+            <div class="mx-2">
+              <GlobalEventCard
+                :col="6"
+                :text="noApiDataText"
+                :contributor-name="slide.item.host"
+                :contributor-initials="slide.item.host_initials"
+                :contributor-avatar="null"
+                :user-tags="['Fitness', 'Outdoor']"
+                :total-attendees="0"
+                :attendees-count="0"
+                :is-attending="false"
+                :type="slide.item.type"
+                :title="slide.item.title"
+                :src="slide.item.cover_image"
+                :language-tags="['English', 'Hebrew']"
+                :topic-tags="['Chad Gadya', 'Dayenu']"
+                :host="slide.item.host"
+                section-title="No Api data yet"
+                :image-src="slide.item.cover_image"
+                :date="slide.item.scheduled_at"
+                :location="slide.item.venue"
+                :durationl="slide.item.duration"
+                :category="slide.item.category" />
+            </div>
           </template>
-        </Carousel>
+        </UICarousel>
 
         <UIButton class="mx-auto mt-[92px] !flex" color="dark" size="xl">
           View All Upcoming Events
