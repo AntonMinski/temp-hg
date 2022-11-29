@@ -67,36 +67,25 @@ async function setCategory(category: ClipCategory) {
           </div>
         </div>
         <div class="mt-12 flex-1 overflow-hidden xl:mt-0 xl:ml-[50px]">
-          <Carousel
-            :items-to-show="1"
-            snap-align="center"
-            :breakpoints="{
-              640: { itemsToShow: 2, snapAlign: 'start' },
-              1024: { itemsToShow: 2.6, snapAlign: 'start' },
-              1280: { itemsToShow: 2.2, snapAlign: 'start' },
-            }">
-            <Slide v-for="(clip, key) in clips" :key="key" class="!pr-[17px] last:!pr-0">
+          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ 0: 1, 950: 2 }">
+            <template v-slot:slide="slide">
               <GlobalClipCard
-                :handle="clip.handle"
-                :type="clip.cliptype"
-                :section-title="clip.clip_section"
-                :title="clip.title"
-                :src="clip.image"
-                :text="clip.covertext"
-                :contributor-name="clip.author"
-                :contributor-initials="clip.author_initials"
+                :handle="slide.item.handle"
+                :type="slide.item.cliptype"
+                :section-title="slide.item.clip_section"
+                :title="slide.item.title"
+                :src="slide.item.image"
+                :text="slide.item.covertext"
+                :contributor-name="slide.item.author"
+                :contributor-initials="slide.item.author_initials"
                 :contributor-avatar="null"
-                :downloads-count="clip.downloads"
-                :likes-count="clip.likes"
+                :downloads-count="slide.item.downloads"
+                :likes-count="slide.item.likes"
                 :language-tags="['English', 'Hebrew']"
                 :topic-tags="['Chad Gadya', 'Dayenu']"
-                :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
-            </Slide>
-
-            <template #addons>
-              <Pagination class="!mt-[85px]" />
+                :is-added-to-bookmarks="slide.item.is_bookmarked !== '0'" />
             </template>
-          </Carousel>
+          </UICarousel>
 
           <UIButton class="mx-auto mt-[92px] !flex" color="dark" size="xl">
             Explore more clips

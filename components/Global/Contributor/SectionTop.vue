@@ -3,13 +3,12 @@ import { computed, ComputedRef } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import type { Contributor } from './types';
-import { usePageStore } from '~/store/page';
-const pageStore = usePageStore();
 import { useGlobalStore } from '~/store/global';
+import { navigateTo } from '#app';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
 
-const contributorsData: ComputedRef<Contributor[]> = computed(() => pageStore?.homePageData?.top_contributors);
+const contributorsData: ComputedRef<Contributor[]> = computed(() => globalData.value?.top_contributors);
 
 async function showAll() {
   await navigateTo('/contributors');
@@ -19,7 +18,7 @@ async function showAll() {
 <template>
   <div id="top_contributors" class="bg-tertiary-500 dark:bg-tertiary-800">
     <UIContainer class="py-20">
-      <div class="mx-auto !max-w-[1080px]">
+      <div class="mx-auto !max-w-[1080px] overflow-hidden">
         <div class="flex items-center justify-between">
           <UIHeading :level="5" class="text-[30px] !text-white">
             {{ globalData?.headings?.contributor_description }}
@@ -29,29 +28,20 @@ async function showAll() {
         </div>
 
         <div class="mt-[53px]">
-          <Carousel
-            :items-to-show="1"
-            snap-align="center"
-            :breakpoints="{
-              480: { itemsToShow: 2, snapAlign: 'start' },
-              768: { itemsToShow: 3, snapAlign: 'start' },
-              1152: { itemsToShow: 4, snapAlign: 'start' },
-            }">
-            <Slide v-for="(contributor, key) in contributorsData" :key="key" class="xl:!px-[7.5px]">
-              <GlobalContributorCard
-                :name="contributor.data.name"
-                :handle="contributor.data.handle"
-                :user-image="contributor.data.user_image"
-                :total-followers="contributor.data.total_followers"
-                :total-books="contributor.data.total_books"
-                :total-clips="contributor.data.total_clips"
-                :following="false" />
-            </Slide>
-
-            <template #addons>
-              <Pagination class="!mt-[53px]" />
+          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ 0: 1, 480: 2, 768: 3, 1152: 4 }">
+            <template v-slot:slide="slide">
+              <div class="mx-2">
+                <GlobalContributorCard
+                  :name="slide.item.data.name"
+                  :handle="slide.item.data.handle"
+                  :user-image="slide.item.data.user_image"
+                  :total-followers="slide.item.data.total_followers"
+                  :total-books="slide.item.data.total_books"
+                  :total-clips="slide.item.data.total_clips"
+                  :following="false" />
+              </div>
             </template>
-          </Carousel>
+          </UICarousel>
         </div>
       </div>
     </UIContainer>
