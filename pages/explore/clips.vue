@@ -2,13 +2,17 @@
   <div>
     <ExploreClipsMain
       v-if="mode === 'base'"
-      :popular-categories="popularCategories"
       v-model:loading="loading"
       v-model:search-string="searchString"
+      :popular-categories="popularCategories"
       @search="searchClips('keyword')"
       @getClipsByCategory="getClipsByCategory">
       <template #filterGroup>
         <UIFilterGroup
+          v-model:dropdown1-selected="selectedHaggadahSections"
+          v-model:dropdown2-selected="selectedCategories"
+          v-model:dropdown3-selected="selectedMediaTypes"
+          v-model:dropdown2-selected-child="selectedChildCategories"
           group-heading="Filter clips"
           page-address="/explore/clips"
           dropdown1-text="Haggadah Section"
@@ -17,29 +21,29 @@
           :dropdown1-items="haggadahSections"
           :dropdown2-items="categories"
           :dropdown3-items="mediaTypes"
-          v-model:dropdown1-selected="selectedHaggadahSections"
-          v-model:dropdown2-selected="selectedCategories"
-          v-model:dropdown3-selected="selectedMediaTypes"
-          v-model:dropdown2-selected-child="selectedChildCategories"
           @applyFilters="getClipsByFilters" />
       </template>
     </ExploreClipsMain>
 
     <ExploreClipsSearchResults
       v-if="mode !== 'base'"
+      v-model:loading="loading"
+      v-model:loading-more="loadingMore"
+      v-model:search-string="searchString"
       :clips="clips"
       :mode="mode"
       :search-keyword="route.query.key || ''"
       :search-filters="searchFilters"
       :meta="meta"
-      v-model:loading="loading"
-      v-model:loading-more="loadingMore"
-      v-model:search-string="searchString"
       @search="searchClips('keyword')"
       @sort="searchClips"
       @loadMore="loadMoreClips">
       <template #filterGroup>
         <UIFilterGroup
+          v-model:dropdown1-selected="selectedHaggadahSections"
+          v-model:dropdown2-selected="selectedCategories"
+          v-model:dropdown3-selected="selectedMediaTypes"
+          v-model:dropdown2-selected-child="selectedChildCategories"
           group-heading="Filter clips"
           page-address="/explore/clips"
           dropdown1-text="Haggadah Section"
@@ -48,21 +52,33 @@
           :dropdown1-items="haggadahSections"
           :dropdown2-items="categories"
           :dropdown3-items="mediaTypes"
-          v-model:dropdown1-selected="selectedHaggadahSections"
-          v-model:dropdown2-selected="selectedCategories"
-          v-model:dropdown3-selected="selectedMediaTypes"
-          v-model:dropdown2-selected-child="selectedChildCategories"
           @applyFilters="getClipsByFilters" />
       </template>
     </ExploreClipsSearchResults>
+
+    <div v-if="mode !== 'base'" class="py-20">
+      <GlobalBannerClip variant="horizontal" />
+    </div>
+
+    <GlobalContributorSectionTop />
+
+    <GlobalBannerPassoverAndSupport />
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
-import type { clipSearchResult, Clip, ClipCategory, MediaType, Mode } from '~/components/Global/Clip/types';
-import type { ClipCategoryParent, clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 import { computed, ComputedRef, onBeforeMount, onMounted, ref, Ref } from 'vue';
+import type { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
+import type {
+  clipSearchResult,
+  Clip,
+  ClipCategory,
+  MediaType,
+  Mode,
+  ClipCategoryParent,
+  clipSearchParams,
+  HaggadahSection,
+} from '~/components/Global/Clip/types';
 import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
 import { getMetaObject } from '~/composables/meta';
 import { useHead } from '#head';
@@ -99,7 +115,7 @@ async function getClipsByFilters() {
   loading.value = true;
 
   let searchOptions: string = '';
-  let query = {};
+  const query = {};
 
   function addToQuery(key: string, value: string) {
     if (searchOptions) {
@@ -233,7 +249,7 @@ async function getInitialPageData() {
   return initialData;
 }
 const { data: initialData } = await useAsyncData(getInitialPageData);
-let { initialMode, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
+const { initialMode, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
   initialData.value;
 
 const mode = ref<Mode>('base');
