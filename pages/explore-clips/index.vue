@@ -10,7 +10,7 @@
       <template #filterGroup>
         <UIFilterGroup
           group-heading="Filter clips"
-          page-address="/explore/clips"
+          page-address="/explore-clips"
           dropdown1-text="Haggadah Section"
           dropdown2-text="Clip Categories"
           dropdown3-text="MediaType"
@@ -35,13 +35,14 @@
       v-model:loading="loading"
       v-model:loading-more="loadingMore"
       v-model:search-string="searchString"
+      v-model:current-sorting="currentSorting"
       @search="searchClips('keyword')"
-      @sort="searchClips"
+      @sort="setSorting"
       @loadMore="loadMoreClips">
       <template #filterGroup>
         <UIFilterGroup
           group-heading="Filter clips"
-          page-address="/explore/clips"
+          page-address="/explore-clips"
           dropdown1-text="Haggadah Section"
           dropdown2-text="Clip Categories"
           dropdown3-text="MediaType"
@@ -60,12 +61,20 @@
 
 <script lang="ts" setup>
 import type { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
-import type { clipSearchResult, Clip, ClipCategory, MediaType, Mode } from '~/components/Global/Clip/types';
+import type {
+  clipSearchResult,
+  Clip,
+  ClipCategory,
+  MediaType,
+  Mode,
+  ClipsSorting,
+} from '~/components/Global/Clip/types';
 import type { ClipCategoryParent, clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 import { computed, ComputedRef, onBeforeMount, onMounted, ref, Ref } from 'vue';
 import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
 import { getMetaObject } from '~/composables/meta';
 import { useHead } from '#head';
+import { clipContainer } from '~/components/Global/Clip/types';
 const route = useRoute();
 const router = useRouter();
 const { vueApp } = useNuxtApp();
@@ -74,6 +83,7 @@ const meta = ref({});
 const searchString = ref('');
 const loading: Ref<boolean> = ref(false);
 const loadingMore: Ref<boolean> = ref(false);
+const currentSorting: Ref<ClipsSorting> = ref('p');
 const clips: Ref<Clip[]> = ref([]);
 const mediaTypes: Ref<MediaType[]> = ref([
   { name: 'Text', handle: 'text' },
@@ -134,6 +144,7 @@ async function getClipsByFilters() {
   prepareQueryChild(categories, selectedChildCategories.value, 'child_category[]');
   prepareQueryParent(mediaTypes.value, selectedMediaTypes.value, 'media_type[]');
   addToQuery('page', '1');
+  addToQuery('sort', currentSorting.value);
 
   await router.push({ query });
 
@@ -171,6 +182,7 @@ async function getClips(searchOptions: clipSearchParams | string) {
   loading.value = true;
   if (typeof searchOptions !== 'string') {
     searchOptions.page = searchOptions.page || 1;
+    searchOptions.sort = searchOptions.sort || 'p';
   }
   const response = await fetchClips(searchOptions);
   clips.value = [...response._data.data.map((item) => item.clip)];
@@ -200,29 +212,35 @@ async function loadMoreClips() {
     ...route.query,
     page: currentPage + 1,
   });
-  clips.value.push(...response._data.data.map((item) => item.clip));
+  clips.value.push(...response._data.data.map((item: clipContainer) => item.clip));
   meta.value = { ...response._data.meta };
   loadingMore.value = false;
 }
 
+async function setSorting() {
+  await getClips(route.query);
+}
+
 async function getInitialPageData() {
-  const initialMode = getMode() as Mode;
-  let initialClips = [];
+  const initialMode: Mode = getMode() as Mode;
+  const initialSort: ClipsSorting = route.query.sort as ClipsSorting || 'p';
+  let initialClips: Clip[] = [];
   let initialMeta = {};
   if (initialMode !== 'base') {
-    const response = await fetchClips(route.query);
+    const response = await fetchClips({ ...route.query, sort: initialSort });
     initialClips = [...response._data.data.map((item) => item.clip)];
     initialMeta = { ...response._data.meta };
   }
 
   const [categoriesResponse, dataResponse] = await Promise.all([getCategories(), getPageData()]);
-  const categories = categoriesResponse._data.data;
-  const haggadahSections = dataResponse._data.data.filter_clips.haggadah_sections;
-  const popularCategories = [...dataResponse._data.data.popular_categories];
+  const categories: ClipCategory[] = categoriesResponse._data.data;
+  const haggadahSections: HaggadahSection[] = dataResponse._data.data.filter_clips.haggadah_sections;
+  const popularCategories: ClipCategory[] = [...dataResponse._data.data.popular_categories];
   // const mediaTypes = [...dataResponse._data.data.media_types];
   const metaTags = { ...dataResponse._data.data.meta_tags };
   const initialData = {
     initialMode,
+    initialSort,
     initialClips,
     initialMeta,
     categories,
@@ -233,11 +251,12 @@ async function getInitialPageData() {
   return initialData;
 }
 const { data: initialData } = await useAsyncData(getInitialPageData);
-let { initialMode, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
+let { initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
   initialData.value;
 
 const mode = ref<Mode>('base');
 mode.value = initialMode;
+currentSorting.value = initialSort;
 clips.value = [...initialClips];
 meta.value = { ...initialMeta };
 

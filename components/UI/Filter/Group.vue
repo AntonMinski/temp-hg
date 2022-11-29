@@ -136,6 +136,7 @@ function resetFilters(): void {
   dropdown1SelectedChild.value = [];
   dropdown2SelectedChild.value = [];
   dropdown3SelectedChild.value = [];
+  applyFilters();
 }
 
 async function applyFilters(): Promise<void> {

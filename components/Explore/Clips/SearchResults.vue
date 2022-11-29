@@ -3,7 +3,7 @@
     <template v-if="mode === 'keyword'">
       <UISearch
         rules="required|min:2"
-        redirect-address="/explore/clips"
+        redirect-address="/explore-clips"
         query-key="key"
         placeholder="Search community clips by type, category or keyword"
         size="large"
@@ -40,10 +40,10 @@
     <template v-else>
       <div id="sorting" class="my-16 flex justify-center">
         <UIBadge
-          v-for="(sortingName, key) in sorting"
+          v-for="(sortingName, key) in sortingTypes"
           class="mx-2"
           :key="key"
-          :type="key === sortingType ? 'primary' : 'gray'"
+          :type="key === currentSorting ? 'primary' : 'gray'"
           size="md"
           @click="applySorting(key)">
           {{ sortingName }}
@@ -70,7 +70,7 @@
           :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
           class="mx-2" />
       </div>
-      <UIButton :disabled="!meta.next" class="mx-4 mt-16 mb-4" size="large" color="dark" @click="emit('loadMore')"
+      <UIButton class="mx-4 mt-16 mb-4" size="large" color="dark" @click="emit('loadMore')"
         >Load more
         <template #suffix>
           <UISpinner v-if="loadingMore" size="4" class="ml-2" />
@@ -117,26 +117,30 @@ const props = defineProps({
   meta: {
     type: Object,
   },
+  currentSorting: {
+    type: String as PropType<ClipsSorting>,
+    default: 'p',
+  },
 });
-const emit = defineEmits(['search', 'sort', 'loadMore', 'update:loading', 'update:searchString']);
+const emit = defineEmits(['search', 'sort', 'loadMore', 'update:loading', 'update:currentSorting', 'update:searchString']);
 const searchString = useVModel(props, 'searchString', emit);
 
 const loading = useVModel(props, 'loading', emit);
 
-const sortingType: Ref<ClipsSorting> = ref('p');
+const currentSorting = useVModel(props, 'currentSorting', emit);
 
-const sorting = {
+const sortingTypes = {
   p: 'Most popular',
   r: 'Most recent',
   editor: 'Editor`s choice',
 };
 
 async function applySorting(type: ClipsSorting) {
-  sortingType.value = type;
+  currentSorting.value = type;
   if (type === 'p' || type === 'r') {
-    route.query.sort = type;
-    await router.push({ path: '/explore/clips', query: route.query });
+    await router.push({ query: { ...route.query, page: 1, sort: type } });
   } // else would be favorite haggadahs
+  console.log('sorting', type, currentSorting.value);
   emit('sort');
 }
 </script>

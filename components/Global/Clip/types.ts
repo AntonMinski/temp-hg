@@ -29,7 +29,7 @@ export type clipSearchParams = {
   'parent_category[]'?: string | string[];
   'children_category[]'?: string | string[];
   'haggadah_section[]'?: string | string[];
-  sort?: 'r' | 'p';
+  sort?: 'r' | 'p' | 'editor';
   page?: string | number;
 };
 

@@ -49,7 +49,7 @@ async function setCategory(category: ClipCategory) {
 
         <UISearch
           rules="required|min:2"
-          redirect-address="/explore/clips"
+          redirect-address="/explore-clips"
           query-key="key"
           placeholder="Search clips by keyword or topic" />
       </div>
