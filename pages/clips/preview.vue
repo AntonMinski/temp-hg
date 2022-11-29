@@ -212,7 +212,7 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
 
         <UISearch
           rules="required|min:2"
-          redirect-address="/clip-search"
+          redirect-address="/explore/clips"
           query-key="key"
           placeholder="Search clips by keyword or topic" />
       </div>

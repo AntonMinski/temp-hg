@@ -30,23 +30,23 @@ export type clipSearchParams = {
   'children_category[]'?: string | string[];
   'haggadah_section[]'?: string | string[];
   sort?: 'r' | 'p';
+  page?: string | number;
 };
 
 export type clipSearchResult = {
   _data: {
     data: {
       popular_categories;
-      featured_collaborator;
-      got_intresting_content_arr;
-      inspired_to_create_haggadah_arr;
-      passover_guide_arr;
       recent_searches;
+      media_type;
       clips: clipContainer[];
       filter_clips: {
         haggadah_sections: HaggadahSection[];
       }
+      meta_tags;
       clip_in: ClipsBySections;
       support_us_arr;
+      results_found: number;
     };
   };
 };
@@ -83,3 +83,11 @@ export type ClipsSectionsPreview = {
     clips: Clip[];
   }
 }
+export type Mode = 'base' | 'group' | 'keyword';
+
+export type MediaType = {
+  name: string;
+  handle: string;
+};
+
+export type ClipsSorting = 'p' | 'r' | 'editor'
