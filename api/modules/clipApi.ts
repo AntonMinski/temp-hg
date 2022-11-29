@@ -62,4 +62,7 @@ export default class ClipApi {
     return this.base.get('clip-section');
   }
 
+  async getClipsPageData() {
+    return this.base.get('global-clips');
+  }
 }

@@ -85,7 +85,13 @@ const selectedItemsPreview: ComputedRef<string> = computed(() => {
         .flat()
         .find((item) => item.handle === selectedItem).name
   );
-  return [...parents, ...children].join(', ');
+
+  const totalNumber = parents.length + children.length;
+  if (totalNumber > 2) {
+    return `${totalNumber} selected`;
+  } else {
+    return [...parents, ...children].join(', ');
+  }
 });
 
 function resetFilter(): void {

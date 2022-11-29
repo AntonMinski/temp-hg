@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref, PropType, toRefs, onMounted } from 'vue';
-import { useEventListener } from '@vueuse/core';
+import { useEventListener, useVModel } from '@vueuse/core';
 import { useForm } from 'vee-validate';
 import type { size } from './types';
 import { useSearchClasses } from '~/components/UI/Search/composables/useSearchClasses';
@@ -50,6 +50,10 @@ const props = defineProps({
   redirect: {
     type: Boolean,
     default: true
+  },
+  searchString: {
+    type: String,
+    default: ''
   }
 });
 const { inputClasses, buttonClasses, iconClasses } = useSearchClasses(toRefs(props));
@@ -60,9 +64,9 @@ const { handleSubmit, errors } = useForm({
     searchField: props.rules,
   },
 });
+const emit = defineEmits(['search', 'update:searchString']);
 
-const searchString = ref('');
-const emit = defineEmits(['search'])
+const searchString = useVModel(props, 'searchString', emit);
 
 // Search function
 const search = handleSubmit(async (): Promise<void> => {
@@ -80,7 +84,7 @@ const search = handleSubmit(async (): Promise<void> => {
       path: props.redirectAddress,
       query
     })
-    emit('search')
+    emit('search', searchString.value);
   }
 });
 
