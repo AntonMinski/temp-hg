@@ -1,6 +1,6 @@
 <template>
   <UICard
-    class="[-50px] mt-16"
+    class="relative z-50 mb-[-50px] mt-16"
     variant="horizontal-full"
     content-classes="flex flex-col items-center w-full !p-6 !overflow-visible">
     <div id="filter-heading" class="mb-6 flex items-center">
@@ -11,25 +11,25 @@
       id="filter-dropdown-group"
       class="flex-wap mt-6 flex w-full flex-col flex-wrap items-center justify-around lg:flex-row">
       <UIFilterDropdown
+        v-model="dropdown1Selected"
+        v-model:child="dropdown1SelectedChild"
         class="flex-grow px-2"
         :text="dropdown1Text"
-        :items="dropdown1Items"
-        v-model="dropdown1Selected"
-        v-model:child="dropdown1SelectedChild" />
+        :items="dropdown1Items" />
 
       <UIFilterDropdown
+        v-model="dropdown2Selected"
+        v-model:child="dropdown2SelectedChild"
         class="flex-grow px-2"
         :text="dropdown2Text"
         :items="dropdown2Items"
-        v-model="dropdown2Selected"
-        v-model:child="dropdown2SelectedChild"
         menu-type="group" />
       <UIFilterDropdown
+        v-model="dropdown3Selected"
+        v-model:child="dropdown3SelectedChild"
         class="flex-grow px-2"
         :text="dropdown3Text"
-        :items="dropdown3Items"
-        v-model="dropdown3Selected"
-        v-model:child="dropdown3SelectedChild" />
+        :items="dropdown3Items" />
       <UIButton
         gradient="gradient1"
         class="mx-2 !mt-2 flex min-w-[128px] items-center lg:mt-0"
