@@ -36,3 +36,28 @@ export type Haggadah = {
     download_url: string;
   };
 };
+
+export type haggadahSearchParams = {
+  key?: string;
+  'media_type[]'?: string | string[];
+  'parent_category[]'?: string | string[];
+  'children_category[]'?: string | string[];
+  'haggadah_section[]'?: string | string[];
+  sort?: 'r' | 'p' | 'editor';
+  page?: string | number;
+};
+
+export type haggadahContainer = {
+  haggadah: Haggadah;
+};
+
+export type HaggadahSection = {
+  name: string;
+  handle: string;
+  total: number;
+  haggadahs: Haggadah[];
+};
+
+export type Mode = 'main' | 'topics' | 'keyword';
+
+export type HaggadahsSorting = 'p' | 'r' | 'editor';
