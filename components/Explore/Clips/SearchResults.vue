@@ -1,17 +1,19 @@
 <template>
   <div class="pa-4 flex flex-col items-center px-8">
-    <template v-if="mode === 'keyword'">
+    <div v-if="mode === 'keyword'" class="bg-tertiary-500 pt-[72px] dark:bg-tertiary-800">
+      <UIContainer>
       <UISearch
         rules=""
-        redirect-address="/explore-clips"
+        redirect-address="/explore/clips"
         query-key="key"
         placeholder="Search community clips by type, category or keyword"
         size="large"
-        class="mt-[25px]"
+        class="mx-auto"
         :redirect="false"
         v-model:search-string="searchString"
         @search="emit('search')" />
       <slot name="filterGroup" />
+      </UIContainer>
       <UIHeading :level="4" class="mt-16 flex justify-center">
         <template v-if="loading">Searching...</template>
         <template v-else> {{ meta.total }} Clips found </template>
@@ -19,38 +21,52 @@
       <UIHeading :level="2" class="mt-5 flex justify-center">
         For search keyword: <span class="text-secondary-500">{{ searchString }}</span>
       </UIHeading>
-    </template>
+    </div>
 
-    <template v-if="mode === 'topics'">
+    <div v-if="mode === 'topics'" class="bg-tertiary-500 pt-[87px] dark:bg-tertiary-800">
+      <UIContainer class="text-center">
       <UIHeading :level="2"> Explore haggadah clips </UIHeading>
-      <UIHeading :level="4" class="mt-5">
-        <template v-if="loading">Searching</template>
-        <template v-else>{{ meta.total }}</template>
-        Clips in <span class="text-primary-500">{{ searchFilters }}</span>
+      <UIHeading :level="5" class="mt-5 !text-2xl !text-primary-500">
+        <span v-if="loading" class="mr-2">Searching</span>
+        <span v-else class="mr-2">{{ meta.total }}</span>
+        <span class="dark:text-white">Clips in</span>{{ searchFilters }}
       </UIHeading>
       <slot name="filterGroup" />
-    </template>
+      </UIContainer>
+    </div>
 
-    <template v-if="loading && !loadingMore">
-      <div class="my-16">
-        <UISpinner size="12" />
-      </div>
-    </template>
+    <div class="bg-gray-50 pt-[125px] pb-[100px] dark:bg-gray-900">
+      <template v-if="loading && !loadingMore">
+        <div class="mt-16 flex justify-center">
+          <UISpinner size="12" />
+        </div>
+      </template>
 
-    <template v-else>
-      <div id="sorting" class="my-16 flex justify-center">
-        <UIBadge
-          v-for="(sortingName, key) in sortingTypes"
-          class="mx-2"
-          :key="key"
-          :type="key === currentSorting ? 'primary' : 'gray'"
-          size="md"
-          @click="applySorting(key)">
-          {{ sortingName }}
-        </UIBadge>
-      </div>
+      <template v-else>
+        <UIContainer class="flex flex-col items-center">
+          <div v-if="mode === 'keyword'" class="mb-[33.5px]">
+            <UIHeading :level="4" class="flex justify-center">
+              <template v-if="loading">Searching...</template>
+              <template v-else>
+                <span class="mr-2 text-secondary-500">{{ meta.total }}</span> Clips found
+              </template>
+            </UIHeading>
+            <UIHeading :level="2" class="mt-0.5 flex justify-center">
+              For search keyword: <span class="ml-2 text-secondary-500">{{ searchString }}</span>
+            </UIHeading>
+          </div>
 
-      <div class="flex flex-wrap items-center justify-evenly">
+        <div id="sorting" class="flex justify-center space-x-[5px]">
+          <UICategoryPill
+            v-for="(sortingName, key) in sorting"
+            :key="key"
+            :is-active="key === sortingType"
+            @click="applySorting(key)">
+            {{ sortingName }}
+          </UICategoryPill>
+        </div>
+
+      <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
         <GlobalClipCard
           v-for="(clip, key) in clips"
           :key="key"
@@ -70,14 +86,18 @@
           :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
           class="mx-2" />
       </div>
-      <UIButton class="mx-4 mt-16 mb-4" size="large" color="dark" @click="emit('loadMore')"
+
+      <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5"
+                size="lg" color="dark" @click="emit('loadMore')"
         >Load more
         <template #suffix>
           <UISpinner v-if="loadingMore" size="4" class="ml-2" />
           <UIIcon v-else icon="icon-arrow-bottom" size="4" class="ml-2" />
         </template>
       </UIButton>
+        </UIContainer>
     </template>
+    </div>
   </div>
 </template>
 
