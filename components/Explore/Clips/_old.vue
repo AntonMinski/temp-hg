@@ -6,7 +6,7 @@
         <UIHeading :level="2" class="mt-5">Explore Haggadah Clips</UIHeading>
         <UISearch
           rules="required|min:2"
-          redirect-address="/explore/clips"
+          redirect-address="/explore-clips"
           query-key="key"
           placeholder="Search community clips by type, category or keyword"
           size="large"

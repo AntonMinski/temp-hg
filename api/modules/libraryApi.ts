@@ -9,6 +9,6 @@ export default class LibraryApi {
   }
 
   async searchLibrary(params): Promise<dataResponse | errorResponse> {
-    return this.base.get(`/explore/clips`, params);
+    return this.base.get(`/explore-clips`, params);
   }
 }

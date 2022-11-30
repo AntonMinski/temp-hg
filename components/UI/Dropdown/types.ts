@@ -8,7 +8,7 @@ export type DropdownItem = {
 export type DropdownItemParent = {
   name: string;
   handle: string;
-  child: DropdownItem[];
+  child?: DropdownItem[];
 };
 
 export type MenuItemChild = { handle: string };

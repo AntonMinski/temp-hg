@@ -7,7 +7,7 @@
       :placeholder="placeholder"
       :class="inputClasses">
       <template #suffix>
-        <UIButton gradient="gradient1" :class="buttonClasses" square pill @click="search">
+        <UIButton :disabled="disabled" gradient="gradient1" :class="buttonClasses" square pill @click="search">
           <UIIcon icon="icon-search" :class="iconClasses" />
         </UIButton>
       </template>
@@ -49,12 +49,16 @@ const props = defineProps({
   },
   redirect: {
     type: Boolean,
-    default: true
+    default: true,
   },
   searchString: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 const { inputClasses, buttonClasses, iconClasses } = useSearchClasses(toRefs(props));
 
@@ -82,8 +86,8 @@ const search = handleSubmit(async (): Promise<void> => {
     const router = useRouter();
     await router.push({
       path: props.redirectAddress,
-      query
-    })
+      query,
+    });
     emit('search', searchString.value);
   }
 });
