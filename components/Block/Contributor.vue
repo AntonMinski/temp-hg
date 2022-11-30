@@ -53,6 +53,7 @@ const imageTextSize = computed<string>(() => imageTextSizes[props.size]);
     <span v-if="name" class="flex flex-wrap items-center font-semibold text-gray-600 dark:text-gray-300" :class="size">
       <span class="mr-1">{{ text }}</span>
       <span class="font-semibold text-gray-900 dark:text-gray-100">{{ name }}</span>
+      <slot name="details" />
     </span>
   </div>
 </template>

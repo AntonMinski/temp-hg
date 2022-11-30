@@ -6,7 +6,7 @@ import { navigateTo } from '#app';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
 
-const contributorsData: ComputedRef<Contributor[]> = computed(() => globalData.value?.top_contributors);
+const contributorsData: ComputedRef<ContributorWrapper[]> = computed(() => globalData.value?.top_contributors);
 
 async function showAll() {
   await navigateTo('/contributors');

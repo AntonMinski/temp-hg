@@ -1,7 +1,13 @@
 <script lang="ts" setup>
-import { ComputedRef } from 'vue';
-import { Clip } from '~~/components/Global/Clip/types';
+import { computed, ComputedRef, Ref, ref } from 'vue';
+import { Clip } from '~/components/Global/Clip/types';
 import { usePageStore } from '~/store/page';
+import { useAsyncData, useNuxtApp, useRoute } from '#app';
+import { Contributor } from '~/components/Global/Contributor/types';
+import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
+
+const route = useRoute();
+const { vueApp } = useNuxtApp();
 
 const pageStore = usePageStore();
 
@@ -12,10 +18,104 @@ const topicTags = ['Chad Gadya', 'Dayenu'];
 const favoriteClips: ComputedRef<Clip[]> = computed(
   () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
 );
+
+// DATA
+async function getClip() {
+  const slug = route.params.slug as string;
+  const clipResponse = await vueApp.$api.clip.getSingleClip(slug);
+  const clip: Clip = { ...clipResponse._data.data.clip };
+  // TODO add contributor's handle to the clip
+  /* Not implemented a backend for this yet, so get handle manually */
+  const authorHandle = clip.author.toLowerCase().replaceAll(' ', '-');
+  const contributorResponse = await vueApp.$api.contributor.getContributorsDetails(authorHandle);
+  const contributor: Contributor = { ...contributorResponse._data.data.users };
+  return { clip, contributor };
+}
+/* Not implemented a backend for this yet */
+// const { data: { clip, contributor } } = await useAsyncData(getClip);
+const { data: initialData } = await useAsyncData(getClip);
+const { clip, contributor } = initialData.value;
+
+// Likes
+
+const isLikedTemporary: Ref<Boolean> = ref(false);
+isLikedTemporary.value = clip.is_liked !== '0';
+
+async function likeClip() {
+  try {
+    if (!isLikedTemporary.value) {
+      await vueApp.$api.clip.likeClip(clip.handle);
+      clip.likes = clip.likes + 1;
+      isLikedTemporary.value = true;
+      vueApp.$toast.success(`liked`);
+    } else {
+      await vueApp.$api.clip.unLikeClip(clip.handle);
+      clip.likes = clip.likes - 1;
+      isLikedTemporary.value = false;
+      vueApp.$toast.success(`unliked`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const isAddedToBookmarkTemporary: Ref<Boolean> = ref(false);
+isAddedToBookmarkTemporary.value = clip.is_liked !== '0';
+
+// Bookmarks
+async function addToBookmark(add: boolean): Promise<void> {
+  try {
+    await handleAddToBookmark(add, clip.handle, 'clip');
+    isAddedToBookmarkTemporary.value = add;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function downloadClip(): Promise<void> {
+  try {
+    const response = await vueApp.$api.clip.downloadClip(clip.handle);
+    console.log(response._data);
+    if (response._data.success) {
+      console.log(response._data.download_clip_url);
+      const url = window.URL.createObjectURL(new Blob([response._data.download_clip_url]));
+      const link = document.createElement('a');
+      link.target = '_blank';
+      link.href = url;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function shareClip() {
+  // not implemented yet
+}
+
+// TODO add way to check, if we following a contributor
+const followingContributor: Ref<Boolean> = ref(false);
+// TODO add contributor's handle to the contributor
+const contributorHandle = computed(() => clip.author.toLowerCase().replaceAll(' ', '-'));
+
+async function followContributor() {
+  try {
+    if (followingContributor.value) {
+      await vueApp.$api.contributor.unFollowContributor(contributorHandle.value);
+      followingContributor.value = false;
+      vueApp.$toast.success(`unfollowed`);
+    } else {
+      await vueApp.$api.contributor.followContributor(contributorHandle.value);
+      followingContributor.value = true;
+      vueApp.$toast.success(`followed`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 
 <template>
-  <div>
+  <div v-if="clip.handle">
     <div class="mt-[33px] mb-20">
       <UIContainer>
         <UIButton color="link" size="lg" class="rounded-md bg-gray-100" square>
@@ -25,44 +125,41 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
         <div class="mt-10 flex items-start">
           <div>
             <UICard class="mr-[70px] !max-w-[637px] !border-dashed">
-              <img v-if="type == 'image'" src="~/assets/images/clip-image.png" />
-              <audio v-if="type == 'audio'">
+              <img v-if="clip.cliptype === 'image'" src="~/assets/images/clip-image.png" />
+              <audio v-if="clip.cliptype === 'audio'">
                 <source src="" type="audio/mp3" />
               </audio>
-              <video v-if="type == 'video'">
+              <video v-if="clip.cliptype === 'video'">
                 <source src="" type="audio/mp4" />
               </video>
 
-              <div class="mt-5 space-y-2">
-                <p v-for="i in 10" :key="i">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic eos ipsa consequuntur libero nostrum
-                  sequi ipsum saepe dolores. Aut sint eveniet sapiente labore et a, doloremque impedit voluptatum quod
-                  delectus!
-                </p>
-              </div>
+              <div v-if="clip.cliptype === 'text'" v-html="clip.body" class="mt-5 space-y-2" />
             </UICard>
 
             <div class="mt-[25px] text-xs text-gray-800 dark:text-gray-200">
-              <span class="font-semibold">Source:</span> www.friendseder.com
+              <span class="font-semibold">Source: &nbsp;</span> {{ clip.clipsource }}
             </div>
           </div>
 
           <div class="w-full max-w-[533px]">
-            <UIHeading :level="4"> Sing... Sing A Song </UIHeading>
+            <UIHeading :level="4"> {{ clip.title }} </UIHeading>
 
             <div class="mt-4 inline-flex items-center space-x-3">
-              <BlockActivitiesCount :count="0" action="download" />
-              <BlockActivitiesCount :count="0" action="like" />
-              <UIButton color="link" size="sm" class="!ml-[30px] !h-auto !bg-transparent !p-0">
+              <BlockActivitiesCount :count="clip.downloads" action="download" />
+              <BlockActivitiesCount :count="clip.likes" action="like" />
+              <UIButton color="link" size="sm" class="!ml-[30px] !h-auto !bg-transparent !p-0" @click="likeClip">
                 <template #prefix>
-                  <UIIcon icon="icon-like" class="text-xl text-primary-700" />
+                  <UIIcon v-if="isLikedTemporary" icon="icon-like" class="text-xl font-bold text-blue-700" />
+                  <UIIcon v-else icon="icon-like" class="text-xl text-primary-700" />
                 </template>
-                Give a Like
+                <template v-if="isLikedTemporary"> UnLike </template>
+                <template v-else> Give a Like </template>
               </UIButton>
             </div>
 
             <div class="mt-[25px] text-sm text-gray-700 dark:text-gray-300">
-              Haggadah Section: <span class="text-semibold text-gray-800 dark:text-gray-200">NIRTZAH</span>
+              Haggadah Section:
+              <span class="text-semibold text-gray-800 dark:text-gray-200">{{ clip.clip_section }}</span>
             </div>
 
             <div class="flex flex-wrap">
@@ -75,7 +172,15 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
                 tag-class="!px-3 !py-1.5" />
             </div>
 
-            <BlockActionButtons :index="1" class="mt-[35px]" :group="false" />
+            <BlockActionButtons
+              :index="1"
+              v-model:is-added-to-bookmark="isAddedToBookmarkTemporary"
+              @add-to-bookmark="addToBookmark(true)"
+              @remove-from-bookmark="addToBookmark(false)"
+              @download="downloadClip"
+              @share="shareClip"
+              class="mt-[35px]"
+              :group="false" />
 
             <div class="mt-[45px] flex items-center">
               <UIButton gradient="gradient1" size="lg" class="mr-[15px] flex-1">
@@ -94,15 +199,27 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
 
             <UICard class="mt-[45px] !max-w-none">
               <div class="flex items-end">
-                <BlockContributor initials="FS" name="" size="lg" class="!mt-0" />
-                <div class="ml-3 mr-4 flex flex-col">
-                  <span class="-ml-2 text-xs font-semibold text-gray-700 dark:text-gray-300">Contributed by</span>
-                  <span class="text-lg font-bold text-gray-900 dark:text-gray-100">#Friendseder</span>
-                  <span class="text-xs text-gray-600 dark:text-gray-400">
-                    212 Followers • 12 Haggadahs • 26 Clips
-                  </span>
-                </div>
-                <UIButton color="secondary" size="sm" class="ml-auto w-[102px] flex-shrink-0"> Follow </UIButton>
+                <BlockContributor
+                  :initials="contributor.author_initials"
+                  :name="contributor.name"
+                  text="Contributed by"
+                  size="lg"
+                  class="!mt-0">
+                  <template #details>
+                    <span class="block text-xs text-gray-600 dark:text-gray-400">
+                      {{ contributor.total_followers }} Followers • {{ contributor.total_user_books }} Haggadahs •
+                      {{ contributor.total_user_clips }} Clips
+                    </span>
+                  </template>
+                </BlockContributor>
+                <UIButton
+                  color="secondary"
+                  size="sm"
+                  class="ml-auto w-[102px] flex-shrink-0"
+                  @click="followContributor">
+                  <template v-if="followingContributor"> Unfollow </template>
+                  <template v-else> Follow </template>
+                </UIButton>
               </div>
             </UICard>
 
@@ -239,13 +356,13 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
 
       <div class="mx-auto mt-[91px]">
         <UIButton gradient="gradient1" size="lg" class="mr-[25px]">
-          View More Favourites Clips
+          <NuxtLink to="/explore-clips">View More Favourites Clips</NuxtLink>
           <template #suffix>
             <UIIcon icon="icon-arrow-right" class="text-xl" />
           </template>
         </UIButton>
         <UIButton color="link" size="lg" outline>
-          View All Clips
+          <NuxtLink to="/explore-clips">View All Clips</NuxtLink>
           <template #suffix>
             <UIIcon icon="icon-arrow-right" class="text-xl" />
           </template>
