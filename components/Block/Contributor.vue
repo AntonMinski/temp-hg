@@ -42,7 +42,7 @@ const imageTextSize = computed<string>(() => imageTextSizes[props.size]);
 </script>
 
 <template>
-  <div class="mt-5 inline-flex items-center space-x-2">
+  <div class="inline-flex items-center space-x-2">
     <span
       v-if="initials"
       class="flex flex-none items-center justify-center rounded-full uppercase leading-none text-gray-900"
