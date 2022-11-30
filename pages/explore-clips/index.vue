@@ -60,6 +60,14 @@
           @clearFilters="clearFilters" />
       </template>
     </ExploreClipsSearchResults>
+
+    <div v-if="mode !== 'main'" class="py-20">
+      <GlobalBannerClip variant="horizontal" />
+    </div>
+
+    <GlobalContributorSectionTop />
+
+    <GlobalBannerPassoverAndSupport />
   </div>
 </template>
 
