@@ -44,7 +44,6 @@
     "flowbite": "^1.5.3",
     "stylus": "^0.59.0",
     "stylus-loader": "3",
-    "vee-validate": "^4.7.2",
-    "vue3-carousel": "^0.2.5"
+    "vee-validate": "^4.7.2"
   }
 }

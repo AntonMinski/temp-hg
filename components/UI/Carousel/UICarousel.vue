@@ -8,8 +8,8 @@
     <div id="pagination" class="mt-12 flex items-center justify-center">
       <slot name="pagination">
         <button
-          class="carousel__pagination-button"
-          :class="{ 'carousel__pagination-button--active': activeSlide === number }"
+          class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px] "
+          :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
           v-for="number in paginationLength"
           :key="number"
           @click="activeSlide = number" />
@@ -22,8 +22,8 @@
 
 </template>
 <script lang="ts" setup>
-import { computed, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useEventListener } from '@vueuse/core';
+import { computed, ComputedRef, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
+type ScreenSize = 'xsm' | 'sm' | 'md' | 'lg' | 'xl';
 
 const props = defineProps({
   items: Array,
@@ -36,40 +36,54 @@ const props = defineProps({
     default: 500,
   },
   breakpoints: {
-    type: Object as PropType<{ [key: number]: number }>,
+    type: Object as PropType<{ [key in ScreenSize]: number }>,
   },
 });
 
 const key = ref(0);
-// useEventListener(window, 'resize', () => {
-//   key.value++;
-// });
-
 onMounted(() => {
   getItemsPerRow();
-  window.addEventListener('resize', () => {
-    getItemsPerRow();
-  });
+  window.addEventListener('resize', getItemsPerRow);
 });
 
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', getItemsPerRow);
+});
+
+const defaultBreakpoints = {
+  xsm: 1,
+  sm: 1,
+  md: 1,
+  lg: 2,
+  xl: 2,
+};
+
+const breakpointValues = {
+  xsm: 0,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+};
+
 function getItemsPerRow() {
-  if (props.breakpoints) {
-    const breakpoints = Object.keys(props.breakpoints).map((key) => parseInt(key));
-    const windowWidth = window.innerWidth;
-    const items = breakpoints.filter((breakpoint) => windowWidth >= breakpoint);
-    const breakpoint = Math.max(...items);
-    if (breakpoint || breakpoint === 0) {
-      itemsPerRow.value = props.breakpoints[breakpoint];
+  const breakpoints = Object.keys(props.breakpoints).length ? props.breakpoints : defaultBreakpoints;
+  const windowWidth = window.innerWidth;
+  let activeBreakpoint = 'xsm';
+  for (const breakpoint in breakpoints) {
+    if (breakpointValues[breakpoint] <= windowWidth) {
+      activeBreakpoint = breakpoint;
     }
-  } else {
-    itemsPerRow.value = props.itemsPerRow;
   }
+  itemsPerRow.value = breakpoints[activeBreakpoint];
 }
+
 const itemsPerRow = ref(null);
 
-const paginationLength = computed(() => Math.ceil(props.items.length / itemsPerRow.value || 2));
-const spacingStyle = computed(() => `padding: ${2 / itemsPerRow.value || 2}rem`);
-const slideWidthStyle = computed(() => `min-width: ${100 / itemsPerRow.value || 2}%`);
-const activeSlide = ref(1);
-const translateX = computed(() => `transform: translateX(-${(activeSlide.value - 1) * 100}%)`);
+const paginationLength: ComputedRef<number> = computed(() => props.items.length ? Math.ceil(props.items.length / itemsPerRow.value || 2) : 0);
+const spacingStyle: ComputedRef<string> = computed(() => `padding: ${2 / itemsPerRow.value || 2}rem`);
+const slideWidthStyle: ComputedRef<string> = computed(() => `min-width: ${100 / itemsPerRow.value || 2}%`);
+const activeSlide: Ref<number> = ref(1);
+const translateWidth: ComputedRef<number> = computed(() => Math.floor(itemsPerRow.value) * 100 / itemsPerRow.value);
+const translateX: ComputedRef<string> = computed(() => `transform: translateX(-${(activeSlide.value - 1) * translateWidth.value}%)`);
 </script>

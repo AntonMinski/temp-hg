@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { computed, ComputedRef } from 'vue';
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import type { Contributor } from './types';
 import { useGlobalStore } from '~/store/global';
 import { navigateTo } from '#app';
@@ -28,7 +26,7 @@ async function showAll() {
         </div>
 
         <div class="mt-[53px]">
-          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ 0: 1, 480: 2, 768: 3, 1152: 4 }">
+          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ xsm: 1, sm: 2, md: 3, lg: 4 }">
             <template v-slot:slide="slide">
               <div class="mx-2">
                 <GlobalContributorCard
