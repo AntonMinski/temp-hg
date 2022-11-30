@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { Event, EventCategory } from './types';
 import { computed, ComputedRef } from 'vue';
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import { usePageStore } from '~/store/page';
 const pageStore = usePageStore();
 import { useGlobalStore } from '~/store/global';
@@ -60,7 +58,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
       </div>
 
       <div class="mt-[70px]">
-        <UICarousel :items-per-row="1" :items="events" :breakpoints="{ 0: 1, 1280: 2 }">
+        <UICarousel :items-per-row="1" :items="events" :breakpoints="{ xsm: 1, xl: 2 }">
           <template v-slot:slide="slide">
             <div class="mx-2">
               <GlobalEventCard

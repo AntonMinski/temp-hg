@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
 import { usePageStore } from '~/store/page';
@@ -67,7 +65,7 @@ async function setCategory(category: ClipCategory) {
           </div>
         </div>
         <div class="mt-12 flex-1 overflow-hidden xl:mt-0 xl:ml-[50px]">
-          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ 0: 1, 950: 2 }">
+          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ xsm: 1, lg: 2 }">
             <template v-slot:slide="slide">
               <GlobalClipCard
                 :handle="slide.item.handle"
