@@ -2,7 +2,7 @@
   <div class="pa-4 flex flex-col items-center px-8">
     <template v-if="mode === 'keyword'">
       <UISearch
-        rules="required|min:2"
+        rules=""
         redirect-address="/explore-clips"
         query-key="key"
         placeholder="Search community clips by type, category or keyword"
@@ -21,7 +21,7 @@
       </UIHeading>
     </template>
 
-    <template v-if="mode === 'group'">
+    <template v-if="mode === 'topics'">
       <UIHeading :level="2"> Explore haggadah clips </UIHeading>
       <UIHeading :level="4" class="mt-5">
         <template v-if="loading">Searching</template>
@@ -32,7 +32,7 @@
     </template>
 
     <template v-if="loading && !loadingMore">
-      <div class="mt-16">
+      <div class="my-16">
         <UISpinner size="12" />
       </div>
     </template>
@@ -140,7 +140,6 @@ async function applySorting(type: ClipsSorting) {
   if (type === 'p' || type === 'r') {
     await router.push({ query: { ...route.query, page: 1, sort: type } });
   } // else would be favorite haggadahs
-  console.log('sorting', type, currentSorting.value);
   emit('sort');
 }
 </script>

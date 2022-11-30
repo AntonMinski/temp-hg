@@ -34,60 +34,72 @@
       </UIContainer>
     </div>
 
-      <div class="bg-secondary-500 pt-[140px] pb-[100px] text-center dark:bg-gray-600">
-        <UIContainer>
-          <UIHeading :level="4" class="!text-white">Our Favourites Clips</UIHeading>
+    <div class="bg-secondary-500 pt-[140px] pb-[100px] text-center dark:bg-gray-600">
+      <UIContainer>
+        <UIHeading :level="4" class="!text-white">Our Favourites Clips</UIHeading>
 
-          <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <GlobalClipCard
-              v-for="(clip, key) in favoriteClips"
-              :key="key"
-              :handle="clip.handle"
-              :type="clip.cliptype"
-              :section-title="clip.clip_section"
-              :title="clip.title"
-              :src="clip.image"
-              :text="clip.covertext"
-              :contributor-name="clip.author"
-              :contributor-initials="clip.author_initials"
-              :contributor-avatar="null"
-              :downloads-count="clip.downloads"
-              :likes-count="clip.likes"
-              :language-tags="['English', 'Hebrew']"
-              :topic-tags="['Chad Gadya', 'Dayenu']"
-              :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
-          </div>
+        <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <GlobalClipCard
+            v-for="(clip, key) in favoriteClips"
+            :key="key"
+            :handle="clip.handle"
+            :type="clip.cliptype"
+            :section-title="clip.clip_section"
+            :title="clip.title"
+            :src="clip.image"
+            :text="clip.covertext"
+            :contributor-name="clip.author"
+            :contributor-initials="clip.author_initials"
+            :contributor-avatar="null"
+            :downloads-count="clip.downloads"
+            :likes-count="clip.likes"
+            :language-tags="['English', 'Hebrew']"
+            :topic-tags="['Chad Gadya', 'Dayenu']"
+            :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
+        </div>
 
-          <UIButton class="mx-auto mt-[90px] !flex" color="link" size="lg">
-            View more favourite clips
-            <template #suffix>
-              <UIIcon icon="icon-arrow-right text-xl" />
-            </template>
-          </UIButton>
-        </UIContainer>
+        <UIButton class="mx-auto mt-[90px] !flex" color="link" size="lg">
+          View more favourite clips
+          <template #suffix>
+            <UIIcon icon="icon-arrow-right text-xl" />
+          </template>
+        </UIButton>
+      </UIContainer>
+    </div>
+
+    <div class="py-20">
+      <GlobalBannerClip variant="horizontal" />
+    </div>
+
+    <template v-if="loading">
+      <div class="my-16 flex justify-center">
+        <UISpinner size="12" />
       </div>
+    </template>
 
-      <div class="py-20">
-        <GlobalBannerClip variant="horizontal" />
-      </div>
-
+    <template v-else>
       <div class="pb-[51px]">
         <UIContainer>
-          <div v-for="(sectionValue, sectionName) in clipsBySections" class="py-[70px]">
+          <div v-for="section in clipsBySections" class="py-[70px]">
             <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
               <div>
                 <UIHeading :level="5">
-                  Clips in <span class="text-secondary-500">{{ sectionName }}</span>
+                  Clips in <span class="text-secondary-500">{{ section.name }}</span>
                 </UIHeading>
-                <span class="mt-1 block"> {{ sectionValue.total }} Clips • Curated by </span>
+                <span class="mt-1 block"> {{ section.total }} Clips • Curated by </span>
               </div>
-              <NuxtLink to="#" class="ml-4 flex-shrink-0">Show all</NuxtLink>
+              <NuxtLink
+                :to="`/explore-clips?haggadah_section[]=${section.handle}`"
+                class="ml-4 flex-shrink-0"
+                @click="getClipsBySection(section.handle)">
+                Show all</NuxtLink
+              >
             </div>
 
             <div class="mt-[50px]">
               <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <GlobalClipCard
-                  v-for="({ clip }, key) in sectionValue.clips"
+                  v-for="({ clip }, key) in section.clips"
                   :key="key"
                   :handle="clip.handle"
                   :type="clip.cliptype"
@@ -108,14 +120,16 @@
           </div>
         </UIContainer>
       </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ComputedRef, onMounted, PropType, ref, Ref } from 'vue';
-import { Clip, ClipCategory, ClipsSectionsPreview } from '~/components/Global/Clip/types';
-import { useAsyncData, useNuxtApp } from '#app';
+import { Clip, ClipCategory, ClipSection } from '~/components/Global/Clip/types';
+import { useAsyncData, useNuxtApp, useRouter } from '#app';
 const { vueApp } = useNuxtApp();
+const router = useRouter();
 
 import { usePageStore } from '~/store/page';
 import { useVModel } from '@vueuse/core';
@@ -138,16 +152,35 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['search', 'getClipsByCategory', 'update:searchString']);
+const emit = defineEmits([
+  'search',
+  'getClipsByCategory',
+  'update:searchString',
+  'update:loading',
+  'getClipsBySection',
+]);
 const searchString = useVModel(props, 'searchString', emit);
+const loading = useVModel(props, 'loading', emit);
 
-// const clipsBySections: Ref<ClipsSectionsPreview> = ref({});
+const clipsBySections: Ref<ClipSection[]> = ref([]);
+
+// async function fetchClipsSectionsPreview() {
+//   const response = await vueApp.$api.clip.getClipsSectionsPreview();
+//   const clipsBySections = { ...response._data.data.sections };
+//   return clipsBySections as ClipSection[];
+// }
+// const { data: clipsBySections } = await useAsyncData(fetchClipsSectionsPreview);
 
 async function fetchClipsSectionsPreview() {
+  loading.value = true;
   const response = await vueApp.$api.clip.getClipsSectionsPreview();
-  const clipsBySections = { ...response._data.data.sections };
-  return clipsBySections as ClipsSectionsPreview;
+  clipsBySections.value = [...response._data.data.sections];
+  loading.value = false;
 }
+onMounted(fetchClipsSectionsPreview);
 
-const { data: clipsBySections } = await useAsyncData(fetchClipsSectionsPreview);
+async function getClipsBySection(sectionHandle: string) {
+  await router.push({ query: { 'haggadah_section[]': sectionHandle } });
+  emit('getClipsBySection', sectionHandle);
+}
 </script>

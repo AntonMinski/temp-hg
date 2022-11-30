@@ -41,7 +41,7 @@
         v-if="hasFilters"
         class="mx-2 !mt-2 flex min-w-[128px] items-center lg:mt-0"
         size="md"
-        @click="resetFilters"
+        @click="clearFilters"
         >Clear</UIButton
       >
     </div>
@@ -129,14 +129,14 @@ const dropdown1SelectedChild = useVModel(props, 'dropdown1SelectedChild', emit);
 const dropdown2SelectedChild = useVModel(props, 'dropdown2SelectedChild', emit);
 const dropdown3SelectedChild = useVModel(props, 'dropdown3SelectedChild', emit);
 
-function resetFilters(): void {
+function clearFilters(): void {
   dropdown1Selected.value = [];
   dropdown2Selected.value = [];
   dropdown3Selected.value = [];
   dropdown1SelectedChild.value = [];
   dropdown2SelectedChild.value = [];
   dropdown3SelectedChild.value = [];
-  applyFilters();
+  emit('clearFilters');
 }
 
 async function applyFilters(): Promise<void> {
