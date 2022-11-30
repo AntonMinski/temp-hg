@@ -120,7 +120,7 @@ const sections = ['Introduction', 'Kadesh'];
         <UIHeading :level="2" class="mt-5">Explore Haggadah Clips</UIHeading>
         <UISearch
           rules="required"
-          redirect-address="/explore/clips"
+          redirect-address="/explore-clips"
           query-key="haggadah"
           placeholder="Search community clips by type, category or keyword"
           size="large"
