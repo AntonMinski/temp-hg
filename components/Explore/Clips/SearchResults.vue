@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-4 flex flex-col items-center px-8">
+  <div>
     <div v-if="mode === 'keyword'" class="bg-tertiary-500 pt-[72px] dark:bg-tertiary-800">
       <UIContainer>
         <UISearch
