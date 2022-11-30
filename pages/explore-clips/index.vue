@@ -32,6 +32,7 @@
       :clips="clips"
       :mode="mode"
       :search-keyword="route.query.key || ''"
+      :search-keyword-display="searchKeywordDisplay"
       :search-filters="searchFilters"
       :meta="meta"
       v-model:loading="loading"
@@ -84,6 +85,7 @@ const { vueApp } = useNuxtApp();
 
 const meta = ref({});
 const searchString = ref('');
+const searchKeywordDisplay = ref('');
 const loading: Ref<boolean> = ref(false);
 const loadingMore: Ref<boolean> = ref(false);
 const currentSorting: Ref<ClipsSorting> = ref('p');
@@ -108,8 +110,9 @@ const searchFilters: ComputedRef<string> = computed(() =>
 );
 
 async function getClipsByFilters() {
-  mode.value = searchString.value ? 'keyword' : 'topics';
   loading.value = true;
+  mode.value = searchString.value ? 'keyword' : 'topics';
+  searchKeywordDisplay.value = searchString.value;
 
   let searchOptions: string = '';
   let query = {};
@@ -194,6 +197,7 @@ async function getClips(searchOptions: clipSearchParams | string) {
 }
 
 async function searchClips(): Promise<void> {
+  searchKeywordDisplay.value = searchString.value;
   mode.value = 'keyword';
   await getClips(route.query);
 }
@@ -275,6 +279,7 @@ let { initialMode, initialSort, initialClips, initialMeta, categories, haggadahS
 const mode = ref<Mode>('main');
 mode.value = initialMode;
 currentSorting.value = initialSort;
+searchString.value = route.query.key as string;
 clips.value = [...initialClips];
 meta.value = { ...initialMeta };
 

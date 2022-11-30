@@ -2,101 +2,93 @@
   <div class="pa-4 flex flex-col items-center px-8">
     <div v-if="mode === 'keyword'" class="bg-tertiary-500 pt-[72px] dark:bg-tertiary-800">
       <UIContainer>
-      <UISearch
-        rules=""
-        redirect-address="/explore/clips"
-        query-key="key"
-        placeholder="Search community clips by type, category or keyword"
-        size="large"
-        class="mx-auto"
-        :redirect="false"
-        v-model:search-string="searchString"
-        @search="emit('search')" />
-      <slot name="filterGroup" />
+        <UISearch
+          rules=""
+          redirect-address="/explore-clips"
+          query-key="key"
+          placeholder="Search community clips by type, category or keyword"
+          size="large"
+          class="mx-auto"
+          :redirect="false"
+          :disabled="!searchString"
+          v-model:search-string="searchString"
+          @search="emit('search')" />
+        <slot name="filterGroup" />
       </UIContainer>
-      <UIHeading :level="4" class="mt-16 flex justify-center">
-        <template v-if="loading">Searching...</template>
-        <template v-else> {{ meta.total }} Clips found </template>
-      </UIHeading>
-      <UIHeading :level="2" class="mt-5 flex justify-center">
-        For search keyword: <span class="text-secondary-500">{{ searchString }}</span>
-      </UIHeading>
     </div>
 
     <div v-if="mode === 'topics'" class="bg-tertiary-500 pt-[87px] dark:bg-tertiary-800">
       <UIContainer class="text-center">
-      <UIHeading :level="2"> Explore haggadah clips </UIHeading>
-      <UIHeading :level="5" class="mt-5 !text-2xl !text-primary-500">
-        <span v-if="loading" class="mr-2">Searching</span>
-        <span v-else class="mr-2">{{ meta.total }}</span>
-        <span class="dark:text-white">Clips in</span>{{ searchFilters }}
-      </UIHeading>
-      <slot name="filterGroup" />
+        <UIHeading :level="2"> Explore haggadah clips </UIHeading>
+        <UIHeading :level="5" class="mt-5 !text-2xl !text-primary-500">
+          <span v-if="loading" class="mr-2">Searching</span>
+          <span v-else class="mr-2">{{ meta.total }}</span>
+          <span class="dark:text-white">Clips in</span>{{ searchFilters }}
+        </UIHeading>
+        <slot name="filterGroup" />
       </UIContainer>
     </div>
 
     <div class="bg-gray-50 pt-[125px] pb-[100px] dark:bg-gray-900">
-      <template v-if="loading && !loadingMore">
-        <div class="mt-16 flex justify-center">
-          <UISpinner size="12" />
+      <UIContainer class="flex flex-col items-center">
+        <div v-if="mode === 'keyword'" class="mb-[33.5px]">
+          <UIHeading :level="4" class="flex justify-center">
+            <template v-if="loading">Searching...</template>
+            <template v-else>
+              <span class="mr-2 text-secondary-500">{{ meta.total }}</span> Clips found
+            </template>
+          </UIHeading>
+          <UIHeading :level="2" class="mt-0.5 flex justify-center">
+            For search keyword:&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
+          </UIHeading>
         </div>
-      </template>
-
-      <template v-else>
-        <UIContainer class="flex flex-col items-center">
-          <div v-if="mode === 'keyword'" class="mb-[33.5px]">
-            <UIHeading :level="4" class="flex justify-center">
-              <template v-if="loading">Searching...</template>
-              <template v-else>
-                <span class="mr-2 text-secondary-500">{{ meta.total }}</span> Clips found
-              </template>
-            </UIHeading>
-            <UIHeading :level="2" class="mt-0.5 flex justify-center">
-              For search keyword: <span class="ml-2 text-secondary-500">{{ searchString }}</span>
-            </UIHeading>
-          </div>
 
         <div id="sorting" class="flex justify-center space-x-[5px]">
           <UICategoryPill
-            v-for="(sortingName, key) in sorting"
+            v-for="(sortingName, key) in sortingTypes"
             :key="key"
-            :is-active="key === sortingType"
+            :is-active="key === currentSorting"
             @click="applySorting(key)">
             {{ sortingName }}
           </UICategoryPill>
         </div>
-
-      <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <GlobalClipCard
-          v-for="(clip, key) in clips"
-          :key="key"
-          :handle="clip.handle"
-          :type="clip.cliptype"
-          :section-title="clip.clip_section"
-          :title="clip.title"
-          :src="clip.image"
-          :text="clip.covertext"
-          :contributor-name="clip.author"
-          :contributor-initials="clip.author_initials"
-          :contributor-avatar="null"
-          :downloads-count="clip.downloads"
-          :likes-count="clip.likes"
-          :language-tags="['English', 'Hebrew']"
-          :topic-tags="['Chad Gadya', 'Dayenu']"
-          :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
-          class="mx-2" />
-      </div>
-
-      <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5"
-                size="lg" color="dark" @click="emit('loadMore')"
-        >Load more
-        <template #suffix>
-          <UISpinner v-if="loadingMore" size="4" class="ml-2" />
-          <UIIcon v-else icon="icon-arrow-bottom" size="4" class="ml-2" />
+        <template v-if="loading && !loadingMore">
+          <div class="mt-16 flex justify-center">
+            <UISpinner size="12" />
+          </div>
         </template>
-      </UIButton>
-        </UIContainer>
-    </template>
+
+        <template v-else>
+          <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <GlobalClipCard
+              v-for="(clip, key) in clips"
+              :key="key"
+              :handle="clip.handle"
+              :type="clip.cliptype"
+              :section-title="clip.clip_section"
+              :title="clip.title"
+              :src="clip.image"
+              :text="clip.covertext"
+              :contributor-name="clip.author"
+              :contributor-initials="clip.author_initials"
+              :contributor-avatar="null"
+              :downloads-count="clip.downloads"
+              :likes-count="clip.likes"
+              :language-tags="['English', 'Hebrew']"
+              :topic-tags="['Chad Gadya', 'Dayenu']"
+              :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
+              class="mx-2" />
+          </div>
+
+          <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5" size="lg" color="dark" @click="emit('loadMore')"
+            >Load more
+            <template #suffix>
+              <UISpinner v-if="loadingMore" size="4" class="ml-2" />
+              <UIIcon v-else icon="icon-arrow-bottom" size="4" class="ml-2" />
+            </template>
+          </UIButton>
+        </template>
+      </UIContainer>
     </div>
   </div>
 </template>
@@ -141,8 +133,19 @@ const props = defineProps({
     type: String as PropType<ClipsSorting>,
     default: 'p',
   },
+  searchKeywordDisplay: {
+    type: String,
+    default: '',
+  },
 });
-const emit = defineEmits(['search', 'sort', 'loadMore', 'update:loading', 'update:currentSorting', 'update:searchString']);
+const emit = defineEmits([
+  'search',
+  'sort',
+  'loadMore',
+  'update:loading',
+  'update:currentSorting',
+  'update:searchString',
+]);
 const searchString = useVModel(props, 'searchString', emit);
 
 const loading = useVModel(props, 'loading', emit);
