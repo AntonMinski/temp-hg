@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
-import type { Haggadah } from './types';
+import type { HaggadahWrapper } from './types';
 import { useGlobalStore } from '~/store/global';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
@@ -9,7 +9,7 @@ const globalData = computed(() => globalStore.globalData);
 // const haggadahs: ComputedRef<Haggadah[]> = computed(() => pageStore.homePageData.featured_haggadah?.slice(0, 6));
 const props = defineProps({
   haggadahs: {
-    type: Array as PropType<Haggadah[]>,
+    type: Array as PropType<HaggadahWrapper[]>,
     default: '',
   },
 });

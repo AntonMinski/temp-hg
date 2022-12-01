@@ -5,9 +5,9 @@
       :popular-categories="state.popularCategories"
       v-model:loading="state.loading"
       v-model:search-string="state.searchString"
-      @search="searchClips"
-      @getClipsByCategory="getClipsByCategory"
-      @getClipsBySection="getClipsBySection">
+      @search="searchItems"
+      @getClipsByCategory="getItemsByCategory"
+      @getClipsBySection="getItemsBySection">
       <template #filterGroup>
         <UIFilterGroup
           group-heading="Filter clips"
@@ -22,7 +22,7 @@
           v-model:dropdown2-selected="state.selectedCategories"
           v-model:dropdown3-selected="state.selectedMediaTypes"
           v-model:dropdown2-selected-child="state.selectedChildCategories"
-          @applyFilters="getClipsByFilters"
+          @applyFilters="getItemsByFilters"
           @clearFilters="clearFilters" />
       </template>
     </ExploreClipsMain>
@@ -39,9 +39,9 @@
       v-model:loading-more="state.loadingMore"
       v-model:search-string="state.searchString"
       v-model:current-sorting="state.currentSorting"
-      @search="searchClips"
+      @search="searchItems"
       @sort="setSorting"
-      @loadMore="loadMoreClips">
+      @loadMore="loadMoreItems">
       <template #filterGroup>
         <UIFilterGroup
           group-heading="Filter clips"
@@ -56,7 +56,7 @@
           v-model:dropdown2-selected="state.selectedCategories"
           v-model:dropdown3-selected="state.selectedMediaTypes"
           v-model:dropdown2-selected-child="state.selectedChildCategories"
-          @applyFilters="getClipsByFilters"
+          @applyFilters="getItemsByFilters"
           @clearFilters="clearFilters" />
       </template>
     </ExploreClipsSearchResults>
@@ -87,7 +87,7 @@ const route = useRoute();
 const router = useRouter();
 const { vueApp } = useNuxtApp();
 import { useMode } from '~/components/Explore/Composables/useMode';
-import { useClip } from '~/components/Explore/Composables/useClip';
+import { useClipOrHaggadah } from '~/components/Explore/Composables/useClipOrHaggadah';
 
 const loading: Ref<boolean> = ref(false);
 
@@ -107,7 +107,10 @@ async function getPageData() {
 
 async function fetchClips(searchOptions: clipSearchParams | string) {
   const response = await vueApp.$api.clip.exploreClips(searchOptions);
-  return response;
+  return {
+    items: response._data.data.map((item) => item.clip),
+    meta: {...response._data.meta},
+  };
 }
 
 async function getInitialPageData() {
@@ -147,15 +150,15 @@ let { initialMode, initialSort, initialClips, initialMeta, categories, haggadahS
 const {
   state,
   searchFilters,
-  getClipsByFilters,
-  getClipsByCategory,
-  searchClips,
-  getClips,
-  loadMoreClips,
+  getItemsByFilters,
+  getItemsByCategory,
+  searchItems,
+  getItems,
+  loadMoreItems,
   setSorting,
-  getClipsBySection,
+  getItemsBySection,
   clearFilters,
-} = useClip(initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, fetchClips);
+} = useClipOrHaggadah(initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, fetchClips);
 
 // Meta
 const metaObject = getMetaObject(metaTags);

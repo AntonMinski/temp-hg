@@ -31,7 +31,7 @@
       </UIContainer>
 
       <UIContainer v-if="mode === 'keyword'" class="text-center">
-        <UIHeading :level="2"> Family haggadahs </UIHeading>
+        <UIHeading :level="2" class='!text-white'> Family haggadahs </UIHeading>
         <UIHeading :level="5" class="mt-5 !text-2xl text-white">
           <span v-if="loading" class="mr-2">Searching</span>
           <span v-else class="mr-2 text-primary-500">{{ meta.total }}</span> Haggadahs
@@ -70,25 +70,25 @@
 
         <template v-else>
           <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <GlobalHaggdahCard
-              v-for="(item, key) in haggadahs"
+            <GlobalHaggadahCard
+              v-for="(haggadah, key) in haggadahs"
               :key="key"
               route="#"
-              :img-src="item.haggadah.haggadah_image"
-              :title="item.haggadah.title"
-              :slug="item.haggadah.handle"
+              :img-src="haggadah.haggadah_image"
+              :title="haggadah.title"
+              :slug="haggadah.handle"
               text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-              :read-time="item.haggadah.reading_length || 10"
-              :contributor-name="item.haggadah.author"
-              :contributor-initials="item.haggadah.author_initials"
+              :read-time="haggadah.reading_length || 10"
+              :contributor-name="haggadah.author"
+              :contributor-initials="haggadah.author_initials"
               :contributor-avatar="null"
               :language-tags="['Trending', 'Humanity']"
               :topic-tags="['Trending', 'Humanity']"
               :completed-progress="50"
               :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
-              :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'"
-              :is-liked="item.haggadah.is_liked !== '0'"
-              :download-url="item.haggadah.download_url" />
+              :is-added-to-bookmark="haggadah.is_bookmarked !== '0'"
+              :is-liked="haggadah.is_liked !== '0'"
+              :download-url="haggadah.download_url" />
           </div>
 
           <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5" size="lg" color="dark" @click="emit('loadMore')">
@@ -108,13 +108,14 @@
 import { PropType } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { useRoute, useRouter } from '#app';
-import { Haggadah, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
+import { HaggadahWrapper, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
+import { DropdownItem } from '~/components/UI/Dropdown/types';
 const route = useRoute();
 const router = useRouter();
 
 const props = defineProps({
   haggadahs: {
-    type: Array as PropType<Haggadah[]>,
+    type: Array as PropType<HaggadahWrapper[]>,
     required: true,
   },
   mode: {
@@ -147,6 +148,9 @@ const props = defineProps({
   searchKeywordDisplay: {
     type: String,
     default: '',
+  },
+  popularCategories: {
+    type: Array as PropType<DropdownItem[]>,
   },
 });
 const emit = defineEmits([

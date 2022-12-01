@@ -70,7 +70,7 @@
 import { ref, Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAsyncData } from '#app';
-import type { Haggadah } from '~/components/Global/Haggadah/types';
+import type { HaggadahWrapper } from '~/components/Global/Haggadah/types';
 import { usePageStore } from '~/store/page';
 
 const pageStore = usePageStore();
@@ -95,5 +95,5 @@ const sections: Ref<{ name: string }[]> = ref([
 await useAsyncData(pageStore.getHomePage);
 
 // Haggadahs Data
-const haggadahs: Haggadah[] = homePageData.value?.favorite_haggadahs?.slice(0, 3);
+const haggadahs: HaggadahWrapper[] = homePageData.value?.favorite_haggadahs?.slice(0, 3);
 </script>
