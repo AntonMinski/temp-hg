@@ -12,10 +12,10 @@ import { useRoute, useRouter } from '#app';
 import { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
 import { Haggadah } from '~/components/Global/Haggadah/types';
 
-export function useClip(
+export function useClipOrHaggadah(
   initialMode: Mode = 'main',
   initialSort: ClipsSorting = 'p',
-  initialClipsOrHaggadahs: Clip[] = [],
+  initialClipsOrHaggadahs: Clip[] | Haggadah[] = [],
   initialMeta = {},
   initialCategories: ClipCategory[] = [],
   initialHaggadahSections: DropdownItem[] = [],
@@ -134,33 +134,35 @@ export function useClip(
     // await getClips(searchOptions);
   }
 
-  async function getClipsByCategory(categoryHandle: string) {
+  async function getItemsByCategory(categoryHandle: string) {
     state.mode = 'topics';
     state.selectedCategories = [categoryHandle];
     const query = { 'parent_category[]': categoryHandle, page: '1' };
     await router.push({ query });
-    await getClips(query);
+    await getItems(query);
   }
 
-  async function getClips(searchOptions: clipSearchParams | string) {
+  async function getItems(searchOptions: clipSearchParams | string) {
     state.loading = true;
     if (typeof searchOptions !== 'string') {
       searchOptions.page = searchOptions.page || 1;
       searchOptions.sort = searchOptions.sort || state.currentSorting || 'p';
     }
-    const response = await fetchClipsOrHaggadahs(searchOptions);
-    state.clipsOrHaggadahs = [...response._data.data.map((item) => item.clip)];
-    state.meta = { ...response._data.meta };
+    console.log('searchOptions', searchOptions);
+    const { items, meta } = await fetchClipsOrHaggadahs(searchOptions);
+    state.clipsOrHaggadahs = [...items];
+    state.meta = { ...meta };
     state.loading = false;
   }
 
-  async function searchClips(): Promise<void> {
+  async function searchItems(): Promise<void> {
+    console.log('searchItems');
     state.searchKeywordDisplay = state.searchString;
     state.mode = 'keyword';
-    await getClips(route.query);
+    await getItems(route.query);
   }
 
-  async function loadMoreClips() {
+  async function loadMoreItems() {
     state.loadingMore = true;
     const currentPage = route.query.page ? parseInt(route.query.page as string) : 1;
     await router.push({
@@ -169,30 +171,30 @@ export function useClip(
         page: currentPage + 1,
       },
     });
-    const response = await fetchClipsOrHaggadahs({
+    const { items, meta } = await fetchClipsOrHaggadahs({
       ...route.query,
       page: currentPage + 1,
     });
-    state.clipsOrHaggadahs.push(...response._data.data.map((item: clipContainer) => item.clip));
-    state.meta = { ...response._data.meta };
+    state.clipsOrHaggadahs.push(...items);
+    state.meta = { ...meta };
     state.loadingMore = false;
   }
 
   async function setSorting() {
-    await getClips(route.query);
+    await getItems(route.query);
   }
 
-  async function getClipsBySection(sectionHandle: string) {
+  async function getItemsBySection(sectionHandle: string) {
     state.selectedHaggadahSections = [sectionHandle];
     state.mode = 'topics';
-    await getClips(route.query);
+    await getItems(route.query);
   }
 
   async function clearFilters() {
     state.loading = true;
     if (state.mode === 'keyword' && state.searchString) {
       await router.push({ query: { key: state.searchString } });
-      await getClips({ key: state.searchString, page: 1 });
+      await getItems({ key: state.searchString, page: 1 });
     } else if (state.mode === 'topics') {
       state.mode = 'main';
       await router.push({ query: {} });
@@ -204,13 +206,13 @@ export function useClip(
   return {
     state,
     searchFilters,
-    getClipsByFilters,
-    getClipsByCategory,
-    searchClips,
-    getClips,
-    loadMoreClips,
+    getItemsByFilters: getClipsByFilters,
+    getItemsByCategory,
+    searchItems,
+    getItems,
+    loadMoreItems,
     setSorting,
-    getClipsBySection,
+    getItemsBySection,
     clearFilters,
   };
 }
