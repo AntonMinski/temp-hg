@@ -13,9 +13,10 @@ export type Clip = {
   cliptype: CardType;
   downloads: number;
   is_bookmarked: '0' | '1' | Boolean;
+  is_liked: '0' | '1' | Boolean;
   keywords: string[];
   language: string[];
-  likes: `${number}` | number;
+  likes: number;
   media: {
     audio: string;
     image;
@@ -44,7 +45,7 @@ export type clipSearchResult = {
         haggadah_sections: HaggadahSection[];
       }
       meta_tags;
-      clip_in: ClipsBySections;
+      clip_in;
       support_us_arr;
       results_found: number;
     };

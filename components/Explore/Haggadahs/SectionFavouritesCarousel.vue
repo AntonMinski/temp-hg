@@ -17,7 +17,7 @@
 
     <div class="w-full items-start xl:flex">
       <div class="flex-1 overflow-hidden">
-        <UICarousel :items="haggadahs" :breakpoints="{ xsm: 1, lg: 2 }" :justify-rows="true">
+        <UICarousel :items="haggadahs" :breakpoints="{ xs: 1, lg: 2 }" :justify-rows="true">
           <template v-slot:slide="slide">
             <div class="max-w-[625px]">
               <GlobalHaggadahCard

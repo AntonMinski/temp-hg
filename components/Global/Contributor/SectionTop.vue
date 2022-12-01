@@ -6,7 +6,7 @@ import { navigateTo } from '#app';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
 
-const contributorsData: ComputedRef<Contributor[]> = computed(() => globalData.value?.top_contributors);
+const contributorsData: ComputedRef<ContributorWrapper[]> = computed(() => globalData.value?.top_contributors);
 
 async function showAll() {
   await navigateTo('/contributors');
@@ -26,7 +26,7 @@ async function showAll() {
         </div>
 
         <div class="mt-[53px]">
-          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ xsm: 1, sm: 2, md: 3, lg: 4 }">
+          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ xs: 1, sm: 2, md: 3, lg: 4 }">
             <template v-slot:slide="slide">
               <div class="mx-2">
                 <GlobalContributorCard

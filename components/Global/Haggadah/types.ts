@@ -60,4 +60,4 @@ export type HaggadahSection = {
 
 export type Mode = 'main' | 'topics' | 'keyword';
 
-export type HaggadahsSorting = 'p' | 'r' | 'editor';
+export type HaggadahsSorting = '' | 'r' ;

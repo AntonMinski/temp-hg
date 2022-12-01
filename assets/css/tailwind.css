@@ -1,17 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.carousel__pagination-button::after {
-    --vc-pgn-width: 13px;
-    --vc-pgn-height: 13px;
-    @apply !rounded-full !bg-gray-200;
-}
-
-.carousel__pagination-button:hover::after {
-    @apply !bg-secondary-500;
-}
-
-.carousel__pagination-button--active::after {
-    @apply !bg-secondary-500;
-}

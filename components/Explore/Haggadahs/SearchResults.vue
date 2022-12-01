@@ -70,7 +70,7 @@
 
         <template v-else>
           <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <GlobalHaggdahCard
+            <GlobalHaggadahCard
               v-for="(item, key) in haggadahs"
               :key="key"
               route="#"
