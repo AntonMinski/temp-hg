@@ -6,11 +6,13 @@
       </div>
 
       <UIButtonGroup>
-        <UIButton class="h-8 w-8 border border-white">
-          <UIIcon icon="icon-arrow-left text-white" />
+        <UIButton
+          class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
+          <UIIcon icon="icon-arrow-left" />
         </UIButton>
-        <UIButton class="h-8 w-8 border border-white">
-          <UIIcon icon="icon-arrow-right text-white" />
+        <UIButton
+          class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
+          <UIIcon icon="icon-arrow-right" />
         </UIButton>
       </UIButtonGroup>
     </div>
@@ -23,21 +25,21 @@
               <GlobalHaggadahCard
                 route="#"
                 :col="6"
-                :img-src="slide.item.item_image || 'https://haggadot.us-east-1.linodeobjects.com/books/356996/conversions/GoldenGirls-cover.jpg'"
-                :title="slide.item.title || '10 Minute Dayenu Seder'"
-                :slug="slide.item.handle"
+                :img-src="haggadahsCardImage"
+                title="Comedy Seder"
+                :slug="`haggadahs-${slide}`"
                 text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-                :read-time="slide.item.reading_length || 10"
-                :contributor-name="slide.item.author"
-                :contributor-initials="slide.item.author_initials"
+                :read-time="10"
+                contributor-name="Haggadahs"
+                contributor-initials="HD"
                 :contributor-avatar="null"
-                :language-tags="['Trending', 'Humanity']"
                 :topic-tags="['Trending', 'Humanity']"
-                :completed-progress="50"
                 :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
-                :is-added-to-bookmark="slide.item.is_bookmarked !== '0'"
-                :is-liked="slide.item.is_liked !== '0'"
-                :download-url="slide.item.download_url"
+                :completed-progress="50"
+                :language-tags="['Trending', 'Humanity']"
+                :is-added-to-bookmark="false"
+                :is-owner="true"
+                :is-liked="false"
                 :hide-onwer-badge="true" />
             </div>
           </template>
@@ -55,17 +57,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ComputedRef } from 'vue';
-import { useAsyncData } from '#app';
-import { storeToRefs } from 'pinia';
-import type { Haggadah } from '~/components/Global/Haggadah/types';
-import { usePageStore } from '~/store/page';
-
-const pageStore = usePageStore();
-const { homePageData } = storeToRefs(pageStore);
-
-await useAsyncData(pageStore.getHomePage);
-
-// Haggadahs Data
-const haggadahs: ComputedRef<Haggadah[]> = computed(() => homePageData.value?.favorite_haggadahs?.slice(0, 6));
+const haggadahs = [...Array(10).keys()];
+const haggadahsCardImage = (await import('@/assets/images/haggadah-card-image.png')).default;
 </script>
