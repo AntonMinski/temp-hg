@@ -63,8 +63,8 @@ const selectedClip = ref(props.clips?.[0] || null);
     </div>
 
     <div class="flex items-start" :class="col == 6 ? 'flex-row' : 'flex-col'">
-      <div v-if="contributorName || readTime" class='w-full' :class="col == 6 ? 'order-1' : null">
-        <div class="flex items-baseline justify-between space-x-[15px]">
+      <div v-if="contributorName || readTime" class="w-full" :class="col == 6 ? 'order-1' : null">
+        <div class="mt-4 flex items-center space-x-[15px]">
           <div v-if="readTime" class="inline-flex items-center space-x-2">
             <UIIcon icon="icon-book-o" class="text-secondary-600" />
             <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">{{ readTime }} minutes read</span>
