@@ -26,7 +26,7 @@ async function showAll() {
         </div>
 
         <div class="mt-[53px]">
-          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ xsm: 1, sm: 2, md: 3, lg: 4 }">
+          <UICarousel :items-per-row="1" :items="contributorsData" :breakpoints="{ xs: 1, sm: 2, md: 3, lg: 4 }">
             <template v-slot:slide="slide">
               <div class="mx-2">
                 <GlobalContributorCard

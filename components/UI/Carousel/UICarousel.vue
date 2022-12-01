@@ -23,7 +23,14 @@
 </template>
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
-type ScreenSize = 'xsm' | 'sm' | 'md' | 'lg' | 'xl';
+type ScreenSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type Breakpoints = {
+  xs?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+};
 
 const props = defineProps({
   items: Array,
@@ -36,7 +43,7 @@ const props = defineProps({
     default: 500,
   },
   breakpoints: {
-    type: Object as PropType<{ [key in ScreenSize]: number }>,
+    type: Object as PropType<Breakpoints>,
   },
 });
 
@@ -51,7 +58,7 @@ onBeforeUnmount(() => {
 });
 
 const defaultBreakpoints = {
-  xsm: 1,
+  xs: 1,
   sm: 1,
   md: 1,
   lg: 2,
@@ -59,7 +66,7 @@ const defaultBreakpoints = {
 };
 
 const breakpointValues = {
-  xsm: 0,
+  xs: 0,
   sm: 640,
   md: 768,
   lg: 1024,
@@ -69,7 +76,7 @@ const breakpointValues = {
 function getItemsPerRow() {
   const breakpoints = Object.keys(props.breakpoints).length ? props.breakpoints : defaultBreakpoints;
   const windowWidth = window.innerWidth;
-  let activeBreakpoint = 'xsm';
+  let activeBreakpoint = 'xs';
   for (const breakpoint in breakpoints) {
     if (breakpointValues[breakpoint] <= windowWidth) {
       activeBreakpoint = breakpoint;

@@ -58,7 +58,7 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
       </div>
 
       <div class="mt-[70px]">
-        <UICarousel :items-per-row="1" :items="events" :breakpoints="{ xsm: 1, xl: 2 }">
+        <UICarousel :items-per-row="1" :items="events" :breakpoints="{ xs: 1, xl: 2 }">
           <template v-slot:slide="slide">
             <div class="mx-2">
               <GlobalEventCard
