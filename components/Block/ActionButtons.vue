@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core';
+import { ref } from 'vue';
 
 interface Props {
   index: string | number | symbol;
@@ -18,12 +19,14 @@ const props = withDefaults(defineProps<Props>(), {
   isAddedToBookmark: false,
 });
 
-const emit = defineEmits(['update:isAddedToBookmark']);
-
-const isAddedToBookmark = useVModel(props, 'isAddedToBookmark', emit);
+const emit = defineEmits(['update:isAddedToBookmark', 'add-to-bookmark', 'remove-from-bookmark', 'download', 'share']);
 
 function handleAddToBookmark(): void {
-  isAddedToBookmark.value = !isAddedToBookmark.value;
+  if (!props.isAddedToBookmark) {
+    emit('add-to-bookmark');
+  } else {
+    emit('remove-from-bookmark');
+  }
 }
 </script>
 
@@ -64,7 +67,8 @@ function handleAddToBookmark(): void {
       :class="{ '!rounded-lg !border-r !py-0': !group }"
       color="link"
       :data-tooltip-target="`tooltip-download-${String(index)}`"
-      outline>
+      outline
+      @click="emit('download')">
       <span class="flex h-full" :class="group ? 'items-center' : 'items-stretch'">
         <span
           v-if="!group"
@@ -83,7 +87,9 @@ function handleAddToBookmark(): void {
       :class="{ '!rounded-l-lg !py-0': !group }"
       color="link"
       :data-tooltip-target="`tooltip-share-${String(index)}`"
-      outline>
+      outline
+      @click="emit('share')"
+    >
       <span class="flex h-full" :class="group ? 'items-center' : 'items-stretch'">
         <span
           v-if="!group"

@@ -1,7 +1,10 @@
 import { capitalizeFirstLetter } from '~/composables/capitalize';
 import { loginModal } from '~/composables/loginModal';
+import { useNuxtApp } from '#app';
 
-export async function handleAddToBookmark(add: boolean, slug: string, vueApp, apiRoute: apiRoute) {
+
+export async function handleAddToBookmark(add: boolean, slug: string, apiRoute: apiRoute) {
+  const { vueApp } = useNuxtApp();
   if (loginModal()) {
     return false;
   }
@@ -24,7 +27,7 @@ export async function handleAddToBookmark(add: boolean, slug: string, vueApp, ap
     }
     return true;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 

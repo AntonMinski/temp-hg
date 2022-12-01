@@ -54,6 +54,18 @@ export default class ClipApi {
     return this.base.post(`unbookmark-clip/${slug}`, {}, { showSuccessToast: false });
   }
 
+  async likeClip(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`like-clip/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async unLikeClip(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.post(`unlike-clip/${slug}`, {}, { showSuccessToast: false });
+  }
+
+  async downloadClip(slug: String): Promise<statusResponse | errorResponse> {
+    return this.base.get(`clip-download/${slug}`);
+  }
+
   async getClipCategories() {
     return this.base.get('clip-categories');
   }

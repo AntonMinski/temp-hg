@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { HTML } from 'mdast';
-import { computed, ComputedRef, Ref, ref } from 'vue';
+import { computed, ComputedRef, onMounted, Ref, ref } from 'vue';
 import type { CardType } from './types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 const { vueApp } = useNuxtApp();
@@ -47,9 +47,8 @@ const route: ComputedRef<string> = computed(() => '/clip/' + props.handle);
 // bookmarks
 const isAddedToBookmark: Ref<boolean> = ref(props.isAddedToBookmark);
 async function addToBookmark(value: boolean): Promise<void> {
-  if (await handleAddToBookmark(value, props.handle, vueApp, 'clip')) {
-    isAddedToBookmark.value = value;
-  }
+  isAddedToBookmark.value = value;
+  await handleAddToBookmark(value, props.handle, 'clip');
 }
 </script>
 
