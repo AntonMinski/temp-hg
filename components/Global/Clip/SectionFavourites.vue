@@ -65,7 +65,7 @@ async function setCategory(category: ClipCategory) {
           </div>
         </div>
         <div class="mt-12 flex-1 overflow-hidden xl:mt-0 xl:ml-[50px]">
-          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ xsm: 1, lg: 2 }">
+          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ xs: 1, lg: 2 }">
             <template v-slot:slide="slide">
               <GlobalClipCard
                 :handle="slide.item.handle"
