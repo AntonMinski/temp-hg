@@ -26,6 +26,14 @@
       </UIContainer>
     </div>
 
+    <div
+      id="favourite-haggadahs-carousel"
+      class="mt-[90px] bg-tertiary-500 pt-[80px] pb-[100px] text-center dark:bg-gray-600">
+      <UIContainer>
+        <ExploreHaggadahsSectionFavouritesCarousel />
+      </UIContainer>
+    </div>
+
     <div class="pt-[80px]">
       <UIContainer>
         <div v-for="section in sections" :key="section.name" class="py-[70px]">

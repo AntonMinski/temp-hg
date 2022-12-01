@@ -1,14 +1,19 @@
 <template>
   <div v-if="itemsPerRow" class="flex flex-col justify-center">
     <div id="slide" class="overflow-unset flex flex-nowrap transition-all duration-500" :style="translateX">
-      <div v-for="item in items" :key="item" class="flex justify-center" :style="slideWidthStyle">
+      <div
+        v-for="(item, index) in items"
+        :key="item"
+        class="flex"
+        :class="justifyRows ? (index % 2 == 0 ? 'justify-start' : 'justify-end') : 'justify-center'"
+        :style="slideWidthStyle">
         <slot name="slide" v-bind:item="item" />
       </div>
     </div>
     <div id="pagination" class="mt-12 flex items-center justify-center">
       <slot name="pagination">
         <button
-          class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px] "
+          class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px]"
           :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
           v-for="number in paginationLength"
           :key="number"
@@ -19,7 +24,6 @@
   <div class="my-40 flex justify-center" v-else>
     <UISpinner size="12" />
   </div>
-
 </template>
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
@@ -37,6 +41,10 @@ const props = defineProps({
   },
   breakpoints: {
     type: Object as PropType<{ [key in ScreenSize]: number }>,
+  },
+  justifyRows: {
+    type: Boolean,
+    default: false,
   },
 });
 
