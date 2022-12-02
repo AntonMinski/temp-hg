@@ -8,7 +8,8 @@
       :favorite-haggadahs="favoriteHaggadahs"
       @search="searchItems"
       @getHaggadahsByCategory="getItemsByCategory"
-      @getHaggadahsBySection="getItemsBySection" />
+      @getHaggadahsBySection="getItemsBySection"
+      @viewAll="viewMore" />
 
     <ExploreHaggadahsSearchResults
       v-if="state.mode !== 'main'"
@@ -48,7 +49,7 @@ import type {
   Haggadah,
   HaggadahsSorting,
   haggadahSearchParams,
-  HaggadahWrapper
+  HaggadahWrapper,
 } from '~/components/Global/Haggadah/types';
 import type { Clip, ClipCategory, Mode, ClipsSorting } from '~/components/Global/Clip/types';
 import type { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
@@ -113,7 +114,7 @@ const { data: initialData } = await useAsyncData(getInitialPageData);
 const { initialMode, initialSort, initialHaggadahs, initialMeta, popularTopics, favoriteHaggadahs, metaTags } =
   initialData.value;
 
-const { state, getItemsByCategory, searchItems, getItems, loadMoreItems, setSorting, getItemsBySection } =
+const { state, getItemsByCategory, searchItems, getItems, loadMoreItems, setSorting, getItemsBySection, viewMore } =
   useClipOrHaggadah(initialMode, initialSort, initialHaggadahs, initialMeta, [], [], popularTopics, fetchHaggadahs);
 
 function getHaggadahsByCategory(category) {

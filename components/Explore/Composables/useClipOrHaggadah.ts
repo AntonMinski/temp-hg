@@ -144,11 +144,16 @@ export function useClipOrHaggadah(
     await getItems(query);
   }
 
+  async function viewMore() {
+    state.mode = 'topics';
+    await getItems({});
+  }
+
   async function getItems(searchOptions: clipSearchParams | string) {
     state.loading = true;
     if (typeof searchOptions !== 'string') {
       searchOptions.page = searchOptions.page || 1;
-      searchOptions.sort = searchOptions.sort || state.currentSorting || 'p';
+      searchOptions.sort = state.currentSorting || 'p';
     }
     console.log('searchOptions', searchOptions);
     const { items, meta } = await fetchClipsOrHaggadahs(searchOptions);
@@ -212,6 +217,7 @@ export function useClipOrHaggadah(
     getItemsByCategory,
     searchItems,
     getItems,
+    viewMore,
     loadMoreItems,
     setSorting,
     getItemsBySection,

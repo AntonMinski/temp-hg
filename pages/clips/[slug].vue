@@ -11,7 +11,6 @@ const { vueApp } = useNuxtApp();
 
 const pageStore = usePageStore();
 
-const type = 'image';
 const languageTags = ['English'];
 const topicTags = ['Chad Gadya', 'Dayenu'];
 
@@ -22,19 +21,15 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
 // DATA
 async function getClip() {
   const slug = route.params.slug as string;
-  const clipResponse = await vueApp.$api.clip.getSingleClip(slug);
-  const clip: Clip = { ...clipResponse._data.data.clip };
-  // TODO add contributor's handle to the clip
-  /* Not implemented a backend for this yet, so get handle manually */
-  const authorHandle = clip.author.toLowerCase().replaceAll(' ', '-');
-  const contributorResponse = await vueApp.$api.contributor.getContributorsDetails(authorHandle);
-  const contributor: Contributor = { ...contributorResponse._data.data.users };
-  return { clip, contributor };
+  const clipResponse = await vueApp.$api.clip.exploreClip(slug);
+  const clipData = { ...clipResponse._data.data };
+  return clipData;
 }
-/* Not implemented a backend for this yet */
-// const { data: { clip, contributor } } = await useAsyncData(getClip);
-const { data: initialData } = await useAsyncData(getClip);
-const { clip, contributor } = initialData.value;
+
+const { data: clipData } = await useAsyncData(getClip);
+const clip: Clip = clipData.value.clip_details.clip;
+const contributor: Contributor = clipData.value.contributed_by;
+const book = clipData.value.user_book;
 
 // Likes
 
@@ -75,9 +70,7 @@ async function addToBookmark(add: boolean): Promise<void> {
 async function downloadClip(): Promise<void> {
   try {
     const response = await vueApp.$api.clip.downloadClip(clip.handle);
-    console.log(response._data);
     if (response._data.success) {
-      console.log(response._data.download_clip_url);
       const url = window.URL.createObjectURL(new Blob([response._data.download_clip_url]));
       const link = document.createElement('a');
       link.target = '_blank';
@@ -125,15 +118,15 @@ async function followContributor() {
         <div class="mt-10 flex items-start">
           <div>
             <UICard class="mr-[70px] !max-w-[637px] !border-dashed">
-              <img v-if="clip.cliptype === 'image'" src="~/assets/images/clip-image.png" />
-              <audio v-if="clip.cliptype === 'audio'">
-                <source src="" type="audio/mp3" />
+              <img v-if="clip.media.image" :src="clip.media.image" />
+              <audio v-if="clip.media.audio">
+                <source :src="clip.media.audio" type="audio/mp3" />
               </audio>
-              <video v-if="clip.cliptype === 'video'">
-                <source src="" type="audio/mp4" />
+              <video v-if="clip.media.video">
+                <source :src="clip.media.video" type="audio/mp4" />
               </video>
 
-              <div v-if="clip.cliptype === 'text'" v-html="clip.body" class="mt-5 space-y-2" />
+              <div v-if="clip.body" v-html="clip.body" class="mt-5 space-y-2" />
             </UICard>
 
             <div class="mt-[25px] text-xs text-gray-800 dark:text-gray-200">
@@ -201,14 +194,14 @@ async function followContributor() {
               <div class="flex items-end">
                 <BlockContributor
                   :initials="contributor.author_initials"
-                  :name="contributor.name"
+                  :name="contributor.author"
                   text="Contributed by"
                   size="lg"
                   class="!mt-0">
                   <template #details>
                     <span class="block text-xs text-gray-600 dark:text-gray-400">
-                      {{ contributor.total_followers }} Followers • {{ contributor.total_user_books }} Haggadahs •
-                      {{ contributor.total_user_clips }} Clips
+                      {{ contributor.total_followers }} Followers • {{ contributor.total_books }} Haggadahs •
+                      {{ contributor.total_clips }} Clips
                     </span>
                   </template>
                 </BlockContributor>
@@ -225,23 +218,23 @@ async function followContributor() {
 
             <UICard class="mt-[49px] !max-w-none">
               <div class="p-[5px]">
-                <UIHeading :level="6"> The #Friendseder Haggadah </UIHeading>
+                <UIHeading :level="6"> {{ book.title }} </UIHeading>
                 <div class="mt-2.5 flex items-center">
                   <div class="inline-flex items-center space-x-2">
                     <UIIcon icon="icon-book-o" class="text-secondary-600" />
-                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-100"> 10 minutes read </span>
+                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-100"> {{ book.reading_length }} minutes read </span>
                   </div>
 
-                  <BlockContributor initials="FS" name="#Friendseder" text="" class="!mt-0 ml-[15px]" />
+                  <BlockContributor :initials="book.author_initials" :name="book.author" text="" class="!mt-0 ml-[15px]" />
                 </div>
 
                 <div class="mt-[19px]">
                   <span class="text-sm font-semibold">Table of contents</span>
 
                   <div class="mt-2.5 h-[240px] divide-y divide-gray-100 overflow-auto dark:divide-gray-700">
-                    <div v-for="i in 6" :key="i" class="px-[7px] py-2.5">
-                      <span class="block text-xs font-bold uppercase text-gray-500"> Introduction </span>
-                      <span class="mt-[1px] block text-sm font-semibold">The Traditional Passover Seder Order</span>
+                    <div v-for="(sections, name) in book.table_of_content" :key="name" class="px-[7px] py-2.5">
+                      <ul class="block text-xs font-bold uppercase text-gray-500"> {{ name }} </ul>
+                      <li v-for='section in sections' class="mt-[1px] block text-sm font-semibold">- {{ section }}</li>
                     </div>
                   </div>
                 </div>

@@ -34,7 +34,7 @@
         <UIHeading :level="2" class="!text-white"> {{ route.query['parent_category[]'] }} haggadahs </UIHeading>
         <UIHeading :level="5" class="mt-5 !text-2xl !text-white">
           <span v-if="loading" class="mr-2">Searching</span>
-          <span v-else class="mr-2 text-primary-500">{{ numberOfResults }}</span> Haggadahs
+          <span v-else class="mr-2 text-primary-500">{{ meta?.total }}</span> Haggadahs
         </UIHeading>
       </UIContainer>
     </div>
@@ -48,7 +48,7 @@
               <span class="mr-2 text-secondary-500">{{ numberOfResults }}</span> Haggadahs found
             </template>
           </UIHeading>
-          <UIHeading :level="2" class="mt-0.5 flex justify-center">
+          <UIHeading v-if="searchKeywordDisplay" :level="2" class="mt-0.5 flex justify-center">
             For search keyword&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
           </UIHeading>
         </div>
