@@ -20,8 +20,11 @@ export type HaggadahBook = {
   };
 };
 
+export type HaggadahWrapper = {
+  haggadah: Haggadah;
+};
+
 export type Haggadah = {
-  haggadah: {
     author: string;
     haggadah_image: string;
     author_initials: string;
@@ -34,8 +37,8 @@ export type Haggadah = {
     is_bookmarked: '0' | '1';
     is_liked: '0' | '1';
     download_url: string;
-  };
 };
+
 
 export type haggadahSearchParams = {
   key?: string;
@@ -48,16 +51,16 @@ export type haggadahSearchParams = {
 };
 
 export type haggadahContainer = {
-  haggadah: Haggadah;
+  haggadah: HaggadahWrapper;
 };
 
 export type HaggadahSection = {
   name: string;
   handle: string;
   total: number;
-  haggadahs: Haggadah[];
+  haggadahs: HaggadahWrapper[];
 };
 
 export type Mode = 'main' | 'topics' | 'keyword';
 
-export type HaggadahsSorting = 'p' | 'r' | 'editor';
+export type HaggadahsSorting = '' | 'r' ;

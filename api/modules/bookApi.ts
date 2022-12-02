@@ -68,4 +68,12 @@ export default class BookApi {
   async exploreBooks(searchKey: booksSearchKey): Promise<dataResponse| errorResponse> {
     return this.base.get('explore-book', searchKey);
   }
+
+  async getBooksData() {
+    return this.base.get('global-books');
+  }
+
+  async getBooksTrendingSection() {
+    return this.base.get('book-section');
+  }
 }

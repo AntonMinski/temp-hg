@@ -16,7 +16,7 @@
           @search="emit('search')" />
 
         <div class="mt-[50px] flex flex-col items-center">
-          <span class="text-sm leading-none text-gray-500"> Popular categories </span>
+          <span class="text-sm leading-none text-gray-500"> Popular topics </span>
 
           <div class="mt-[22px] flex flex-wrap space-x-1.5">
             <UIBadge
@@ -24,7 +24,7 @@
               :key="category.handle"
               size="md"
               type="tertiary-reverse"
-              @click="emit('getClipsByCategory', category.handle)">
+              @click="emit('getHaggadahsByCategory', category.handle)">
               {{ category.name }}
             </UIBadge>
           </div>
@@ -36,30 +36,32 @@
 
     <div class="bg-secondary-500 pt-[140px] pb-[100px] text-center dark:bg-gray-600">
       <UIContainer>
-        <UIHeading :level="4" class="!text-white">Our Favourites Clips</UIHeading>
+        <UIHeading :level="4" class="!text-white">Our Favourites Haggadahs</UIHeading>
 
         <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <GlobalClipCard
-            v-for="(clip, key) in favoriteClips"
-            :key="key"
-            :handle="clip.handle"
-            :type="clip.cliptype"
-            :section-title="clip.clip_section"
-            :title="clip.title"
-            :src="clip.image"
-            :text="clip.covertext"
-            :contributor-name="clip.author"
-            :contributor-initials="clip.author_initials"
+          <GlobalHaggadahCard
+            v-for="(item, n) in favoriteHaggadahs"
+            :key="n"
+            route="#"
+            :img-src="item.haggadah.haggadah_image"
+            :title="item.haggadah.title"
+            :slug="item.haggadah.handle"
+            text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
+            :read-time="item.haggadah.reading_length || 10"
+            :contributor-name="item.haggadah.author"
+            :contributor-initials="item.haggadah.author_initials"
             :contributor-avatar="null"
-            :downloads-count="clip.downloads"
-            :likes-count="clip.likes"
-            :language-tags="['English', 'Hebrew']"
-            :topic-tags="['Chad Gadya', 'Dayenu']"
-            :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
+            :language-tags="['Trending', 'Humanity']"
+            :topic-tags="['Trending', 'Humanity']"
+            :completed-progress="50"
+            :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
+            :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'"
+            :is-liked="item.haggadah.is_liked !== '0'"
+            :download-url="item.haggadah.download_url" />
         </div>
 
         <UIButton class="mx-auto mt-[90px] !flex" color="link" size="lg">
-          View more favourite clips
+          View more favourite haggadahs
           <template #suffix>
             <UIIcon icon="icon-arrow-right text-xl" />
           </template>
@@ -80,41 +82,42 @@
     <template v-else>
       <div class="pb-[51px]">
         <UIContainer>
-          <div v-for="section in clipsBySections" class="py-[70px]">
+          <div v-for="(section, key) in haggadahsBySections" class="py-[70px]">
             <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
               <div>
                 <UIHeading :level="5">
-                  Clips in <span class="text-secondary-500">{{ section.name }}</span>
+                  Clips in <span class="text-secondary-500">{{ key }}</span>
                 </UIHeading>
-                <span class="mt-1 block"> {{ section.total }} Clips • Curated by </span>
+                <span class="mt-1 block"> {{ section.total }} Haggadahs • Curated by </span>
               </div>
               <NuxtLink
-                :to="`/explore-haggadahs?haggadah_section[]=${section.handle}`"
-                class="ml-4 flex-shrink-0"
-                @click="getClipsBySection(section.handle)">
+                to="#"
+                class="ml-4 flex-shrink-0">
                 Show all</NuxtLink
               >
             </div>
 
             <div class="mt-[50px]">
               <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <GlobalClipCard
-                  v-for="({ clip }, key) in section.clips"
+                <GlobalHaggadahCard
+                  v-for="({ haggadah }, key) in section.books"
                   :key="key"
-                  :handle="clip.handle"
-                  :type="clip.cliptype"
-                  :section-title="clip.clip_section"
-                  :title="clip.title"
-                  :src="clip.image"
-                  :text="clip.covertext"
-                  :contributor-name="clip.author"
-                  :contributor-initials="clip.author_initials"
+                  route="#"
+                  :img-src="haggadah.haggadah_image"
+                  :title="haggadah.title"
+                  :slug="haggadah.handle"
+                  text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
+                  :read-time="haggadah.reading_length || 10"
+                  :contributor-name="haggadah.author"
+                  :contributor-initials="haggadah.author_initials"
                   :contributor-avatar="null"
-                  :downloads-count="clip.downloads"
-                  :likes-count="clip.likes"
-                  :language-tags="['English', 'Hebrew']"
-                  :topic-tags="['Chad Gadya', 'Dayenu']"
-                  :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
+                  :language-tags="['Trending', 'Humanity']"
+                  :topic-tags="['Trending', 'Humanity']"
+                  :completed-progress="50"
+                  :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
+                  :is-added-to-bookmark="haggadah.is_bookmarked !== '0'"
+                  :is-liked="haggadah.is_liked !== '0'"
+                  :download-url="haggadah.download_url" />
               </div>
             </div>
           </div>
@@ -125,22 +128,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, PropType, ref, Ref } from 'vue';
+import { onMounted, PropType, ref } from 'vue';
 import { useVModel } from '@vueuse/core';
-import { Clip, ClipCategory, ClipSection } from '~/components/Global/Clip/types';
 import { useAsyncData, useNuxtApp, useRouter } from '#app';
 
-import { usePageStore } from '~/store/page';
+import { DropdownItem } from '~/components/UI/Dropdown/types';
 const { vueApp } = useNuxtApp();
 const router = useRouter();
-const pageStore = usePageStore();
-const favoriteClips: ComputedRef<Clip[]> = computed(
-  () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
-);
+
 
 const props = defineProps({
   popularCategories: {
-    type: Array as PropType<ClipCategory[]>,
+    type: Array as PropType<DropdownItem[]>,
     required: true,
   },
   loading: {
@@ -151,10 +150,15 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  favoriteHaggadahs: {
+    type: Array,
+    required: true,
+  },
+
 });
 const emit = defineEmits([
   'search',
-  'getClipsByCategory',
+  'getHaggadahsByCategory',
   'update:searchString',
   'update:loading',
   'getClipsBySection',
@@ -162,25 +166,17 @@ const emit = defineEmits([
 const searchString = useVModel(props, 'searchString', emit);
 const loading = useVModel(props, 'loading', emit);
 
-const clipsBySections: Ref<ClipSection[]> = ref([]);
-
-// async function fetchClipsSectionsPreview() {
-//   const response = await vueApp.$api.clip.getClipsSectionsPreview();
-//   const clipsBySections = { ...response._data.data.sections };
-//   return clipsBySections as ClipSection[];
-// }
-// const { data: clipsBySections } = await useAsyncData(fetchClipsSectionsPreview);
-
-async function fetchClipsSectionsPreview() {
-  loading.value = true;
-  const response = await vueApp.$api.clip.getClipsSectionsPreview();
-  clipsBySections.value = [...response._data.data.sections];
-  loading.value = false;
+async function getTrendingHaggadahsSection() {
+  const response = await vueApp.$api.book.getBooksTrendingSection();
+  const haggadahs = {...response._data.data.trending};
+  return haggadahs
 }
-onMounted(fetchClipsSectionsPreview);
+const {data: initialHaggadahsBySections } = await useAsyncData(getTrendingHaggadahsSection);
 
-async function getClipsBySection(sectionHandle: string) {
-  await router.push({ query: { 'haggadah_section[]': sectionHandle } });
-  emit('getClipsBySection', sectionHandle);
+const haggadahsBySections = ref({ ...initialHaggadahsBySections.value});
+
+function getHaggadahsByTopic(category: string) {
+  emit('getHaggadahsByCategory', category);
 }
+
 </script>

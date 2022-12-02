@@ -20,6 +20,7 @@ interface Props {
   isOwner?: boolean;
   slug: string;
   downloadUrl?: string;
+  hideOnwerBadge?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,12 +47,12 @@ const selectedClip = ref(props.clips?.[0] || null);
   <UICard variant="image" :img-src="imgSrc">
     <div class="flex items-start justify-between space-x-2">
       <div :class="col == 6 ? 'order-1 flex-1' : null">
-        <div v-if="isOwner" class="mb-3.5 flex items-center space-x-1.5">
+        <div v-if="isOwner && !hideOnwerBadge" class="mb-3.5 flex items-center space-x-1.5">
           <BlockOwnerBadge />
         </div>
 
         <NuxtLink :to="route">
-          <UIHeading :level="6" class="line-clamp-2">{{ title }}</UIHeading>
+          <UIHeading :level="6" class="text-left line-clamp-2">{{ title }}</UIHeading>
         </NuxtLink>
       </div>
 
@@ -64,7 +65,7 @@ const selectedClip = ref(props.clips?.[0] || null);
 
     <div class="flex items-start" :class="col == 6 ? 'flex-row' : 'flex-col'">
       <div v-if="contributorName || readTime" class="w-full" :class="col == 6 ? 'order-1' : null">
-        <div class="mt-4 flex items-center space-x-[15px]">
+        <div class="flex items-center space-x-[15px]" :class="!isOwner ? 'mt-4' : ''">
           <div v-if="readTime" class="inline-flex items-center space-x-2">
             <UIIcon icon="icon-book-o" class="text-secondary-600" />
             <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">{{ readTime }} minutes read</span>
@@ -79,7 +80,7 @@ const selectedClip = ref(props.clips?.[0] || null);
             text="" />
         </div>
 
-        <div v-if="text && col == 6" class="mt-2.5">{{ text }}</div>
+        <div v-if="text && col == 6" class="mt-2.5 text-left">{{ text }}</div>
       </div>
 
       <div :class="col == 6 ? 'w-[205px] flex-shrink-0' : null">

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import type { Haggadah } from '~/components/Global/Haggadah/types';
+import type { HaggadahWrapper } from '~/components/Global/Haggadah/types';
 import { getMetaObject } from '~/composables/meta';
 import { useHead } from '#head';
 import { usePageStore } from '~/store/page';
@@ -11,7 +11,7 @@ const { homePageData } = storeToRefs(pageStore);
 await useAsyncData(pageStore.getHomePage);
 
 // Haggadahs Data
-const haggadahs: Haggadah[] = homePageData.value?.favorite_haggadahs?.slice(0, 6) || [];
+const haggadahs: HaggadahWrapper[] = homePageData.value?.favorite_haggadahs?.slice(0, 6) || [];
 
 // Meta
 const metaObject = getMetaObject(homePageData.value?.meta_tags);

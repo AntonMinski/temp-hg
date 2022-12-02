@@ -1,4 +1,4 @@
 export type booksSearchKey = {
-  key: string;
+  key?: string;
   sort?: string;
 }
