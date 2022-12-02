@@ -58,7 +58,7 @@
             :is-added-to-bookmarks="clip.is_bookmarked !== '0'" />
         </div>
 
-        <UIButton class="mx-auto mt-[90px] !flex" color="link" size="lg">
+        <UIButton @click="emit('viewAll')" class="mx-auto mt-[90px] !flex" color="link" size="lg">
           View more favourite clips
           <template #suffix>
             <UIIcon icon="icon-arrow-right text-xl" />
@@ -155,6 +155,7 @@ const props = defineProps({
 const emit = defineEmits([
   'search',
   'getClipsByCategory',
+  'viewAll',
   'update:searchString',
   'update:loading',
   'getClipsBySection',
