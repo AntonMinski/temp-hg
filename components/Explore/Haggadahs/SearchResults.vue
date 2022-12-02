@@ -108,14 +108,14 @@
 import { PropType } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { useRoute, useRouter } from '#app';
-import { HaggadahWrapper, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
+import { Haggadah, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
 import { DropdownItem } from '~/components/UI/Dropdown/types';
 const route = useRoute();
 const router = useRouter();
 
 const props = defineProps({
   haggadahs: {
-    type: Array as PropType<HaggadahWrapper[]>,
+    type: Array as PropType<Haggadah[]>,
     required: true,
   },
   mode: {

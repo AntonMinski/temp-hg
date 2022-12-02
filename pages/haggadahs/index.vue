@@ -26,6 +26,14 @@
       </UIContainer>
     </div>
 
+    <div
+      id="favourite-haggadahs-carousel"
+      class="mt-[90px] bg-tertiary-500 pt-[80px] pb-[100px] text-center dark:bg-gray-600">
+      <UIContainer>
+        <ExploreHaggadahsSectionFavouritesCarousel />
+      </UIContainer>
+    </div>
+
     <div class="pt-[80px]">
       <UIContainer>
         <div v-for="section in sections" :key="section.name" class="py-[70px]">
@@ -42,22 +50,21 @@
           <div class="mt-[45px]">
             <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
               <GlobalHaggadahCard
-                v-for="(item, n) in haggadahs"
-                :key="n"
+                v-for="item in haggadahs"
+                :key="item"
                 route="#"
-                :img-src="item.haggadah.haggadah_image"
-                :title="item.haggadah.title"
-                :slug="item.haggadah.handle"
+                :img-src="haggadahsCardImage"
+                title="10 Minute Dayenu Seder"
+                :slug="`haddahs-${item}`"
                 text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-                :read-time="item.haggadah.reading_length || 10"
-                :contributor-name="item.haggadah.author"
-                :contributor-initials="item.haggadah.author_initials"
+                :read-time="10"
+                contributor-name="Haggadahs"
+                contributor-initials="HD"
                 :contributor-avatar="null"
                 :topic-tags="['Trending', 'Humanity']"
-                :is-added-to-bookmark="item.haggadah.is_bookmarked !== '0'"
+                :is-added-to-bookmark="false"
                 :is-owner="false"
-                :is-liked="item.haggadah.is_liked !== '0'"
-                :download-url="item.haggadah.download_url" />
+                :is-liked="false" />
             </div>
           </div>
         </div>
@@ -68,13 +75,6 @@
 
 <script lang="ts" setup>
 import { ref, Ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useAsyncData } from '#app';
-import type { HaggadahWrapper } from '~/components/Global/Haggadah/types';
-import { usePageStore } from '~/store/page';
-
-const pageStore = usePageStore();
-const { homePageData } = storeToRefs(pageStore);
 
 const categories: Ref<string[]> = ref(['Family', 'Comedy', 'Pop Culture', 'Ukraine', 'Humanity', 'Kids']);
 const sections: Ref<{ name: string }[]> = ref([
@@ -92,8 +92,6 @@ const sections: Ref<{ name: string }[]> = ref([
   },
 ]);
 
-await useAsyncData(pageStore.getHomePage);
-
-// Haggadahs Data
-const haggadahs: HaggadahWrapper[] = homePageData.value?.favorite_haggadahs?.slice(0, 3);
+const haggadahs = [...Array(3).keys()];
+const haggadahsCardImage = (await import('@/assets/images/haggadah-card-image.png')).default;
 </script>

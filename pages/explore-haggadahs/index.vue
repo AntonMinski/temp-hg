@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { HaggadahWrapper, HaggadahsSorting, haggadahSearchParams } from '~/components/Global/Haggadah/types';
+import type { Haggadah, HaggadahsSorting, haggadahSearchParams } from '~/components/Global/Haggadah/types';
 import type { Clip, ClipCategory, Mode, ClipsSorting } from '~/components/Global/Clip/types';
 import type { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 import { ref, Ref } from 'vue';
@@ -73,7 +73,7 @@ async function fetchHaggadahs(searchOptions: haggadahSearchParams | string) {
 async function getInitialPageData() {
   const initialMode: Mode = useMode() as Mode;
   const initialSort: HaggadahsSorting = (route.query.sort as HaggadahsSorting) || 'r';
-  let initialHaggadahs: HaggadahWrapper[] = [];
+  let initialHaggadahs: Haggadah[] = [];
   let initialMeta = {};
   if (initialMode !== 'main') {
     const { items, meta } = await fetchHaggadahs({ ...route.query, sort: initialSort });
