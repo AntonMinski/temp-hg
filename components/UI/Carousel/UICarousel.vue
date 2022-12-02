@@ -8,7 +8,7 @@
     <div id="pagination" class="mt-12 flex items-center justify-center">
       <slot name="pagination">
         <button
-          class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px] "
+          class="carousel-bullet mx-[5px] h-[13px] w-[13px] rounded-full bg-gray-200"
           :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
           v-for="number in paginationLength"
           :key="number"
@@ -19,7 +19,6 @@
   <div class="my-40 flex justify-center" v-else>
     <UISpinner size="12" />
   </div>
-
 </template>
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
@@ -44,6 +43,7 @@ const props = defineProps({
   },
   breakpoints: {
     type: Object as PropType<Breakpoints>,
+    default: () => ({}),
   },
 });
 
@@ -87,10 +87,14 @@ function getItemsPerRow() {
 
 const itemsPerRow = ref(null);
 
-const paginationLength: ComputedRef<number> = computed(() => props.items.length ? Math.ceil(props.items.length / itemsPerRow.value || 2) : 0);
+const paginationLength: ComputedRef<number> = computed(() =>
+  props.items?.length ? Math.ceil(props.items.length / itemsPerRow.value || 2) : 0
+);
 const spacingStyle: ComputedRef<string> = computed(() => `padding: ${2 / itemsPerRow.value || 2}rem`);
 const slideWidthStyle: ComputedRef<string> = computed(() => `min-width: ${100 / itemsPerRow.value || 2}%`);
 const activeSlide: Ref<number> = ref(1);
-const translateWidth: ComputedRef<number> = computed(() => Math.floor(itemsPerRow.value) * 100 / itemsPerRow.value);
-const translateX: ComputedRef<string> = computed(() => `transform: translateX(-${(activeSlide.value - 1) * translateWidth.value}%)`);
+const translateWidth: ComputedRef<number> = computed(() => (Math.floor(itemsPerRow.value) * 100) / itemsPerRow.value);
+const translateX: ComputedRef<string> = computed(
+  () => `transform: translateX(-${(activeSlide.value - 1) * translateWidth.value}%)`
+);
 </script>
