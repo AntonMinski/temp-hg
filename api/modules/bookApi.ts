@@ -69,6 +69,10 @@ export default class BookApi {
     return this.base.get('explore-book', searchKey);
   }
 
+  async exploreSingleBook(slug: string): Promise<dataResponse| errorResponse> {
+    return this.base.get('explore-book/' + slug);
+  }
+
   async getBooksData() {
     return this.base.get('global-books');
   }

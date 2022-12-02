@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-tertiary-500 pt-[85px] pb-[60px] dark:bg-tertiary-800">
-      <UIContainer v-if="mode === 'topics'">
+      <UIContainer v-if="mode === 'keyword'">
         <UISearch
           v-model:search-string="searchString"
           rules=""
@@ -23,18 +23,18 @@
               :key="category.handle"
               size="md"
               type="primary"
-              @click="emit('getClipsByCategory', category.handle)">
+              @click="emit('getItemsByCategory', category.handle)">
               {{ category.name }}
             </UIBadge>
           </div>
         </div>
       </UIContainer>
 
-      <UIContainer v-if="mode === 'keyword'" class="text-center">
-        <UIHeading :level="2" class='!text-white'> Family haggadahs </UIHeading>
-        <UIHeading :level="5" class="mt-5 !text-2xl text-white">
+      <UIContainer v-if="mode === 'topics'" class="text-center">
+        <UIHeading :level="2" class="!text-white"> {{ route.query['parent_category[]'] }} haggadahs </UIHeading>
+        <UIHeading :level="5" class="mt-5 !text-2xl !text-white">
           <span v-if="loading" class="mr-2">Searching</span>
-          <span v-else class="mr-2 text-primary-500">{{ meta.total }}</span> Haggadahs
+          <span v-else class="mr-2 text-primary-500">{{ numberOfResults }}</span> Haggadahs
         </UIHeading>
       </UIContainer>
     </div>
@@ -45,11 +45,11 @@
           <UIHeading :level="4" class="flex justify-center">
             <template v-if="loading">Searching...</template>
             <template v-else>
-              <span class="mr-2 text-secondary-500">{{ meta.total }}</span> Haggadahs found
+              <span class="mr-2 text-secondary-500">{{ numberOfResults }}</span> Haggadahs found
             </template>
           </UIHeading>
           <UIHeading :level="2" class="mt-0.5 flex justify-center">
-            For search keyword:&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
+            For search keyword&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
           </UIHeading>
         </div>
 
@@ -74,7 +74,7 @@
               v-for="(haggadah, key) in haggadahs"
               :key="key"
               route="#"
-              :img-src="haggadah.haggadah_image"
+              :img-src="haggadah.haggadah_image || ''"
               :title="haggadah.title"
               :slug="haggadah.handle"
               text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
@@ -91,7 +91,12 @@
               :download-url="haggadah.download_url" />
           </div>
 
-          <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5" size="lg" color="dark" @click="emit('loadMore')">
+          <UIButton
+            :disabled="!canLoadMore"
+            class="mx-auto mt-[81px] !px-[45px] !py-3.5"
+            size="lg"
+            color="dark"
+            @click="emit('loadMore')">
             Load more
             <template #suffix>
               <UISpinner v-if="loadingMore" size="4" class="ml-2" />
@@ -105,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from 'vue';
+import { computed, ComputedRef, PropType } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { useRoute, useRouter } from '#app';
 import { Haggadah, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
@@ -152,19 +157,22 @@ const props = defineProps({
   popularCategories: {
     type: Array as PropType<DropdownItem[]>,
   },
+  searchTopic: {
+    type: String,
+    default: '',
+  },
 });
 const emit = defineEmits([
   'search',
   'sort',
   'loadMore',
+  'getItemsByCategory',
   'update:loading',
   'update:currentSorting',
   'update:searchString',
 ]);
 const searchString = useVModel(props, 'searchString', emit);
-
 const loading = useVModel(props, 'loading', emit);
-
 const currentSorting = useVModel(props, 'currentSorting', emit);
 
 const sortingTypes = {
@@ -172,6 +180,20 @@ const sortingTypes = {
   r: 'Most recent',
   editor: 'Editor`s choice',
 };
+
+const numberOfResults: ComputedRef<string | number> = computed(() => {
+  if (props.meta?.total > 0 && props.meta?.total < 10) {
+    return '0' + props.meta?.total;
+  } else if (props.meta?.total > 10) {
+    return props.meta?.total;
+  } else {
+    return '0';
+  }
+});
+
+const canLoadMore: ComputedRef<boolean> = computed(() => {
+  return props.meta?.last_page > props.meta?.current_page;
+});
 
 async function applySorting(type: HaggadahsSorting) {
   currentSorting.value = type;
