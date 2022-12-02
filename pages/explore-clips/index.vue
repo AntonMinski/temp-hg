@@ -7,7 +7,8 @@
       v-model:search-string="state.searchString"
       @search="searchItems"
       @getClipsByCategory="getItemsByCategory"
-      @getClipsBySection="getItemsBySection">
+      @getClipsBySection="getItemsBySection"
+      @viewAll="viewMore">
       <template #filterGroup>
         <UIFilterGroup
           group-heading="Filter clips"
@@ -72,12 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {
-  Clip,
-  ClipCategory,
-  Mode,
-  ClipsSorting,
-} from '~/components/Global/Clip/types';
+import type { Clip, ClipCategory, Mode, ClipsSorting } from '~/components/Global/Clip/types';
 import type { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 import { ref, Ref } from 'vue';
 import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
@@ -109,7 +105,7 @@ async function fetchClips(searchOptions: clipSearchParams | string) {
   const response = await vueApp.$api.clip.exploreClips(searchOptions);
   return {
     items: response._data.data.map((item) => item.clip),
-    meta: {...response._data.meta},
+    meta: { ...response._data.meta },
   };
 }
 
@@ -146,7 +142,6 @@ const { data: initialData } = await useAsyncData(getInitialPageData);
 let { initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
   initialData.value;
 
-
 const {
   state,
   searchFilters,
@@ -158,7 +153,17 @@ const {
   setSorting,
   getItemsBySection,
   clearFilters,
-} = useClipOrHaggadah(initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, fetchClips);
+  viewMore,
+} = useClipOrHaggadah(
+  initialMode,
+  initialSort,
+  initialClips,
+  initialMeta,
+  categories,
+  haggadahSections,
+  popularCategories,
+  fetchClips
+);
 
 // Meta
 const metaObject = getMetaObject(metaTags);
