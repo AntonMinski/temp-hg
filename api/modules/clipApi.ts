@@ -46,6 +46,10 @@ export default class ClipApi {
     return this.base.get('explore-clip', searchOptions);
   }
 
+  async exploreClip(slug: string): Promise<clipSearchResult| errorResponse> {
+    return this.base.get('explore-clip/' + slug);
+  }
+
   async bookmarkClip(slug: String): Promise<statusResponse | errorResponse> {
     return this.base.post(`bookmark-clip/${slug}`, {}, { showSuccessToast: false });
   }
