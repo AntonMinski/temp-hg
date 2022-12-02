@@ -8,7 +8,7 @@ const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
 
 const events: ComputedRef<Event[]> = computed(() => pageStore?.homePageData?.events);
-const categories: ComputedRef<EventCategory[]> = computed(() => pageStore?.homePageData?.event_categories.slice(0, 5));
+const categories: ComputedRef<EventCategory[]> = computed(() => pageStore?.homePageData?.event_categories?.slice(0, 5));
 
 async function navigateEvents(searchBy) {
   // Not implemented yet

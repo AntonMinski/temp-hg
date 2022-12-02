@@ -13,11 +13,11 @@ const clips: Ref<Clip[]> = ref([]);
 
 const categories: ComputedRef<ClipCategory[]> = computed(() => {
   const categories = pageStore?.homePageData?.clip_categories;
-  if (categories.length) {
+  if (categories?.length) {
     setCategory(categories[0]);
 
     /* DELETE when the API search by category is fixed */
-    clips.value = pageStore?.homePageData?.favorite_clips.map((clip: clipContainer) => clip.clip);
+    clips.value = pageStore?.homePageData?.favorite_clips?.map((clip: clipContainer) => clip.clip);
   }
   return categories;
 });

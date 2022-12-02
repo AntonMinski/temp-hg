@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ComputedRef } from 'vue';
-import type { Contributor } from './types';
+import type { Contributor, ContributorWrapper } from './types';
 import { useGlobalStore } from '~/store/global';
 import { navigateTo } from '#app';
 const globalStore = useGlobalStore();
@@ -45,13 +45,3 @@ async function showAll() {
     </UIContainer>
   </div>
 </template>
-
-<style>
-#top_contributors .carousel__pagination-button:hover::after {
-  @apply !bg-primary-500;
-}
-
-#top_contributors .carousel__pagination-button--active::after {
-  @apply !bg-primary-500;
-}
-</style>
