@@ -73,7 +73,8 @@ export function useClipOrHaggadah(
   state.mode = initialMode;
   state.currentSorting = initialSort;
   state.searchString = route.query.key as string;
-  state.clipsOrHaggadahs = [...initialClipsOrHaggadahs];
+  state.searchKeywordDisplay = state.searchString;
+  state.clipsOrHaggadahs = [...initialClipsOrHaggadahs as Clip[] | Haggadah[]];
   state.meta = { ...initialMeta };
   state.categories = [...initialCategories];
   state.popularCategories = [...initialPopularCategories];

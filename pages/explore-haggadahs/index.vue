@@ -23,15 +23,19 @@
       :search-filters="state.searchFilters"
       :meta="state.meta"
       :popular-categories="state.popularCategories"
+      :search-topic="state.selectedCategories.toString()"
       @search="searchItems"
       @sort="setSorting"
-      @loadMore="loadMoreItems" />
+      @loadMore="loadMoreItems"
+      @getItemsByCategory="getItemsByCategory" />
+
+    />
 
     <div class="py-20">
       <GlobalBannerHaggadah variant="horizontal" />
     </div>
 
-    <GlobalHaggadahSectionFavourites v-if="state.mode === 'keyword'" />
+    <GlobalHaggadahSectionFavourites v-if="state.mode === 'keyword'" :haggadahs="favoriteHaggadahs" />
 
     <GlobalContributorSectionTop />
 
@@ -40,7 +44,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { Haggadah, HaggadahsSorting, haggadahSearchParams } from '~/components/Global/Haggadah/types';
+import type {
+  Haggadah,
+  HaggadahsSorting,
+  haggadahSearchParams,
+  HaggadahWrapper
+} from '~/components/Global/Haggadah/types';
 import type { Clip, ClipCategory, Mode, ClipsSorting } from '~/components/Global/Clip/types';
 import type { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
 import { ref, Ref } from 'vue';
@@ -66,7 +75,7 @@ async function fetchHaggadahs(searchOptions: haggadahSearchParams | string) {
   const response = await vueApp.$api.book.exploreBooks(searchOptions);
   return {
     items: response._data.data.map((item) => item.book),
-    meta: { ...response._data.data.meta },
+    meta: { ...response._data.meta },
   };
 }
 
@@ -87,7 +96,7 @@ async function getInitialPageData() {
       handle: item.toLowerCase().replace(/ /g, '-'),
     };
   });
-  const favoriteHaggadahs = dataResponse._data.data.favorite_haggadahs;
+  const favoriteHaggadahs: HaggadahWrapper[] = dataResponse._data.data.favorite_haggadahs;
   const metaTags = { ...dataResponse._data.data.meta_tags };
   const initialData = {
     initialMode,
