@@ -65,11 +65,11 @@ export default class BookApi {
     return this.base.post(`/unlike-book/${slug}`);
   }
 
-  async exploreBooks(searchKey: booksSearchKey): Promise<dataResponse| errorResponse> {
+  async exploreBooks(searchKey: booksSearchKey): Promise<dataResponse | errorResponse> {
     return this.base.get('explore-book', searchKey);
   }
 
-  async exploreSingleBook(slug: string): Promise<dataResponse| errorResponse> {
+  async exploreSingleBook(slug: string): Promise<dataResponse | errorResponse> {
     return this.base.get('explore-book/' + slug);
   }
 
