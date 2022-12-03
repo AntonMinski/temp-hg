@@ -1,6 +1,9 @@
 const metaOptions = ['application-name', 'author', 'description', 'generator', 'keywords', 'viewport'];
 
 export function getMetaObject(metaData) {
+  if (!Object.keys(metaData).length) {
+    return [];
+  }
   const metaTags = Object.entries(metaData)
     .filter(([key, value]) => metaOptions.includes(key))
     .map((item) => {

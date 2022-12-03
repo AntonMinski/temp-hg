@@ -27,3 +27,13 @@ export type Contributor = {
   total_collaborators: number;
   total_user_events: number;
 }
+
+export type ContributedBy = {
+  handle: string;
+  author_initials: string;
+  author: string;
+  total_books: number;
+  total_clips: number;
+  total_followers: number;
+  is_following: '0' | '1';
+}

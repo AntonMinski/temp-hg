@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { HTML } from 'mdast';
-import { computed, ComputedRef, onMounted, Ref, ref } from 'vue';
+import { computed, ComputedRef, getCurrentInstance, onMounted, Ref, ref, resolveComponent } from 'vue';
 import type { CardType } from './types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 const { vueApp } = useNuxtApp();
@@ -42,7 +42,7 @@ const iconClass = computed<string>(() => iconClasses[props.type]);
 const nuxtLink = resolveComponent('NuxtLink');
 const card = getCurrentInstance();
 
-const route: ComputedRef<string> = computed(() => '/clip/' + props.handle);
+const route: ComputedRef<string> = computed(() => '/clips/' + props.handle);
 
 // bookmarks
 const isAddedToBookmark: Ref<boolean> = ref(props.isAddedToBookmark);
