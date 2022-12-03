@@ -10,13 +10,12 @@ import {
 } from '~/components/Global/Clip/types';
 import { useRoute, useRouter } from '#app';
 import { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
-import { Haggadah } from '~/components/Global/Haggadah/types';
-
+import { HaggadahWrapper } from '~/components/Global/Haggadah/types';
 
 export function useClipOrHaggadah(
   initialMode: Mode = 'main',
   initialSort: ClipsSorting = 'p',
-  initialClipsOrHaggadahs: Clip[] | Haggadah[] = [],
+  initialClipsOrHaggadahs: Clip[] | HaggadahWrapper[] = [],
   initialMeta = {},
   initialCategories: ClipCategory[] = [],
   initialHaggadahSections: DropdownItem[] = [],
@@ -28,7 +27,7 @@ export function useClipOrHaggadah(
     meta?;
     searchString?: string;
     searchKeywordDisplay?: string;
-    clipsOrHaggadahs?: Clip[] | Haggadah[];
+    clipsOrHaggadahs?: Clip[] | HaggadahWrapper[];
     haggadahSections?: DropdownItem[];
     categories?: ClipCategory[];
     popularCategories?: ClipCategory[];

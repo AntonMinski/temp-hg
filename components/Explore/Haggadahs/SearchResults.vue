@@ -120,7 +120,7 @@ const router = useRouter();
 
 const props = defineProps({
   haggadahs: {
-    type: Array as PropType<Haggadah[]>,
+    type: Array as PropType<HaggadahWrapper[]>,
     required: true,
   },
   mode: {
