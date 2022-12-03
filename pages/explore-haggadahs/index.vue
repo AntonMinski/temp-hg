@@ -32,10 +32,6 @@
 
     />
 
-    <div class="py-20">
-      <GlobalBannerHaggadah variant="horizontal" />
-    </div>
-
     <GlobalHaggadahSectionFavourites v-if="state.mode === 'keyword'" :haggadahs="favoriteHaggadahs" />
 
     <GlobalContributorSectionTop />

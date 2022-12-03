@@ -7,10 +7,12 @@
 
       <UIButtonGroup>
         <UIButton
+          @click="movePrev"
           class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
           <UIIcon icon="icon-arrow-left" />
         </UIButton>
         <UIButton
+          @click="moveNext"
           class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
           <UIIcon icon="icon-arrow-right" />
         </UIButton>
@@ -19,33 +21,33 @@
 
     <div class="w-full items-start xl:flex">
       <div class="flex-1 overflow-hidden">
-        <UICarousel :items="haggadahs" :breakpoints="{ xs: 1, lg: 2 }" :justify-rows="true">
+        <UICarousel ref="carousel" :items="haggadahs" :breakpoints="{ xs: 1, lg: 2 }" :justify-rows="true" >
           <template v-slot:slide="slide">
             <div class="max-w-[625px]">
               <GlobalHaggadahCard
-                route="#"
+                :route="`/haggadahs/${slide.item.handle}`"
                 :col="6"
-                :img-src="haggadahsCardImage"
-                title="Comedy Seder"
-                :slug="`haggadahs-${slide}`"
-                text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-                :read-time="10"
-                contributor-name="Haggadahs"
-                contributor-initials="HD"
+                :img-src="slide.item.haggadah.image || slide.item.haggadah.haggadah_image"
+                :title="slide.item.haggadah.title"
+                :slug="slide.item.haggadah.handle"
+                :text="slide.item.haggadah.covertext"
+                :read-time="slide.item.haggadah.reading_length || 10"
+                :contributor-name="slide.item.haggadah.author"
+                :contributor-initials="slide.item.haggadah.author_initials"
                 :contributor-avatar="null"
                 :topic-tags="['Trending', 'Humanity']"
                 :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
                 :completed-progress="50"
                 :language-tags="['Trending', 'Humanity']"
-                :is-added-to-bookmark="false"
+                :is-added-to-bookmark="slide.item.haggadah.is_bookmarked !== '0'"
                 :is-owner="true"
-                :is-liked="false"
+                :is-liked="slide.item.haggadah.is_liked !== '0'"
                 :hide-onwer-badge="true" />
             </div>
           </template>
         </UICarousel>
 
-        <UIButton class="mx-auto mt-[70px] !flex" color="light" size="xl">
+        <UIButton @click="emit('viewAll')" class="mx-auto mt-[70px] !flex" color="light" size="xl">
           Explore more favourite Haggadahs
           <template #suffix>
             <UIIcon icon="icon-arrow-right text-xl" />
@@ -57,6 +59,31 @@
 </template>
 
 <script lang="ts" setup>
-const haggadahs = [...Array(10).keys()];
-const haggadahsCardImage = (await import('@/assets/images/haggadah-card-image.png')).default;
+import { Haggadah } from '~/components/Global/Haggadah/types';
+import { PropType, ref } from 'vue';
+import { templateRef } from '@vueuse/core'
+
+const carousel = ref(null)
+
+
+
+const props = defineProps({
+  haggadahs: {
+    type: Array as PropType<Haggadah[]>,
+    default: () => [],
+  },
+});
+const emit = defineEmits(['viewAll']);
+
+// move carousel by top buttons
+
+function moveNext() {
+  if (carousel.value) {
+    console.log('moveNext', carousel.value);
+  }
+  // carousel.value.moveNext();
+}
+function movePrev() {
+  // carousel.value.movePrev;
+}
 </script>

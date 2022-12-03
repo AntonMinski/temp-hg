@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, Ref, ref } from 'vue';
+import { computed, ComputedRef, onMounted, reactive, Ref, ref } from 'vue';
 import { Clip } from '~/components/Global/Clip/types';
 import { usePageStore } from '~/store/page';
 import { useAsyncData, useNuxtApp, useRoute } from '#app';
-import { Contributor } from '~/components/Global/Contributor/types';
+import { ContributedBy, Contributor } from '~/components/Global/Contributor/types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
+import { getMetaObject } from '~/composables/meta';
+import { useHead } from '#head';
 
 const route = useRoute();
 const { vueApp } = useNuxtApp();
@@ -19,17 +21,40 @@ const favoriteClips: ComputedRef<Clip[]> = computed(
 );
 
 // DATA
-async function getClip() {
+async function getInitialData() {
   const slug = route.params.slug as string;
   const clipResponse = await vueApp.$api.clip.exploreClip(slug);
   const clipData = { ...clipResponse._data.data };
   return clipData;
 }
 
-const { data: clipData } = await useAsyncData(getClip);
+const { data: clipData } = await useAsyncData(getInitialData);
 const clip: Clip = clipData.value.clip_details.clip;
-const contributor: Contributor = clipData.value.contributed_by;
+const contributor: ContributedBy = clipData.value.contributed_by;
 const book = clipData.value.user_book;
+const metaData = clipData.value.meta_tags;
+
+// Clips by contributor
+const clipsByContributor = reactive({
+  clips: [] as Clip[],
+  loading: true,
+  meta: {} as any,
+  name: '',
+  handle: '',
+  total_clips: 0,
+});
+
+
+async function getClipsByContributor() {
+  const response = await vueApp.$api.clip.getClipsByContributor(contributor.handle);
+  clipsByContributor.clips = response._data.data.map((clipWrapper) => clipWrapper.clip);
+  clipsByContributor.loading = false;
+  clipsByContributor.meta = {...response._data.meta};
+  clipsByContributor.name = response._data.name;
+  clipsByContributor.handle = response._data.handle;
+  clipsByContributor.total_clips = response._data.total_clips;
+}
+onMounted(getClipsByContributor);
 
 // Likes
 
@@ -85,19 +110,17 @@ async function shareClip() {
   // not implemented yet
 }
 
-// TODO add way to check, if we following a contributor
 const followingContributor: Ref<Boolean> = ref(false);
-// TODO add contributor's handle to the contributor
-const contributorHandle = computed(() => clip.author.toLowerCase().replaceAll(' ', '-'));
+followingContributor.value = contributor.is_following === '1';
 
 async function followContributor() {
   try {
     if (followingContributor.value) {
-      await vueApp.$api.contributor.unFollowContributor(contributorHandle.value);
+      await vueApp.$api.contributor.unFollowContributor(contributor.handle);
       followingContributor.value = false;
       vueApp.$toast.success(`unfollowed`);
     } else {
-      await vueApp.$api.contributor.followContributor(contributorHandle.value);
+      await vueApp.$api.contributor.followContributor(contributor.handle);
       followingContributor.value = true;
       vueApp.$toast.success(`followed`);
     }
@@ -105,6 +128,12 @@ async function followContributor() {
     console.log(error);
   }
 }
+
+const meta = getMetaObject(metaData);
+useHead({
+  title: metaData?.title,
+  meta: meta,
+});
 </script>
 
 <template>
@@ -222,10 +251,16 @@ async function followContributor() {
                 <div class="mt-2.5 flex items-center">
                   <div class="inline-flex items-center space-x-2">
                     <UIIcon icon="icon-book-o" class="text-secondary-600" />
-                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-100"> {{ book.reading_length }} minutes read </span>
+                    <span class="text-sm font-semibold text-gray-600 dark:text-gray-100">
+                      {{ book.reading_length }} minutes read
+                    </span>
                   </div>
 
-                  <BlockContributor :initials="book.author_initials" :name="book.author" text="" class="!mt-0 ml-[15px]" />
+                  <BlockContributor
+                    :initials="book.author_initials"
+                    :name="book.author"
+                    text=""
+                    class="!mt-0 ml-[15px]" />
                 </div>
 
                 <div class="mt-[19px]">
@@ -233,8 +268,12 @@ async function followContributor() {
 
                   <div class="mt-2.5 h-[240px] divide-y divide-gray-100 overflow-auto dark:divide-gray-700">
                     <div v-for="(sections, name) in book.table_of_content" :key="name" class="px-[7px] py-2.5">
-                      <ul class="block text-xs font-bold uppercase text-gray-500"> {{ name }} </ul>
-                      <li v-for='section in sections' class="mt-[1px] block text-sm font-semibold">- {{ section }}</li>
+                      <ul class="block text-xs font-bold uppercase text-gray-500">
+                        {{
+                          name
+                        }}
+                      </ul>
+                      <li v-for="section in sections" class="mt-[1px] block text-sm font-semibold">- {{ section }}</li>
                     </div>
                   </div>
                 </div>
@@ -283,15 +322,22 @@ async function followContributor() {
       <div class="py-[70px]">
         <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
           <div>
-            <UIHeading :level="5"> More Clips from <span class="text-secondary-500">#Friendseder</span> </UIHeading>
+            <UIHeading :level="5"> More Clips from <span class="text-secondary-500">{{ contributor.author }}</span> </UIHeading>
           </div>
           <NuxtLink to="#" class="ml-4 flex-shrink-0">Show all</NuxtLink>
         </div>
 
-        <div class="mt-[50px]">
+        <template v-if="clipsByContributor.loading">
+          <div class="mt-16 flex justify-center">
+            <UISpinner size="12" />
+          </div>
+        </template>
+
+
+        <div v-else class="mt-[50px]">
           <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
             <GlobalClipCard
-              v-for="(clip, key) in favoriteClips.slice(0, 3)"
+              v-for="(clip, key) in clipsByContributor?.clips?.slice(0, 3)"
               :key="key"
               :handle="clip.handle"
               :type="clip.cliptype"

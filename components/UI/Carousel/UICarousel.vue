@@ -1,28 +1,30 @@
 <template>
-  <div v-if="itemsPerRow" class="flex flex-col justify-center">
-    <div id="slide" class="overflow-unset flex flex-nowrap transition-all duration-500" :style="translateX">
-      <div
-        v-for="(item, index) in items"
-        :key="item"
-        class="flex"
-        :class="justifyRows ? (index % 2 == 0 ? 'justify-start' : 'justify-end') : 'justify-center'"
-        :style="slideWidthStyle">
-        <slot name="slide" v-bind:item="item" />
+  <div>
+    <div v-if="itemsPerRow" class="flex flex-col justify-center">
+      <div id="slide" class="overflow-unset flex flex-nowrap transition-all duration-500" :style="translateX">
+        <div
+          v-for="(item, index) in items"
+          :key="item"
+          class="flex"
+          :class="justifyRows ? (index % 2 == 0 ? 'justify-start' : 'justify-end') : 'justify-center'"
+          :style="slideWidthStyle">
+          <slot name="slide" v-bind:item="item" />
+        </div>
+      </div>
+      <div id="pagination" class="mt-12 flex items-center justify-center">
+        <slot name="pagination">
+          <button
+            class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px]"
+            :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
+            v-for="number in paginationLength"
+            :key="number"
+            @click="activeSlide = number" />
+        </slot>
       </div>
     </div>
-    <div id="pagination" class="mt-12 flex items-center justify-center">
-      <slot name="pagination">
-        <button
-          class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px]"
-          :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
-          v-for="number in paginationLength"
-          :key="number"
-          @click="activeSlide = number" />
-      </slot>
+    <div class="my-40 flex justify-center" v-else>
+      <UISpinner size="12" />
     </div>
-  </div>
-  <div class="my-40 flex justify-center" v-else>
-    <UISpinner size="12" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -106,4 +108,12 @@ const translateWidth: ComputedRef<number> = computed(() => (Math.floor(itemsPerR
 const translateX: ComputedRef<string> = computed(
   () => `transform: translateX(-${(activeSlide.value - 1) * translateWidth.value}%)`
 );
+
+function moveNext() {
+  activeSlide.value = activeSlide.value === paginationLength.value ? 1 : activeSlide.value + 1;
+}
+
+function movePrev() {
+  activeSlide.value = activeSlide.value > 1 ? activeSlide.value - 1 : paginationLength.value;
+}
 </script>

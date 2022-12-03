@@ -81,4 +81,8 @@ export default class ClipApi {
   async getClipsPageData() {
     return this.base.get('global-clips');
   }
+
+  async getClipsByContributor(slug: string) {
+    return this.base.get('user-clips/' + slug);
+  }
 }
