@@ -40,6 +40,7 @@
       v-model:loading-more="state.loadingMore"
       v-model:search-string="state.searchString"
       v-model:current-sorting="state.currentSorting"
+      :state="state"
       @search="searchItems"
       @sort="setSorting"
       @loadMore="loadMoreItems">
@@ -115,9 +116,9 @@ async function getInitialPageData() {
   let initialClips: Clip[] = [];
   let initialMeta = {};
   if (initialMode !== 'main') {
-    const response = await fetchClips({ ...route.query, sort: initialSort });
-    initialClips = [...response._data.data.map((item) => item.clip)];
-    initialMeta = { ...response._data.meta };
+    const { items, meta } = await fetchClips({ ...route.query, sort: initialSort });
+    initialClips = [...items];
+    initialMeta = { ...meta };
   }
 
   const [categoriesResponse, dataResponse] = await Promise.all([getCategories(), getPageData()]);
@@ -164,6 +165,7 @@ const {
   popularCategories,
   fetchClips
 );
+
 
 // Meta
 const metaObject = getMetaObject(metaTags);

@@ -78,9 +78,6 @@ const emit = defineEmits(['viewAll']);
 // move carousel by top buttons
 
 function moveNext() {
-  if (carousel.value) {
-    console.log('moveNext', carousel.value);
-  }
   // carousel.value.moveNext();
 }
 function movePrev() {

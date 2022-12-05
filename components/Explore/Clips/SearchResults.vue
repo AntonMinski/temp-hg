@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div v-if="mode === 'keyword'" class="bg-tertiary-500 pt-[72px] dark:bg-tertiary-800">
-      <UIContainer>
+    <div class="bg-tertiary-500 pt-[72px] dark:bg-tertiary-800">
+      <UIContainer class="flex flex-col items-center">
+        <UIHeading :level="2" class="mb-8 !text-white"> Explore haggadah clips </UIHeading>
         <UISearch
           rules=""
           redirect-address="/explore-clips"
@@ -17,7 +18,7 @@
       </UIContainer>
     </div>
 
-    <div v-if="mode === 'topics'" class="bg-tertiary-500 pt-[87px] dark:bg-tertiary-800">
+    <div v-if="false" class="bg-tertiary-500 pt-[87px] dark:bg-tertiary-800">
       <UIContainer class="text-center">
         <UIHeading :level="2"> Explore haggadah clips </UIHeading>
         <UIHeading :level="5" class="mt-5 !text-2xl !text-primary-500">
@@ -31,62 +32,64 @@
 
     <div class="bg-gray-50 pt-[125px] pb-[100px] dark:bg-gray-900">
       <UIContainer class="flex flex-col items-center">
-        <div v-if="mode === 'keyword'" class="mb-[33.5px]">
+        <div class="mb-[33.5px]">
           <UIHeading :level="4" class="flex justify-center">
             <template v-if="loading">Searching...</template>
             <template v-else>
               <span class="mr-2 text-secondary-500">{{ meta.total }}</span> Clips found
             </template>
           </UIHeading>
-          <UIHeading :level="2" class="mt-0.5 flex justify-center">
-            For search keyword:&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
-          </UIHeading>
+          <ExploreClipsSearchInfo :state="state" />
         </div>
 
-        <div id="sorting" class="flex justify-center space-x-[5px]">
-          <UICategoryPill
-            v-for="(sortingName, key) in sortingTypes"
-            :key="key"
-            :is-active="key === currentSorting"
-            @click="applySorting(key)">
-            {{ sortingName }}
-          </UICategoryPill>
-        </div>
-        <template v-if="loading && !loadingMore">
-          <div class="mt-16 flex justify-center">
-            <UISpinner size="12" />
-          </div>
-        </template>
+        <template v-if='clips.length'>
 
-        <template v-else>
-          <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <GlobalClipCard
-              v-for="(clip, key) in clips"
+
+          <div id="sorting" class="flex justify-center space-x-[5px]">
+            <UICategoryPill
+              v-for="(sortingName, key) in sortingTypes"
               :key="key"
-              :handle="clip.handle"
-              :type="clip.cliptype"
-              :section-title="clip.clip_section"
-              :title="clip.title"
-              :src="clip.image"
-              :text="clip.covertext"
-              :contributor-name="clip.author"
-              :contributor-initials="clip.author_initials"
-              :contributor-avatar="null"
-              :downloads-count="clip.downloads"
-              :likes-count="clip.likes"
-              :language-tags="['English', 'Hebrew']"
-              :topic-tags="['Chad Gadya', 'Dayenu']"
-              :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
-              class="mx-2" />
+              :is-active="key === currentSorting"
+              @click="applySorting(key)">
+              {{ sortingName }}
+            </UICategoryPill>
           </div>
+          <template v-if="loading && !loadingMore">
+            <div class="mt-16 flex justify-center">
+              <UISpinner size="12" />
+            </div>
+          </template>
 
-          <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5" size="lg" color="dark" @click="emit('loadMore')"
-            >Load more
-            <template #suffix>
-              <UISpinner v-if="loadingMore" size="4" class="ml-2" />
-              <UIIcon v-else icon="icon-arrow-bottom" size="4" class="ml-2" />
-            </template>
-          </UIButton>
+          <template v-else>
+            <div class="mt-[75.5px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <GlobalClipCard
+                v-for="(clip, key) in clips"
+                :key="key"
+                :handle="clip.handle"
+                :type="clip.cliptype"
+                :section-title="clip.clip_section"
+                :title="clip.title"
+                :src="clip.image"
+                :text="clip.covertext"
+                :contributor-name="clip.author"
+                :contributor-initials="clip.author_initials"
+                :contributor-avatar="null"
+                :downloads-count="clip.downloads"
+                :likes-count="clip.likes"
+                :language-tags="['English', 'Hebrew']"
+                :topic-tags="['Chad Gadya', 'Dayenu']"
+                :is-added-to-bookmarks="clip.is_bookmarked !== '0'"
+                class="mx-2" />
+            </div>
+
+            <UIButton class="mx-auto mt-[81px] !px-[45px] !py-3.5" size="lg" color="dark" @click="emit('loadMore')"
+              >Load more
+              <template #suffix>
+                <UISpinner v-if="loadingMore" size="4" class="ml-2" />
+                <UIIcon v-else icon="icon-arrow-bottom" size="4" class="ml-2" />
+              </template>
+            </UIButton>
+          </template>
         </template>
       </UIContainer>
     </div>
@@ -136,6 +139,10 @@ const props = defineProps({
   searchKeywordDisplay: {
     type: String,
     default: '',
+  },
+  state: {
+    type: Object,
+    default: () => ({}),
   },
 });
 const emit = defineEmits([
