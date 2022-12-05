@@ -160,6 +160,7 @@ module.exports = {
         gradient4: 'linear-gradient(305.46deg, #5CAFE5 11.29%, #63D892 94.29%)',
         gradient5: 'linear-gradient(210deg, #E1ADFA 13.4%, #FCB4B4 86.6%)',
         gradient6: 'linear-gradient(90deg, #9796F0 0%, #FBC7D4 100%)',
+        gradient7: 'linear-gradient(135.24deg, #FF7F66 0%, #E6448C 84.64%)',
       },
     },
   },
