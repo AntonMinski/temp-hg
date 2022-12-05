@@ -22,7 +22,8 @@ export function useClipOrHaggadah(
   initialCategories: ClipCategory[] = [],
   initialHaggadahSections: DropdownItem[] = [],
   initialPopularCategories: ClipCategory[] = [],
-  fetchClipsOrHaggadahs: Function
+  fetchClipsOrHaggadahs: Function,
+  type: Type = 'clip',
 ) {
   type State = {
     mode: Mode;
@@ -44,6 +45,7 @@ export function useClipOrHaggadah(
     selectedHaggadahSections?: string[];
     searchInfoHeadingParts;
     searchInfoHeadingLevel: number;
+    type: Type;
   };
 
   const router = useRouter();
@@ -73,6 +75,7 @@ export function useClipOrHaggadah(
     selectedHaggadahSections: [],
     searchInfoHeadingParts: [],
     searchInfoHeadingLevel: 2,
+    type: 'clip',
   });
 
   state.mode = initialMode;
@@ -85,6 +88,7 @@ export function useClipOrHaggadah(
   state.categories = [...initialCategories];
   state.popularCategories = [...initialPopularCategories];
   state.haggadahSections = [...initialHaggadahSections];
+  state.type = type;
   getSearchInfo();
 
   const searchFilters: ComputedRef<string> = computed(() =>
@@ -146,7 +150,12 @@ export function useClipOrHaggadah(
   async function getItemsByCategory(categoryHandle: string) {
     state.mode = 'topics';
     state.selectedCategories = [categoryHandle];
-    const query = { 'parent_category[]': categoryHandle, page: '1' };
+    let query;
+    if (state.type === 'clip') {
+      query = { 'parent_category[]': categoryHandle, page: '1' };
+    } else {
+      query = { topic: categoryHandle, page: '1' };
+    }
     await router.push({ query });
     await getItems(query);
   }
@@ -236,3 +245,6 @@ export function useClipOrHaggadah(
     clearFilters,
   };
 }
+
+type Type = 'clip' | 'haggadah';
+

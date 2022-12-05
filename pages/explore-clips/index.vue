@@ -3,6 +3,7 @@
     <ExploreClipsMain
       v-if="state.mode === 'main'"
       :popular-categories="state.popularCategories"
+      :favorite-clips="favoriteClips"
       v-model:loading="state.loading"
       v-model:search-string="state.searchString"
       @search="searchItems"
@@ -111,22 +112,32 @@ async function fetchClips(searchOptions: clipSearchParams | string) {
 }
 
 async function getInitialPageData() {
-  const initialMode: Mode = useMode() as Mode;
+  const initialMode: Mode = useMode() as Mode || 'main';
   const initialSort: ClipsSorting = (route.query.sort as ClipsSorting) || 'p';
   let initialClips: Clip[] = [];
   let initialMeta = {};
-  if (initialMode !== 'main') {
-    const { items, meta } = await fetchClips({ ...route.query, sort: initialSort });
-    initialClips = [...items];
-    initialMeta = { ...meta };
-  }
+  let categories: ClipCategory[] = [];
+  let haggadahSections: HaggadahSection[];
+  let popularCategories: ClipCategory[];
+  let favoriteClips: Clip[];
+  let metaTags = {};
+  try {
+    if (initialMode !== 'main') {
+      const { items, meta } = await fetchClips({ ...route.query, sort: initialSort });
+      initialClips = [...items];
+      initialMeta = { ...meta };
+    }
 
-  const [categoriesResponse, dataResponse] = await Promise.all([getCategories(), getPageData()]);
-  const categories: ClipCategory[] = categoriesResponse._data.data;
-  const haggadahSections: HaggadahSection[] = dataResponse._data.data.filter_clips.haggadah_sections;
-  const popularCategories: ClipCategory[] = [...dataResponse._data.data.popular_categories];
-  // const mediaTypes = [...dataResponse._data.data.media_types];
-  const metaTags = { ...dataResponse._data.data.meta_tags };
+    const [categoriesResponse, dataResponse] = await Promise.all([getCategories(), getPageData()]);
+    categories = categoriesResponse._data.data;
+    haggadahSections = dataResponse._data.data.filter_clips.haggadah_sections;
+    popularCategories = [...dataResponse._data.data.popular_categories];
+    favoriteClips = [...dataResponse._data.data.favourite_clips.map((item) => item.clip)] || [];
+    // const mediaTypes = [...dataResponse._data.data.media_types];
+    metaTags = { ...dataResponse._data.data.meta_tags };
+  } catch (error) {
+    console.log(error);
+  }
   const initialData = {
     initialMode,
     initialSort,
@@ -135,14 +146,23 @@ async function getInitialPageData() {
     categories,
     haggadahSections,
     popularCategories,
+    favoriteClips,
     metaTags,
   };
   return initialData;
 }
-const { data: initialData } = await useAsyncData(getInitialPageData);
-let { initialMode, initialSort, initialClips, initialMeta, categories, haggadahSections, popularCategories, metaTags } =
-  initialData.value;
-
+const { data: initialData  } = await useAsyncData(getInitialPageData);
+let {
+  initialMode,
+  initialSort,
+  initialClips,
+  initialMeta,
+  categories,
+  haggadahSections,
+  popularCategories,
+  favoriteClips,
+  metaTags,
+} = initialData.value;
 const {
   state,
   searchFilters,
@@ -165,7 +185,6 @@ const {
   popularCategories,
   fetchClips
 );
-
 
 // Meta
 const metaObject = getMetaObject(metaTags);

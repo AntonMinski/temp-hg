@@ -178,7 +178,7 @@ const currentSorting = useVModel(props, 'currentSorting', emit);
 const sortingTypes = {
   p: 'Most popular',
   r: 'Most recent',
-  editor: 'Editor`s choice',
+  e: 'Editor`s choice',
 };
 
 const numberOfResults: ComputedRef<string | number> = computed(() => {
