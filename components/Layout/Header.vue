@@ -3,9 +3,11 @@ import { computed, ComputedRef } from 'vue';
 import { createHaggadah } from '~/components/HowItWorks/composables/createHaggadah';
 import type { HeaderItem } from '~/components/Layout/types';
 import { useGlobalStore } from '~/store/global';
+import { useSearchStore } from '~~/store/search';
 const globalStore = useGlobalStore();
+const searchStore = useSearchStore();
 const globalData = computed(() => globalStore.globalData);
-
+const isSearchBarOpen = computed(() => searchStore.isSearchBarOpen);
 const logoUrl = computed(() => globalData?.value?.logo || '/_nuxt/assets/svg/logo.svg');
 const darkLogoUrl = computed(() => globalData?.value?.dark_logo || '/_nuxt/assets/svg/logo-light.svg');
 
@@ -69,7 +71,7 @@ const defaultHeaders = [
               <span class="icon-book-f text-base leading-none"></span>
             </template>
           </UIButton>
-          <UIButton size="sm" color="link">
+          <UIButton size="sm" color="link" @click="searchStore.setIsSearchOpen(!isSearchBarOpen)">
             <span class="icon-search text-lg leading-none"></span>
           </UIButton>
           <UIButton
