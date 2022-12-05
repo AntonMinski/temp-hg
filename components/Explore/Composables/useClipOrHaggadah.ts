@@ -10,12 +10,14 @@ import {
 } from '~/components/Global/Clip/types';
 import { useRoute, useRouter } from '#app';
 import { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
-import { HaggadahWrapper } from '~/components/Global/Haggadah/types';
+import { Haggadah } from '~/components/Global/Haggadah/types';
+import { useSearchInfo} from '~/components/Explore/Composables/useSearchInfo';
+
 
 export function useClipOrHaggadah(
   initialMode: Mode = 'main',
   initialSort: ClipsSorting = 'p',
-  initialClipsOrHaggadahs: Clip[] | HaggadahWrapper[] = [],
+  initialClipsOrHaggadahs: Clip[] | Haggadah[] = [],
   initialMeta = {},
   initialCategories: ClipCategory[] = [],
   initialHaggadahSections: DropdownItem[] = [],
@@ -27,7 +29,7 @@ export function useClipOrHaggadah(
     meta?;
     searchString?: string;
     searchKeywordDisplay?: string;
-    clipsOrHaggadahs?: Clip[] | HaggadahWrapper[];
+    clipsOrHaggadahs?: Clip[] | Haggadah[];
     haggadahSections?: DropdownItem[];
     categories?: ClipCategory[];
     popularCategories?: ClipCategory[];
@@ -40,6 +42,8 @@ export function useClipOrHaggadah(
     selectedCategories?: string[];
     selectedChildCategories?: string[];
     selectedHaggadahSections?: string[];
+    searchInfoHeadingParts;
+    searchInfoHeadingLevel: number;
   };
 
   const router = useRouter();
@@ -67,17 +71,21 @@ export function useClipOrHaggadah(
     selectedCategories: [],
     selectedChildCategories: [],
     selectedHaggadahSections: [],
+    searchInfoHeadingParts: [],
+    searchInfoHeadingLevel: 2,
   });
 
   state.mode = initialMode;
   state.currentSorting = initialSort;
   state.searchString = route.query.key as string;
   state.searchKeywordDisplay = state.searchString;
+  // @ts-ignore
   state.clipsOrHaggadahs = [...initialClipsOrHaggadahs as Clip[] | Haggadah[]];
   state.meta = { ...initialMeta };
   state.categories = [...initialCategories];
   state.popularCategories = [...initialPopularCategories];
   state.haggadahSections = [...initialHaggadahSections];
+  getSearchInfo();
 
   const searchFilters: ComputedRef<string> = computed(() =>
     state.selectedHaggadahSections
@@ -132,7 +140,7 @@ export function useClipOrHaggadah(
 
     await router.push({ query });
 
-    // await getClips(searchOptions);
+    await getItems(searchOptions);
   }
 
   async function getItemsByCategory(categoryHandle: string) {
@@ -150,11 +158,11 @@ export function useClipOrHaggadah(
 
   async function getItems(searchOptions: clipSearchParams | string) {
     state.loading = true;
+    getSearchInfo();
     if (typeof searchOptions !== 'string') {
       searchOptions.page = searchOptions.page || 1;
       searchOptions.sort = state.currentSorting || 'p';
     }
-    console.log('searchOptions', searchOptions);
     const { items, meta } = await fetchClipsOrHaggadahs(searchOptions);
     state.clipsOrHaggadahs = [...items];
     state.meta = { ...meta };
@@ -162,7 +170,6 @@ export function useClipOrHaggadah(
   }
 
   async function searchItems(): Promise<void> {
-    console.log('searchItems');
     state.searchKeywordDisplay = state.searchString;
     state.mode = 'keyword';
     await getItems(route.query);
@@ -207,6 +214,12 @@ export function useClipOrHaggadah(
       state.loading = false;
       // await getClips({ page: 1 });
     }
+  }
+
+  function getSearchInfo() {
+    const { headingParts, headingLevel } = useSearchInfo(state);
+    state.searchInfoHeadingParts = [...headingParts];
+    state.searchInfoHeadingLevel = headingLevel;
   }
 
   return {
