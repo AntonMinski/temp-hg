@@ -13,7 +13,7 @@
 
     <ExploreHaggadahsSearchResults
       v-if="state.mode !== 'main'"
-      v-model:loading="loading"
+      v-model:loading="state.loading"
       v-model:loading-more="state.loadingMore"
       v-model:search-string="state.searchString"
       v-model:current-sorting="state.currentSorting"
@@ -81,20 +81,24 @@ async function getInitialPageData() {
   const initialSort: HaggadahsSorting = (route.query.sort as HaggadahsSorting) || 'r';
   let initialHaggadahs: Haggadah[] = [];
   let initialMeta = {};
-  if (initialMode !== 'main') {
-    const { items, meta } = await fetchHaggadahs({ ...route.query, sort: initialSort });
-    initialHaggadahs = items;
-    initialMeta = { ...meta };
+  let popularTopics = [];
+  let favoriteHaggadahs: Haggadah[] = [];
+  let metaTags = {};
+  try {
+    if (initialMode !== 'main') {
+      const { items, meta } = await fetchHaggadahs({ ...route.query, sort: initialSort });
+      initialHaggadahs = items;
+      initialMeta = { ...meta };
+    }
+
+    const dataResponse = await getPageData();
+    popularTopics = dataResponse?._data?.data?.popular_topics || [];
+    favoriteHaggadahs =
+      dataResponse?._data?.data?.favorite_haggadahs.map((item: HaggadahWrapper) => item.haggadah) || [];
+    metaTags = { ...dataResponse?._data?.data?.meta_tags } || {};
+  } catch (error) {
+    console.log('error', error);
   }
-  const dataResponse = await getPageData();
-  const popularTopics = dataResponse._data.data.popular_topics.map((item) => {
-    return {
-      name: item,
-      handle: item.toLowerCase().replace(/ /g, '-'),
-    };
-  });
-  const favoriteHaggadahs: HaggadahWrapper[] = dataResponse._data.data.favorite_haggadahs;
-  const metaTags = { ...dataResponse._data.data.meta_tags };
   const initialData = {
     initialMode,
     initialSort,
@@ -106,15 +110,27 @@ async function getInitialPageData() {
   };
   return initialData;
 }
-const { data: initialData } = await useAsyncData(getInitialPageData);
+const { data: initialData, error } = await useAsyncData(getInitialPageData);
+if (error) {
+  console.log('error', error);
+}
 const { initialMode, initialSort, initialHaggadahs, initialMeta, popularTopics, favoriteHaggadahs, metaTags } =
   initialData.value;
 
 const { state, getItemsByCategory, searchItems, getItems, loadMoreItems, setSorting, getItemsBySection, viewMore } =
-  useClipOrHaggadah(initialMode, initialSort, initialHaggadahs, initialMeta, [], [], popularTopics, fetchHaggadahs);
+  useClipOrHaggadah(
+    initialMode,
+    initialSort,
+    initialHaggadahs,
+    initialMeta,
+    [],
+    [],
+    popularTopics,
+    fetchHaggadahs,
+    'haggadah'
+  );
 
 function getHaggadahsByCategory(category) {
-  console.log('here');
   getItemsByCategory(category);
 }
 // Meta

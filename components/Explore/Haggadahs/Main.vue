@@ -103,6 +103,7 @@ import { useVModel } from '@vueuse/core';
 import { useAsyncData, useNuxtApp, useRouter } from '#app';
 
 import { DropdownItem } from '~/components/UI/Dropdown/types';
+import { Haggadah } from '~/components/Global/Haggadah/types';
 const { vueApp } = useNuxtApp();
 const router = useRouter();
 
@@ -121,7 +122,7 @@ const props = defineProps({
     default: '',
   },
   favoriteHaggadahs: {
-    type: Array,
+    type: Array as PropType<Haggadah[]>,
     required: true,
   },
 

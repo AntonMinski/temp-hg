@@ -134,9 +134,13 @@ const router = useRouter();
 import { usePageStore } from '~/store/page';
 import { useVModel } from '@vueuse/core';
 const pageStore = usePageStore();
-const favoriteClips: ComputedRef<Clip[]> = computed(
-  () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
-);
+const favoriteClips: ComputedRef<Clip[]> = computed(() => {
+  if (props.favoriteClips.length) {
+    return [...props.favoriteClips];
+  } else {
+    return pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || [];
+  }
+});
 
 const props = defineProps({
   popularCategories: {
@@ -150,6 +154,10 @@ const props = defineProps({
   searchString: {
     type: String,
     default: '',
+  },
+  favoriteClips: {
+    type: Array as PropType<Clip[]>,
+    default: [],
   },
 });
 const emit = defineEmits([

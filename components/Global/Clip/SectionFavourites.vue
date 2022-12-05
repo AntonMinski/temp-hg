@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, ref, Ref } from 'vue';
+import { computed, ComputedRef, PropType, ref, Ref } from 'vue';
 import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
 import { usePageStore } from '~/store/page';
 const pageStore = usePageStore();
@@ -9,7 +9,15 @@ const globalData = computed(() => globalStore.globalData);
 import { useNuxtApp } from '#app';
 const { vueApp } = useNuxtApp();
 
+const props = defineProps({
+  clips: {
+    type: Array as PropType<Clip[]>,
+    default: () => [],
+  },
+})
+
 const clips: Ref<Clip[]> = ref([]);
+clips.value = [...props.clips];
 
 const categories: ComputedRef<ClipCategory[]> = computed(() => {
   const categories = pageStore?.homePageData?.clip_categories;
@@ -17,7 +25,7 @@ const categories: ComputedRef<ClipCategory[]> = computed(() => {
     setCategory(categories[0]);
 
     /* DELETE when the API search by category is fixed */
-    clips.value = pageStore?.homePageData?.favorite_clips?.map((clip: clipContainer) => clip.clip);
+    // clips.value = pageStore?.homePageData?.favorite_clips?.map((clip: clipContainer) => clip.clip);
   }
   return categories;
 });
