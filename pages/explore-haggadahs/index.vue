@@ -24,6 +24,7 @@
       :meta="state.meta"
       :popular-categories="state.popularCategories"
       :search-topic="state.selectedCategories.toString()"
+      :state="state"
       @search="searchItems"
       @sort="setSorting"
       @loadMore="loadMoreItems"
