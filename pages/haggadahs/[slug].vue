@@ -41,6 +41,7 @@
         </div>
       </UIContainer>
     </div>
+    <ExploreHaggadahsPreviewByAuthor :contributor="contributor" />
   </div>
 </template>
 

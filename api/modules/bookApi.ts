@@ -80,4 +80,8 @@ export default class BookApi {
   async getBooksTrendingSection() {
     return this.base.get('book-section');
   }
+
+  async getBooksByAuthor(slug: string) {
+    return this.base.get('user-books/' + slug);
+  }
 }
