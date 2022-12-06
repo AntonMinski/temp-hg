@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="bg-tertiary-500 pt-[85px] pb-[60px] dark:bg-tertiary-800">
-      <UIContainer v-if="mode === 'keyword'">
+      <UIContainer class="flex flex-col items-center">
+        <UIHeading :level="2" class="mb-8 !text-white"> Explore Haggadahs </UIHeading>
         <UISearch
           v-model:search-string="searchString"
           rules=""
@@ -29,28 +30,18 @@
           </div>
         </div>
       </UIContainer>
-
-      <UIContainer v-if="mode === 'topics'" class="text-center">
-        <UIHeading :level="2" class="!text-white"> {{ route.query['parent_category[]'] }} haggadahs </UIHeading>
-        <UIHeading :level="5" class="mt-5 !text-2xl !text-white">
-          <span v-if="loading" class="mr-2">Searching</span>
-          <span v-else class="mr-2 text-primary-500">{{ meta?.total }}</span> Haggadahs
-        </UIHeading>
-      </UIContainer>
     </div>
 
     <div class="bg-gray-50 pt-[125px] pb-[100px] dark:bg-gray-900">
       <UIContainer class="flex flex-col items-center">
-        <div v-if="mode === 'keyword'" class="mb-[53.5px]">
+        <div class="mb-[53.5px]">
           <UIHeading :level="4" class="flex justify-center">
             <template v-if="loading">Searching...</template>
             <template v-else>
               <span class="mr-2 text-secondary-500">{{ numberOfResults }}</span> Haggadahs found
             </template>
           </UIHeading>
-          <UIHeading v-if="searchKeywordDisplay" :level="2" class="mt-0.5 flex justify-center">
-            For search keyword&nbsp;<span class="ml-2 text-secondary-500">{{ searchKeywordDisplay }}</span>
-          </UIHeading>
+          <ExploreHaggadahsSearchInfo :mode="mode" :search-keyword="searchKeywordDisplay" :search-topic="searchTopic" />
         </div>
 
         <div id="sorting" class="flex justify-center space-x-[5px]">
@@ -120,7 +111,7 @@ const router = useRouter();
 
 const props = defineProps({
   haggadahs: {
-    type: Array as PropType<HaggadahWrapper[]>,
+    type: Array as PropType<Haggadah[]>,
     required: true,
   },
   mode: {
@@ -160,6 +151,9 @@ const props = defineProps({
   searchTopic: {
     type: String,
     default: '',
+  },
+  state: {
+    type: Object,
   },
 });
 const emit = defineEmits([

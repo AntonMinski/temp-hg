@@ -8,7 +8,6 @@
       :favorite-haggadahs="favoriteHaggadahs"
       @search="searchItems"
       @getHaggadahsByCategory="getItemsByCategory"
-      @getHaggadahsBySection="getItemsBySection"
       @viewAll="viewMore" />
 
     <ExploreHaggadahsSearchResults
@@ -25,6 +24,7 @@
       :meta="state.meta"
       :popular-categories="state.popularCategories"
       :search-topic="state.selectedCategories.toString()"
+      :state="state"
       @search="searchItems"
       @sort="setSorting"
       @loadMore="loadMoreItems"
