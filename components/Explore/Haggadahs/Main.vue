@@ -52,17 +52,19 @@
     <template v-else>
       <div class="pb-[51px]">
         <UIContainer>
-          <div v-for="(section, key) in haggadahsBySections" class="py-[70px]">
+          <div v-for="section in haggadahsBySections" class="py-[70px]" :key='section.handle'>
             <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
               <div>
                 <UIHeading :level="5">
-                  Clips in <span class="text-secondary-500">{{ key }}</span>
+                  Clips in <span class="text-secondary-500">{{ section.name }}</span>
                 </UIHeading>
-                <span class="mt-1 block"> {{ section.total }} Haggadahs • Curated by </span>
+                <span class="mt-1 block"> {{ section.total }} Haggadahs • Curated by {{ section.curated_by }} </span>
               </div>
               <NuxtLink
-                to="#"
-                class="ml-4 flex-shrink-0">
+                :to="`/explore-haggadahs?topic=${section.handle}`"
+                class="ml-4 flex-shrink-0"
+                @click="emit('getHaggadahsByCategory', section.handle)">
+              >
                 Show all</NuxtLink
               >
             </div>
@@ -139,9 +141,14 @@ const searchString = useVModel(props, 'searchString', emit);
 const loading = useVModel(props, 'loading', emit);
 
 async function getTrendingHaggadahsSection() {
-  const response = await vueApp.$api.book.getBooksTrendingSection();
-  const haggadahs = {...response._data.data.trending};
-  return haggadahs
+  let sections = [];
+  try {
+    const response = await vueApp.$api.book.getBooksTrendingSection();
+    sections = {...response?._data?.data?.sections};
+  } catch (error) {
+    console.log(error);
+  }
+  return sections
 }
 const {data: initialHaggadahsBySections } = await useAsyncData(getTrendingHaggadahsSection);
 
