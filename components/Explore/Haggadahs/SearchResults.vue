@@ -23,7 +23,7 @@
               v-for="category in popularCategories"
               :key="category.handle"
               size="md"
-              type="primary"
+              type="accent-yellow"
               @click="emit('getItemsByCategory', category.handle)">
               {{ category.name }}
             </UIBadge>

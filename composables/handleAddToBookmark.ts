@@ -15,6 +15,7 @@ export async function handleAddToBookmark(add: boolean, slug: string, apiRoute: 
     if (add) {
       // add
       const { _data } = await vueApp.$api[`${apiRoute}`][`bookmark${capApiRoute}`](slug);
+      console.log(_data);
       if (_data?.status) {
         vueApp.$toast.success(`${capApiRoute} added to bookmarks`);
       }
@@ -27,7 +28,11 @@ export async function handleAddToBookmark(add: boolean, slug: string, apiRoute: 
     }
     return true;
   } catch (error) {
-    throw error;
+    if (error.statusCode === 401 || error.statusCode === 403) {
+      loginModal();
+    } else {
+      throw error;
+    }
   }
 }
 
