@@ -8,7 +8,6 @@
       :favorite-haggadahs="favoriteHaggadahs"
       @search="searchItems"
       @getHaggadahsByCategory="getItemsByCategory"
-      @getHaggadahsBySection="getItemsBySection"
       @viewAll="viewMore" />
 
     <ExploreHaggadahsSearchResults
