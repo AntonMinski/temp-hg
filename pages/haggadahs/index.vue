@@ -48,7 +48,7 @@
           </div>
 
           <div class="mt-[45px]">
-            <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-1 lg:grid-cols-3">
               <GlobalHaggadahCard
                 v-for="item in haggadahs"
                 :key="item"
