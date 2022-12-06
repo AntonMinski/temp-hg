@@ -1,71 +1,26 @@
 <template>
   <div>
-    <div class="pt-[72px]">
-      <UIContainer class="flex flex-col items-center">
-        <UIIcon icon="icon-book-f" shape="square" class="bg-gradient2 shadow-md" />
-        <UIHeading :level="1" class="mt-5 text-center text-[3rem]">Explore Passover Haggadahs</UIHeading>
-        <UISearch
-          rules="required"
-          redirect-address="/search-haggadahs"
-          query-key="haggadah"
-          placeholder="Search Haggadahs by keyword or topic"
-          class="mt-[25px]" />
-        <div class="mt-[45px] text-center">
-          <span class="text-sm leading-none text-gray-900"> Popular categories </span>
-          <div class="mt-[22px] flex flex-wrap justify-center space-x-1.5">
-            <UIBadge
-              v-for="category in categories"
-              :key="category"
-              size="md"
-              type="accent-yellow"
-              class="mb-1.5 md:mb-0">
-              {{ category }}
-            </UIBadge>
-          </div>
-        </div>
-      </UIContainer>
-    </div>
-
-    <div
-      id="favourite-haggadahs-carousel"
-      class="mt-[90px] bg-tertiary-500 pt-[80px] pb-[100px] text-center dark:bg-gray-600">
+    <ExploreHaggadahsPreviewHeader :haggadah="haggadah" />
+    <div class="bg-tertiary-500 py-6">
       <UIContainer>
-        <ExploreHaggadahsSectionFavouritesCarousel />
-      </UIContainer>
-    </div>
-
-    <div class="pt-[80px]">
-      <UIContainer>
-        <div v-for="section in sections" :key="section.name" class="py-[70px]">
-          <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
-            <div>
-              <UIHeading :level="3" class="text-[2rem] leading-[2.4rem]">
-                Trending Haggadahs in <span class="text-secondary-500">{{ section.name }}</span>
-              </UIHeading>
-              <span class="mt-1 block"> 26 Haggadahs • Curated by Haggadot </span>
+        <div class="flex justify-between">
+          <div class="flex items-center">
+            <div class="mr-3">
+              <img :src="Avatar" alt="Avatar" class="h-12 w-12" />
             </div>
-            <NuxtLink to="#" class="ml-4 flex-shrink-0">Show all</NuxtLink>
+            <div class="flex flex-col gap-0.5">
+              <span class="text-xs text-white">Contributed by</span>
+              <UIHeading :level="6" class="!text-white">Esther Kustanowitz</UIHeading>
+              <span class="text-xs text-white">212 Followers • 12 Haggadahs • 26 Clips</span>
+            </div>
           </div>
-
-          <div class="mt-[45px]">
-            <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <GlobalHaggadahCard
-                v-for="item in haggadahs"
-                :key="item"
-                route="#"
-                :img-src="haggadahsCardImage"
-                title="10 Minute Dayenu Seder"
-                :slug="`haddahs-${item}`"
-                text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-                :read-time="10"
-                contributor-name="Haggadahs"
-                contributor-initials="HD"
-                :contributor-avatar="null"
-                :topic-tags="['Trending', 'Humanity']"
-                :is-added-to-bookmark="false"
-                :is-owner="false"
-                :is-liked="false" />
-            </div>
+          <div class="flex w-[411px] items-center">
+            <UIButton class="mr-4 w-full bg-accent-yellow-500 text-gray-900 hover:bg-accent-yellow-600">
+              Follow Contributor
+            </UIButton>
+            <UIButton color="light" class="w-full border bg-transparent text-white hover:bg-white hover:text-gray-900">
+              View Profile
+            </UIButton>
           </div>
         </div>
       </UIContainer>
@@ -74,41 +29,34 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref } from 'vue';
 import { useAsyncData, useNuxtApp, useRoute } from '#app';
-import { Clip } from '~/components/Global/Clip/types';
-import { Contributor } from '~/components/Global/Contributor/types';
 import { Haggadah } from '~/components/Global/Haggadah/types';
+import { ref, Ref } from 'vue';
+import { Contributor } from '~/components/Global/Contributor/types';
+import { getMetaObject } from '~/composables/meta';
+import { useHead } from '#head';
+
+const Avatar = (await import('@/assets/images/avatar.png')).default;
 const route = useRoute();
 const { vueApp } = useNuxtApp();
 
-const categories: Ref<string[]> = ref(['Family', 'Comedy', 'Pop Culture', 'Ukraine', 'Humanity', 'Kids']);
-const sections: Ref<{ name: string }[]> = ref([
-  {
-    name: 'Equality',
-  },
-  {
-    name: 'Kids',
-  },
-  {
-    name: 'Women',
-  },
-  {
-    name: 'Food',
-  },
-]);
-
-const haggadahs = [...Array(3).keys()];
-const haggadahsCardImage = (await import('@/assets/images/haggadah-card-image.png')).default;
-
-// DATA
-async function getData() {
+async function getInitialData() {
   const slug = route.params.slug as string;
-  const haggadahResponse = await vueApp.$api.book.exploreSingleBook(slug);
-  const haggadah: Haggadah = { ...haggadahResponse._data.data.book };
-  return haggadah;
+  const response = await vueApp.$api.book.exploreSingleBook(slug);
+  const data = { ...response._data.data };
+  return data;
 }
-/* Not implemented a backend for this yet */
-// const { data: { clip, contributor } } = await useAsyncData(getClip);
-const { data: haggadah } = await useAsyncData(getData);
+const { data } = await useAsyncData(getInitialData);
+const initialData = data.value;
+
+const haggadah: Ref<Haggadah> = ref(initialData?.book);
+const contributor: Ref<Contributor> = ref(initialData?.contributed_by);
+const similarTopicHaggadah: Ref<Haggadah> = ref(initialData?.similar_topic_haggadah);
+const meta_tags = ref(initialData?.meta_tags);
+
+const metaObject = getMetaObject(meta_tags);
+useHead({
+  title: meta_tags?.title,
+  meta: metaObject,
+});
 </script>

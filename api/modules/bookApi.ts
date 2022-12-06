@@ -30,23 +30,23 @@ export default class BookApi {
   }
 
   async updateTitlePrivacy<T>(slug: String, updateData): Promise<T> {
-    return this.base.post(`/update-title-book/${slug}`, updateData);
+    return this.base.post(`update-title-book/${slug}`, updateData);
   }
 
   async saveBook<T>(slug: String): Promise<T> {
-    return this.base.post(`/save-book/${slug}`);
+    return this.base.post(`save-book/${slug}`);
   }
 
   async unSaveBook<T>(slug: String): Promise<T> {
-    return this.base.post(`/unsave-book/${slug}`);
+    return this.base.post(`unsave-book/${slug}`);
   }
 
   async inviteCollaborator<T>(slug: String, collaboratorData): Promise<T> {
-    return this.base.post(`/invite-collaborator/${slug}`, collaboratorData);
+    return this.base.post(`invite-collaborator/${slug}`, collaboratorData);
   }
 
   async useAsATemplate<T>(slug: String, bookData): Promise<T> {
-    return this.base.post(`/use-book-template/${slug}`, bookData);
+    return this.base.post(`use-book-template/${slug}`, bookData);
   }
 
   async bookmarkBook(slug: String): Promise<statusResponse | errorResponse> {
@@ -58,11 +58,11 @@ export default class BookApi {
   }
 
   async likeBook(slug: String): Promise<statusResponse | errorResponse> {
-    return this.base.post(`/like-book/${slug}`);
+    return this.base.post(`like-book/${slug}`);
   }
 
   async unLikeBook(slug: String): Promise<statusResponse | errorResponse> {
-    return this.base.post(`/unlike-book/${slug}`);
+    return this.base.post(`unlike-book/${slug}`);
   }
 
   async exploreBooks(searchKey: booksSearchKey): Promise<dataResponse | errorResponse> {
