@@ -1,46 +1,39 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, PropType, ref, Ref } from 'vue';
+import { computed, ComputedRef, PropType, ref, Ref, resolveComponent } from 'vue';
 import type { ClipCategory, clipContainer, Clip, clipSearchResult } from '~/components/Clip/types';
 import { usePageStore } from '~/store/page';
 const pageStore = usePageStore();
 import { useGlobalStore } from '~/store/global';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
+// const clips: ComputedRef<Clip[]> = computed(() => globalStore.favorite_clips);
 import { useNuxtApp } from '#app';
 const { vueApp } = useNuxtApp();
 
-const props = defineProps({
-  clips: {
-    type: Array as PropType<Clip[]>,
-    default: () => [],
-  },
-})
-
-const clips: Ref<Clip[]> = ref([]);
-clips.value = [...props.clips];
-
-const categories: ComputedRef<ClipCategory[]> = computed(() => {
-  const categories = pageStore?.homePageData?.clip_categories;
-  if (categories?.length) {
-    setCategory(categories[0]);
-
-    /* DELETE when the API search by category is fixed */
-    // clips.value = pageStore?.homePageData?.favorite_clips?.map((clip: clipContainer) => clip.clip);
-  }
-  return categories;
-});
+const categories: ComputedRef<ClipCategory[]> = computed(() => pageStore?.homePageData?.clip_categories || []);
 const selectedCategory: Ref<ClipCategory> = ref(null);
+const clips: Ref<Clip[]> = ref([]);
+const loading: Ref<boolean> = ref(false);
 
-async function setClips(categoryHandle: string) {
-  /* UNCOMMENT when the API search by category is fixed */
-  // const response: clipSearchResult = await vueApp.$api.clip.exploreClips({ 'category[]': categoryHandle });
-  // clips.value = response._data.data.searched_clips.map((clip: clipContainer) => clip.clip);
+await selectCategory(categories.value[0]);
+
+async function selectCategory(category: ClipCategory) {
+  selectedCategory.value = { ...category };
+  await setClipsByCategory(category.handle);
 }
 
-async function setCategory(category: ClipCategory) {
-  selectedCategory.value = category;
-  await setClips(category.handle);
+async function setClipsByCategory(categoryHandle: string) {
+  loading.value = true;
+  try {
+    const response: clipSearchResult = await vueApp.$api.clip.exploreClips({ 'parent_category[]': categoryHandle });
+    clips.value = response._data.data.map((clip: clipContainer) => clip.clip);
+  } catch (error) {
+    console.error(error);
+  }
+  loading.value = false;
 }
+
+const nuxtLink = resolveComponent('NuxtLink');
 </script>
 
 <template>
@@ -65,15 +58,18 @@ async function setCategory(category: ClipCategory) {
           <div class="flex flex-row flex-nowrap space-x-4 xl:flex-col xl:space-x-0 xl:space-y-[15px]">
             <UICategoryPill
               v-for="category in categories"
-              :key="category"
+              :key="category?.handle"
               :is-active="selectedCategory?.handle == category?.handle"
-              @click="setCategory(category)">
+              @click="selectCategory(category)">
               {{ category?.name }}
             </UICategoryPill>
           </div>
         </div>
         <div class="mt-12 flex-1 overflow-hidden xl:mt-0 xl:ml-[50px]">
-          <UICarousel :items-per-row="2" :items="clips" :breakpoints="{ xs: 1, lg: 2 }">
+          <div v-if="loading" class="my-16 flex justify-center">
+            <UISpinner size="12" />
+          </div>
+          <UICarousel v-else :items-per-row="2" :items="clips" :breakpoints="{ xs: 1, lg: 2 }">
             <template v-slot:slide="slide">
               <GlobalClipCard
                 :handle="slide.item.handle"
@@ -94,7 +90,7 @@ async function setCategory(category: ClipCategory) {
           </UICarousel>
 
           <UIButton class="mx-auto mt-[92px] !flex" color="dark" size="xl">
-            Explore more clips
+           <NuxtLink to='/explore-clips'>Explore more clips</NuxtLink>
             <template #suffix>
               <UIIcon icon="icon-arrow-right text-xl" />
             </template>

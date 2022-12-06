@@ -6,10 +6,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useAsyncData } from '#app';
+import { useAsyncData, useNuxtApp, useRuntimeConfig } from '#app';
 import { useGlobalStore } from '~/store/global';
+import { useHead } from '#head';
+const { vueApp } = useNuxtApp();
 
-const { getGlobalData } = useGlobalStore();
+const { setAppData } = useGlobalStore();
 const runtimeConfig = useRuntimeConfig();
 
 useHead({
@@ -18,7 +20,7 @@ useHead({
   },
 });
 
-await useAsyncData(getGlobalData);
+await useAsyncData(setAppData);
 
 // const { vueApp } = useNuxtApp();
 // onMounted(async () => {
