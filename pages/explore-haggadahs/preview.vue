@@ -84,6 +84,7 @@
           </div>
         </div>
       </UIContainer>
+      <GlobalSharedModal />
     </div>
   </div>
 </template>

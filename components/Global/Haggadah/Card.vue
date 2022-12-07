@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Ref } from 'vue';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 const { vueApp } = useNuxtApp();
 interface Props {
@@ -41,6 +42,11 @@ const nuxtLink = resolveComponent('NuxtLink');
 
 const isAddedToBookmark = ref(props.isAddedToBookmark);
 const selectedClip = ref(props.clips?.[0] || null);
+const isModalOpen: Ref<boolean> = ref(false);
+
+const handleToggleModal = (val: boolean) => {
+  isModalOpen.value = val;
+};
 </script>
 
 <template>
@@ -60,7 +66,8 @@ const selectedClip = ref(props.clips?.[0] || null);
         :class="col == 6 ? '!ml-0 w-[205px] flex-shrink-0' : null"
         :index="card.vnode.key || card.uid"
         v-model:is-added-to-bookmark="isAddedToBookmark"
-        @update:is-added-to-bookmark="addToBookmark" />
+        @update:is-added-to-bookmark="addToBookmark"
+        @share="handleToggleModal(true)" />
     </div>
 
     <div class="flex items-start" :class="col == 6 ? 'flex-row' : 'flex-col'">
@@ -147,4 +154,10 @@ const selectedClip = ref(props.clips?.[0] || null);
       </UIButtonGroup>
     </div>
   </UICard>
+  <!-- Share :: Modal -->
+  <GlobalSharedModal
+    :open="isModalOpen"
+    label="Haggadah Link"
+    url="haggadot.com/haggadah/some-haggadah-name"
+    @close="handleToggleModal(false)" />
 </template>

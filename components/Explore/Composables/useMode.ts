@@ -17,9 +17,3 @@ export function useMode() {
 
   return route;
 }
-
-
-
-
-
-

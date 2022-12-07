@@ -247,4 +247,3 @@ export function useClipOrHaggadah(
 }
 
 type Type = 'clip' | 'haggadah';
-

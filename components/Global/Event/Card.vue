@@ -60,6 +60,13 @@ const cardTime = computed(() => {
     return dateObj.value.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   }
 });
+
+// share modal
+const isShareModalOpen: Ref<boolean> = ref(false);
+
+function handleToggleModal(val: boolean) {
+  isShareModalOpen.value = val;
+}
 </script>
 
 <template>
@@ -139,7 +146,7 @@ const cardTime = computed(() => {
             </UIButton>
           </UIButtonGroup>
 
-          <UIButtonGroup class="group">
+          <UIButtonGroup class="group" @click="handleToggleModal(true)">
             <UIButton
               class="px-4 group-hover:text-tertiary-600 dark:group-hover:text-tertiary-400"
               color="link"
@@ -199,4 +206,11 @@ const cardTime = computed(() => {
       </div>
     </div>
   </UICard>
+
+  <!-- Share :: Modal -->
+  <GlobalSharedModal
+    :open="isShareModalOpen"
+    label="Event Link"
+    url="haggadot.com/event/some-event-name"
+    @close="handleToggleModal(false)" />
 </template>
