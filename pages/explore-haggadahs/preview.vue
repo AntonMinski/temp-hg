@@ -1,6 +1,7 @@
 <template>
   <div>
-    <ExploreHaggadahsPreviewHeader />
+    <ExploreHaggadahsRestrictedAccess />
+    <!-- <ExploreHaggadahsPreviewHeader /> -->
     <div class="bg-tertiary-500 py-6">
       <UIContainer>
         <div class="flex justify-between">
