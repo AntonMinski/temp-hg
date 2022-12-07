@@ -50,6 +50,12 @@ async function addToBookmark(value: boolean): Promise<void> {
   isAddedToBookmark.value = value;
   await handleAddToBookmark(value, props.handle, 'clip');
 }
+
+// share modal
+const isShareModalOpen: Ref<boolean> = ref(false);
+function handleToggleModal(value: boolean) {
+  isShareModalOpen.value = value;
+}
 </script>
 
 <template>
@@ -75,8 +81,9 @@ async function addToBookmark(value: boolean): Promise<void> {
     <div class="relative -mx-5 mt-4 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
       <div
         v-if="type === 'text'"
-        class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100"
-        >{{ text }}</div>
+        class="max-h-[250px] overflow-y-auto px-[36px] py-6 text-sm leading-normal text-gray-900 dark:text-gray-100">
+        {{ text }}
+      </div>
       <img v-if="type === 'image'" :src="src" class="h-[251px] w-full object-cover object-center" />
       <UIIcon
         v-if="type === 'video'"
@@ -89,7 +96,8 @@ async function addToBookmark(value: boolean): Promise<void> {
       <BlockActionButtons
         :index="card.vnode.key || card.uid"
         :is-added-to-bookmark="isAddedToBookmark"
-        @update:is-added-to-bookmark="addToBookmark" />
+        @update:is-added-to-bookmark="addToBookmark"
+        @share="handleToggleModal(true)" />
 
       <div class="ineline-flex items-center space-x-3">
         <BlockActivitiesCount :count="downloadsCount" action="download" />
@@ -154,4 +162,11 @@ async function addToBookmark(value: boolean): Promise<void> {
       </UIButtonGroup>
     </div>
   </UICard>
+
+  <!-- Share :: Modal -->
+  <GlobalSharedModal
+    :open="isShareModalOpen"
+    label="Clip Link"
+    url="haggadot.com/clip/some-clip-name"
+    @close="handleToggleModal(false)" />
 </template>
