@@ -5,13 +5,13 @@
         <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
           <div>
             <UIHeading :level="5">
-              Other Haggadahs by <span class="text-secondary-500">{{ contributor.author }}</span>
+              Similar Topic Related Haggadahs
             </UIHeading>
           </div>
           <NuxtLink
-            :to="`/explore-haggadahs?topic=${section.handle}`"
+            to="`/explore-haggadahs?topic=${section.handle}`"
             class="ml-4 flex-shrink-0"
-            @click="emit('moreHaggadahsByAuthor', contributor.handle)">
+            @click="">
             Show all</NuxtLink
           >
         </div>
@@ -19,7 +19,7 @@
         <div class="mt-[50px]">
           <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
             <GlobalHaggadahCard
-              v-for="haggadah in section.books"
+              v-for="haggadah in similarHaggadahs"
               :key="haggadah.handle"
               :route="`haggadahs/${haggadah.handle}`"
               :img-src="haggadah.haggadah_image"
@@ -47,44 +47,14 @@
 <script lang="ts" setup>
 import { useAsyncData, useNuxtApp } from '#app';
 import { PropType, reactive } from 'vue';
-import { Contributor } from '~/components/Global/Contributor/types';
 import { Haggadah } from '~/components/Global/Haggadah/types';
 const { vueApp } = useNuxtApp();
 
 const props = defineProps({
-  contributor: {
-    type: Object as PropType<Contributor>,
+  similarHaggadahs: {
+    type: Array as PropType<Haggadah[]>,
     required: true,
   },
 });
 const emit = defineEmits(['moreHaggadahsByAuthor']);
-
-async function getTrendingHaggadahsSection() {
-  let data = {
-    books: [] as Haggadah[],
-    name: '' as string,
-    handle: '' as string,
-    total_books: 0 as number,
-  };
-  try {
-    const response = await vueApp.$api.book.getBooksByAuthor(props.contributor.handle);
-    data.books = [...response?._data?.data?.map((item) => item.book).slice(0, 3)];
-    data.name = response?._data?.name;
-    data.handle = response?._data?.handle;
-    data.total_books = response?._data?.total_books;
-  } catch (error) {
-    console.log(error);
-  }
-  return data;
-}
-const { data } = await useAsyncData(getTrendingHaggadahsSection);
-const initialData = data.value;
-
-const section = reactive({
-  books: initialData.books,
-  name: initialData.name,
-  handle: initialData.handle,
-  total: initialData.total_books,
-  curated_by: props.contributor.name,
-});
 </script>

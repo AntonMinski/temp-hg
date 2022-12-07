@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ExploreHaggadahsPreviewHeader :haggadah="haggadah" />
+    <PreviewHaggadahsHeader :haggadah="haggadah" />
     <div class="bg-tertiary-500 py-6">
       <UIContainer>
         <div class="flex justify-between">
@@ -41,7 +41,8 @@
         </div>
       </UIContainer>
     </div>
-    <ExploreHaggadahsPreviewByAuthor :contributor="contributor" />
+    <PreviewHaggadahsByAuthor :contributor="contributor" />
+    <PreviewHaggadahsSimilarHaggadahs :similar-haggadahs="similarTopicHaggadahs" />
   </div>
 </template>
 
@@ -70,7 +71,9 @@ const initialData = data.value;
 
 const haggadah: Ref<Haggadah> = ref(initialData?.book);
 const contributor: Ref<Contributor> = ref(initialData?.contributed_by);
-const similarTopicHaggadah: Ref<Haggadah> = ref(initialData?.similar_topic_haggadah);
+const similarTopicHaggadahs: Ref<Haggadah[]> = ref(
+  initialData?.similar_topic_haggadah.map((item) => item.haggadah).slice(0, 3)
+);
 const meta_tags = ref(initialData?.meta_tags);
 
 async function followContributor() {
