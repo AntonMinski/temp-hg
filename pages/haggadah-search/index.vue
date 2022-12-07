@@ -41,9 +41,7 @@ async function getData() {
     key: route.query.haggadah as string,
     sort: route.query.sort as string || '',
   }
-  console.log(searchQuery);
   const { _data } = await vueApp.$api.book.exploreBooks(searchQuery);
-  console.log(_data.data);
   haggadahs.value = [..._data.data.searched_books];
 
   loading.value = false;
