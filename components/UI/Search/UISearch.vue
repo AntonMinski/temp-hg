@@ -23,9 +23,11 @@ import type { size } from './types';
 import { useSearchClasses } from '~/components/UI/Search/composables/useSearchClasses';
 
 import { useAuthModuleStore } from '~/store/authModule';
-import { navigateTo, useRouter } from '#app';
-import test from 'node:test';
+import { navigateTo, useRoute, useRouter } from '#app';
+const route = useRoute();
+const router = useRouter();
 const { loggedIn } = useAuthModuleStore();
+
 const props = defineProps({
   redirectAddress: {
     type: String,
@@ -74,7 +76,7 @@ const searchString = useVModel(props, 'searchString', emit);
 
 // Search function
 const search = handleSubmit(async (): Promise<void> => {
-  const query = {};
+  const query = route.query;
   query[props.queryKey] = searchString.value;
 
   if (props.redirect) {
@@ -83,9 +85,7 @@ const search = handleSubmit(async (): Promise<void> => {
       query,
     });
   } else {
-    const router = useRouter();
     await router.push({
-      path: props.redirectAddress,
       query,
     });
     emit('search', searchString.value);

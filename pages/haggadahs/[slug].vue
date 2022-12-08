@@ -88,7 +88,6 @@ const contributor: Ref<ContributedBy> = ref(initialData?.contributed_by);
 const similarTopicHaggadahs: Ref<Haggadah[]> = ref(
   initialData?.similar_topic_book?.map((item) => item?.book).slice(0, 3)
 );
-
 const isFollowingTemporarily = ref(contributor.value?.is_following === '1');
 async function followContributor() {
   // check if user is logged in

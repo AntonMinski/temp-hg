@@ -2,14 +2,15 @@
 import { computed, ComputedRef, onMounted, reactive, Ref, ref } from 'vue';
 import { Clip } from '~/components/Global/Clip/types';
 import { usePageStore } from '~/store/page';
-import { useGlobalStore} from '~/store/global';
-import { useAsyncData, useNuxtApp, useRoute } from '#app';
+import { useGlobalStore } from '~/store/global';
+import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
 import { ContributedBy, Contributor } from '~/components/Global/Contributor/types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
 import { getMetaObject } from '~/composables/meta';
 import { useHead } from '#head';
 
 const route = useRoute();
+const router = useRouter();
 const { vueApp } = useNuxtApp();
 
 const pageStore = usePageStore();
@@ -18,9 +19,7 @@ const globalStore = useGlobalStore();
 const languageTags = ['English'];
 const topicTags = ['Chad Gadya', 'Dayenu'];
 
-const favoriteClips: ComputedRef<Clip[]> = computed(
-  () => globalStore.favorite_clips?.slice(0, 6) || []
-);
+const favoriteClips: ComputedRef<Clip[]> = computed(() => globalStore.favorite_clips?.slice(0, 6) || []);
 
 // DATA
 async function getInitialData() {
@@ -46,12 +45,11 @@ const clipsByContributor = reactive({
   total_clips: 0,
 });
 
-
 async function getClipsByContributor() {
   const response = await vueApp.$api.clip.getClipsByContributor(contributor.handle);
   clipsByContributor.clips = response._data.data.map((clipWrapper) => clipWrapper.clip);
   clipsByContributor.loading = false;
-  clipsByContributor.meta = {...response._data.meta};
+  clipsByContributor.meta = { ...response._data.meta };
   clipsByContributor.name = response._data.name;
   clipsByContributor.handle = response._data.handle;
   clipsByContributor.total_clips = response._data.total_clips;
@@ -77,7 +75,7 @@ async function likeClip() {
       vueApp.$toast.success(`unliked`);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -127,7 +125,7 @@ async function followContributor() {
       vueApp.$toast.success(`followed`);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -316,9 +314,11 @@ useHead({
       <div class="py-[70px]">
         <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
           <div>
-            <UIHeading :level="5"> More Clips from <span class="text-secondary-500">{{ contributor.author }}</span> </UIHeading>
+            <UIHeading :level="5">
+              More Clips from <span class="text-secondary-500">{{ contributor.author }}</span>
+            </UIHeading>
           </div>
-          <NuxtLink to="#" class="ml-4 flex-shrink-0">Show all</NuxtLink>
+          <NuxtLink :to="`/explore-clips?contributor=${contributor.handle}`" class="ml-4 flex-shrink-0">Show all</NuxtLink>
         </div>
 
         <template v-if="clipsByContributor.loading">
@@ -326,7 +326,6 @@ useHead({
             <UISpinner size="12" />
           </div>
         </template>
-
 
         <div v-else class="mt-[50px]">
           <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">

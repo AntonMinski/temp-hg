@@ -41,7 +41,8 @@
               <span class="mr-2 text-secondary-500">{{ numberOfResults }}</span> Haggadahs found
             </template>
           </UIHeading>
-          <ExploreHaggadahsSearchInfo :mode="mode" :search-keyword="searchKeywordDisplay" :search-topic="searchTopic" />
+          <ExploreHaggadahsSearchInfo
+            :state="state" />
         </div>
 
         <div id="sorting" class="flex justify-center space-x-[5px]">
@@ -104,8 +105,10 @@
 import { computed, ComputedRef, PropType } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { useRoute, useRouter } from '#app';
-import { Haggadah, HaggadahsSorting, Mode } from '~~/components/Global/Haggadah/types';
+import { Haggadah } from '~~/components/Global/Haggadah/types';
 import { DropdownItem } from '~/components/UI/Dropdown/types';
+import { Mode, Sorting } from '~/components/Explore/types';
+import { State } from '~/components/Explore/Composables/useClipOrHaggadah';
 const route = useRoute();
 const router = useRouter();
 
@@ -138,7 +141,7 @@ const props = defineProps({
     type: Object,
   },
   currentSorting: {
-    type: String as PropType<HaggadahsSorting>,
+    type: String as PropType<Sorting>,
     default: 'p',
   },
   searchKeywordDisplay: {
@@ -153,7 +156,7 @@ const props = defineProps({
     default: '',
   },
   state: {
-    type: Object,
+    type: Object as PropType<State>,
   },
 });
 const emit = defineEmits([
@@ -189,11 +192,9 @@ const canLoadMore: ComputedRef<boolean> = computed(() => {
   return props.meta?.last_page > props.meta?.current_page;
 });
 
-async function applySorting(type: HaggadahsSorting) {
+async function applySorting(type: Sorting) {
   currentSorting.value = type;
-  if (type === 'p' || type === 'r') {
-    await router.push({ query: { ...route.query, page: 1, sort: type } });
-  } // else would be favorite haggadahs
+  await router.push({ query: { ...route.query, page: 1, sort: type } });
   emit('sort');
 }
 </script>
