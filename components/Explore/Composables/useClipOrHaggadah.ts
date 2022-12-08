@@ -11,8 +11,7 @@ import {
 import { useRoute, useRouter } from '#app';
 import { DropdownItem, DropdownItemParent } from '~/components/UI/Dropdown/types';
 import { Haggadah } from '~/components/Global/Haggadah/types';
-import { useSearchInfo} from '~/components/Explore/Composables/useSearchInfo';
-
+import { useSearchInfo } from '~/components/Explore/Composables/useSearchInfo';
 
 export function useClipOrHaggadah(
   initialMode: Mode = 'main',
@@ -23,7 +22,7 @@ export function useClipOrHaggadah(
   initialHaggadahSections: DropdownItem[] = [],
   initialPopularCategories: ClipCategory[] = [],
   fetchClipsOrHaggadahs: Function,
-  type: Type = 'clip',
+  type: Type = 'clip'
 ) {
   type State = {
     mode: Mode;
@@ -83,7 +82,7 @@ export function useClipOrHaggadah(
   state.searchString = route.query.key as string;
   state.searchKeywordDisplay = state.searchString;
   // @ts-ignore
-  state.clipsOrHaggadahs = [...initialClipsOrHaggadahs as Clip[] | Haggadah[]];
+  state.clipsOrHaggadahs = [...(initialClipsOrHaggadahs as Clip[] | Haggadah[])];
   state.meta = { ...initialMeta };
   state.categories = [...initialCategories];
   state.popularCategories = [...initialPopularCategories];
@@ -157,12 +156,15 @@ export function useClipOrHaggadah(
       query = { topic: categoryHandle, page: '1' };
     }
     await router.push({ query });
+    window.scrollTo(0, 0);
     await getItems(query);
   }
 
   async function viewMore() {
-    state.mode = 'topics';
-    await getItems({});
+    state.mode = 'favorite';
+    state.currentSorting = 'e';
+    window.scrollTo(0, 0);
+    await getItems({ sort: 'e' });
   }
 
   async function getItems(searchOptions: clipSearchParams | string) {

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Ref } from 'vue';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
+import { useNuxtApp } from '#app';
 const { vueApp } = useNuxtApp();
 interface Props {
   col?: 4 | 6;
@@ -21,7 +22,7 @@ interface Props {
   isOwner?: boolean;
   slug: string;
   downloadUrl?: string;
-  hideOnwerBadge?: boolean;
+  hideOwnerBadge?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -29,6 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   isAddedToBookmark: false,
   isOwner: true,
   route: '',
+  imgSrc: '',
 });
 
 // bookmarks
@@ -53,7 +55,7 @@ const handleToggleModal = (val: boolean) => {
   <UICard variant="image" :img-src="imgSrc">
     <div class="flex items-start justify-between space-x-2">
       <div :class="col == 6 ? 'order-1 flex-1' : null">
-        <div v-if="isOwner && !hideOnwerBadge" class="mb-3.5 flex items-center space-x-1.5">
+        <div v-if="isOwner && !hideOwnerBadge" class="mb-3.5 flex items-center space-x-1.5">
           <BlockOwnerBadge />
         </div>
 
@@ -70,7 +72,7 @@ const handleToggleModal = (val: boolean) => {
         @share="handleToggleModal(true)" />
     </div>
 
-    <div class="flex items-start" :class="col == 6 ? 'flex-row' : 'flex-col'">
+    <div class="flex items-start mt-2" :class="col == 6 ? 'flex-row' : 'flex-col'">
       <div v-if="contributorName || readTime" class="w-full" :class="col == 6 ? 'order-1' : null">
         <div class="flex items-center space-x-[15px]" :class="!isOwner ? 'mt-4' : ''">
           <div v-if="readTime" class="inline-flex items-center space-x-2">

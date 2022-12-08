@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { computed, ComputedRef, PropType } from 'vue';
-import type { Haggadah, HaggadahWrapper } from './types';
+import type { Haggadah } from './types';
 import { useGlobalStore } from '~/store/global';
 const globalStore = useGlobalStore();
 const globalData = computed(() => globalStore.globalData);
 const haggadahs: ComputedRef<Haggadah[]> = computed(() => globalStore.favorite_haggadahs);
+
+if (!haggadahs.value.length) {
+  console.error('no haggadahs fetched from the API')
+}
 
 // Haggadahs Data
 // const haggadahs: ComputedRef<Haggadah[]> = computed(() => pageStore.homePageData.featured_haggadah?.slice(0, 6));
@@ -12,7 +16,7 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => globalStore.favorite_h
 
 <template>
   <div id="favourite-haggadahs" class="bg-white dark:bg-gray-800">
-    <UIContainer class="py-24">
+    <UIContainer v-if='haggadahs?.length' class="py-24">
       <div class="mb-12 items-center justify-between space-y-12 lg:flex lg:space-y-0">
         <div class="inline-flex items-center space-x-4">
           <UIIcon icon="icon-book-f" shape="square" class="bg-gradient2 shadow-md" />
@@ -31,7 +35,7 @@ const haggadahs: ComputedRef<Haggadah[]> = computed(() => globalStore.favorite_h
         <GlobalHaggadahCard
           v-for="(haggadah, n) in haggadahs"
           :key="n"
-          route="#"
+          :route="`/explore-haggadahs/${haggadah.handle}`"
           :img-src="haggadah.haggadah_image"
           :title="haggadah.title"
           :slug="haggadah.handle"

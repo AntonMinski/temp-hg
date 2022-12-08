@@ -8,6 +8,10 @@ const globalData = computed(() => globalStore.globalData);
 
 const contributorsData: ComputedRef<ContributorWrapper[]> = computed(() => globalData.value?.top_contributors);
 
+if (!contributorsData.value?.length) {
+  console.error('no contributors fetched from the API')
+}
+
 async function showAll() {
   await navigateTo('/contributors');
 }
@@ -15,7 +19,7 @@ async function showAll() {
 
 <template>
   <div id="top_contributors" class="bg-tertiary-500 dark:bg-tertiary-800">
-    <UIContainer class="py-20">
+    <UIContainer v-if='contributorsData?.length' class="py-20">
       <div class="mx-auto !max-w-[1080px] overflow-hidden">
         <div class="flex items-center justify-between">
           <UIHeading :level="5" class="text-[30px] !text-white">

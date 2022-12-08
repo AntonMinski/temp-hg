@@ -113,7 +113,7 @@ function handleToggleModal(value: boolean) {
         :name="contributorName"
         :initials="contributorInitials"
         :avatar="contributorAvatar"
-        text="Contributed" />
+        text="Contributed by" />
     </div>
 
     <UITags v-if="languageTags.length" :tags="languageTags" type="tertiary" outline />

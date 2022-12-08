@@ -1,14 +1,16 @@
 <template>
-  <UIHeading :level="state.searchInfoHeadingLevel" class="mt-5">
-    <template v-if="state.searchInfoHeadingParts?.length">
-      <template v-for="{ key, value } in state.searchInfoHeadingParts">
-        {{ key }}<span class="ml-2 text-center text-secondary-500">{{ value }}</span>
+  <div>
+    <UIHeading v-if="state.mode !== 'favorite'" :level="state.searchInfoHeadingLevel" class="mt-5">
+      <template v-if="state.searchInfoHeadingParts?.length">
+        <template v-for="{ key, value } in state.searchInfoHeadingParts">
+          {{ key }}<span class="ml-2 text-center text-secondary-500">{{ value }}</span>
+        </template>
       </template>
-    </template>
-    <template v-else>
-      <span class="ml-2 text-center text-secondary-500">All clips</span>
-    </template>
-  </UIHeading>
+      <template v-else>
+        <span class="ml-2 text-center text-secondary-500">All clips</span>
+      </template>
+    </UIHeading>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -86,9 +86,10 @@ function handleToggleModal(val: boolean) {
             <span>{{ location }}</span>
           </div>
 
-          <div class="flex items-end justify-between space-x-4">
+          <div class="flex items-end justify-between space-x-4 !mt-2">
             <UITags v-if="userTags.length" :tags="userTags" type="accent-yellow" size="md" />
 
+            <div class='mt-2'>
             <BlockContributor
               v-if="col == 4"
               class="w-[124px]"
@@ -97,12 +98,13 @@ function handleToggleModal(val: boolean) {
               :name="contributorName"
               :avatar="contributorAvatar"
               text="Hosting" />
+            </div>
           </div>
         </div>
 
         <div v-if="col == 6" class="mt-[27px] flex-1 lg:mt-0 lg:ml-4 xl:ml-[25px]">
           <UIHeading :level="5">{{ title }}</UIHeading>
-          <div class="mt-3 text-sm text-gray-700 dark:text-gray-200">{{ text }}</div>
+          <div class="mt-3 mb-2 text-sm text-gray-700 dark:text-gray-200">{{ text }}</div>
 
           <BlockContributor
             :initials="contributorInitials"

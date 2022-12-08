@@ -2,6 +2,7 @@
 import { computed, ComputedRef, onMounted, reactive, Ref, ref } from 'vue';
 import { Clip } from '~/components/Global/Clip/types';
 import { usePageStore } from '~/store/page';
+import { useGlobalStore} from '~/store/global';
 import { useAsyncData, useNuxtApp, useRoute } from '#app';
 import { ContributedBy, Contributor } from '~/components/Global/Contributor/types';
 import { handleAddToBookmark } from '~/composables/handleAddToBookmark';
@@ -12,12 +13,13 @@ const route = useRoute();
 const { vueApp } = useNuxtApp();
 
 const pageStore = usePageStore();
+const globalStore = useGlobalStore();
 
 const languageTags = ['English'];
 const topicTags = ['Chad Gadya', 'Dayenu'];
 
 const favoriteClips: ComputedRef<Clip[]> = computed(
-  () => pageStore.homePageData?.favorite_clips?.slice(0, 6).map((clipWrapper) => clipWrapper.clip) || []
+  () => globalStore.favorite_clips?.slice(0, 6) || []
 );
 
 // DATA
@@ -169,14 +171,6 @@ useHead({
             <div class="mt-4 inline-flex items-center space-x-3">
               <BlockActivitiesCount :count="clip.downloads" action="download" />
               <BlockActivitiesCount :count="clip.likes" action="like" />
-              <UIButton color="link" size="sm" class="!ml-[30px] !h-auto !bg-transparent !p-0" @click="likeClip">
-                <template #prefix>
-                  <UIIcon v-if="isLikedTemporary" icon="icon-like" class="text-xl font-bold text-blue-700" />
-                  <UIIcon v-else icon="icon-like" class="text-xl text-primary-700" />
-                </template>
-                <template v-if="isLikedTemporary"> UnLike </template>
-                <template v-else> Give a Like </template>
-              </UIButton>
             </div>
 
             <div class="mt-[25px] text-sm text-gray-700 dark:text-gray-300">

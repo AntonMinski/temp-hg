@@ -32,6 +32,10 @@
 
     />
 
+    <div v-if="state.mode !== 'main'" class="py-20">
+      <GlobalBannerHaggadah variant="horizontal" />
+    </div>
+
     <GlobalHaggadahSectionFavourites v-if="state.mode === 'keyword'" :haggadahs="favoriteHaggadahs" />
 
     <GlobalContributorSectionTop />
@@ -47,8 +51,7 @@ import type {
   haggadahSearchParams,
   HaggadahWrapper,
 } from '~/components/Global/Haggadah/types';
-import type { Clip, ClipCategory, Mode, ClipsSorting } from '~/components/Global/Clip/types';
-import type { clipSearchParams, HaggadahSection } from '~/components/Global/Clip/types';
+import type { Mode } from '~/components/Global/Clip/types';
 import { ref, Ref } from 'vue';
 import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
 import { getMetaObject } from '~/composables/meta';
@@ -94,7 +97,7 @@ async function getInitialPageData() {
     const dataResponse = await getPageData();
     popularTopics = dataResponse?._data?.data?.popular_topics || [];
     favoriteHaggadahs =
-      dataResponse?._data?.data?.favorite_haggadahs.map((item: HaggadahWrapper) => item.haggadah) || [];
+      dataResponse?._data?.data?.favorite_book.map((item: HaggadahWrapper) => item.book) || [];
     metaTags = { ...dataResponse?._data?.data?.meta_tags } || {};
   } catch (error) {
     console.log('error', error);

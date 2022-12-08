@@ -26,7 +26,7 @@ export const useGlobalStore = defineStore('global', () => {
   async function setHaggadahs() {
     const { vueApp } = useNuxtApp();
     const response = await vueApp.$api.book.getBooksData();
-    favorite_haggadahs.value = response?._data?.data?.favorite_haggadahs.map((item) => item.haggadah);
+    favorite_haggadahs.value = response?._data?.data?.favorite_book.map((item) => item.book);
   }
 
   async function setClips() {
