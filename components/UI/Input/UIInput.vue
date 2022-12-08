@@ -4,7 +4,7 @@
     <div class="relative flex items-center">
       <div
         v-if="$slots.prefix"
-        class="pointer-events-none absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
+        class="absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
         <slot name="prefix" />
       </div>
       <input
@@ -68,3 +68,21 @@ const errorsToShow: ComputedRef<boolean> = computed(() => showErrors.value && !!
 
 const { inputClasses, labelClasses, errorClasses } = useInputClasses(toRefs(props));
 </script>
+
+<style>
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  background-color: transparent;
+  color: white;
+  -webkit-text-fill-color: white;
+  -webkit-text-size-adjust: 100%;
+  transition: background-color 5000s ease-in-out 0s;
+}
+</style>

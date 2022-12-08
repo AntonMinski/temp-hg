@@ -23,7 +23,7 @@ const headerItems: ComputedRef<HeaderItem[]> = computed(() => {
 });
 
 // Temporarily
-headerItems.value[1].handle = '/explore-clips';
+// headerItems.value[1].handle = '/explore-clips';
 
 const defaultHeaders = [
   {
