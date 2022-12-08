@@ -9,9 +9,8 @@
             </UIHeading>
           </div>
           <NuxtLink
-            :to="`/explore-haggadahs?topic=${section.handle}`"
-            class="ml-4 flex-shrink-0"
-            @click="emit('moreHaggadahsByAuthor', contributor.handle)">
+            :to="`/explore-haggadahs?contributor=${contributor.handle}`"
+            class="ml-4 flex-shrink-0">
             Show all</NuxtLink
           >
         </div>
@@ -73,7 +72,7 @@ async function getTrendingHaggadahsSection() {
     data.handle = response?._data?.handle;
     data.total_books = response?._data?.total_books;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return data;
 }

@@ -142,7 +142,7 @@ async function getTrendingHaggadahsSection() {
     const response = await vueApp.$api.book.getBooksTrendingSection();
     sections = { ...response?._data?.data?.sections };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return sections;
 }

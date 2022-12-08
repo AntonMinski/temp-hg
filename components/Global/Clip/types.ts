@@ -30,6 +30,7 @@ export type clipSearchParams = {
   'parent_category[]'?: string | string[];
   'children_category[]'?: string | string[];
   'haggadah_section[]'?: string | string[];
+  contributor?: string;
   sort?: 'r' | 'p' | 'e';
   page?: string | number;
 };
@@ -81,9 +82,6 @@ export type ClipSection = {
   total: number;
   clips: Clip[];
 }
-
-
-export type Mode = 'main' | 'topics' | 'keyword' | 'favorite';
 
 export type MediaType = {
   name: string;

@@ -3,6 +3,10 @@ import { computed } from 'vue';
 export function useSearchInfo(state) {
   let headingParts = [];
 
+  if (state?.contributorName) {
+    headingParts.push({ key: 'By Contributor: ', value: state?.contributorName });
+  }
+
   if (state?.searchKeywordDisplay) {
     headingParts.push({ key: 'For search keyword ', value: state?.searchKeywordDisplay });
   }

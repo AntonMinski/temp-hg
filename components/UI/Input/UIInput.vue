@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label v-if="label" :class="labelClasses">{{ label }}</label>
+    <label v-if="label" :class="labelClasses" for="name">{{ label }}</label>
     <div class="relative flex items-center">
       <div
         v-if="$slots.prefix"
@@ -13,6 +13,7 @@
         :disabled="disabled"
         :type="type"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errorsToShow ? errorClasses : '']"
+        :name="name"
         @input="showErrors = false"
         @blur="showErrors = true" />
       <div v-if="$slots.suffix" class="absolute right-1.5">

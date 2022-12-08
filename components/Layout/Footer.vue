@@ -86,7 +86,7 @@ const subscribeNewsletter = handleSubmit(async (): Promise<void> => {
       </div>
 
       <div class="mx-auto mt-[71px] flex w-full max-w-3xl items-center rounded-lg bg-gray-700 py-3 px-10">
-        <label for="newsletter" class="mr-8 flex-shrink-0"> Sign up to our newsletter </label>
+        <label for="email" class="mr-8 flex-shrink-0"> Sign up to our newsletter </label>
 
         <UIInput id="newsletter" v-model="email" placeholder="Enter your email address" name="email" class="w-full">
           <template #prefix>

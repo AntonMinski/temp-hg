@@ -25,33 +25,27 @@ export type HaggadahWrapper = {
 };
 
 export type Haggadah = {
-    author: string;
-    haggadah_image: string;
-    author_initials: string;
-    covertext: string;
-    handle: string;
-    is_saved: boolean;
-    keywords: string | string[];
-    reading_length: number;
-    title: string;
-    is_bookmarked: '0' | '1';
-    is_liked: '0' | '1';
-    download_url: string;
+  author: string;
+  haggadah_image?: string;
+  image?: string;
+  author_initials: string;
+  covertext: string;
+  handle: string;
+  is_saved: boolean;
+  keywords: string | string[];
+  reading_length: number;
+  title: string;
+  is_bookmarked: '0' | '1';
+  is_liked: '0' | '1';
+  download_url: string;
 };
-
 
 export type haggadahSearchParams = {
   key?: string;
-  'media_type[]'?: string | string[];
-  'parent_category[]'?: string | string[];
-  'children_category[]'?: string | string[];
-  'haggadah_section[]'?: string | string[];
-  sort?: 'r' | 'p' | 'editor';
+  topic?: string;
+  contributor?: string;
+  sort?: HaggadahsSorting;
   page?: string | number;
-};
-
-export type haggadahContainer = {
-  haggadah: HaggadahWrapper;
 };
 
 export type HaggadahSection = {
@@ -61,6 +55,4 @@ export type HaggadahSection = {
   haggadahs: HaggadahWrapper[];
 };
 
-export type Mode = 'main' | 'topics' | 'keyword';
-
-export type HaggadahsSorting = '' | 'r' ;
+export type HaggadahsSorting = '' | 'r' | 'e';
