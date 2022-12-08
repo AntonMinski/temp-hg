@@ -1,27 +1,28 @@
 <template>
   <div>
-    <div class="mb-[50px] items-center justify-between space-y-12 lg:flex lg:space-y-0">
-      <div class="inline-flex items-center space-x-4">
-        <UIHeading :level="3" class="text-4xl !text-white"> Our Favourites Haggadahs </UIHeading>
-      </div>
-
-      <UIButtonGroup>
-        <UIButton
-          @click="movePrev"
-          class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
-          <UIIcon icon="icon-arrow-left" />
-        </UIButton>
-        <UIButton
-          @click="moveNext"
-          class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
-          <UIIcon icon="icon-arrow-right" />
-        </UIButton>
-      </UIButtonGroup>
-    </div>
-
-    <div class="w-full items-start xl:flex">
+    <div v-if='haggadahs?.length' class="w-full items-start xl:flex">
       <div class="flex-1 overflow-hidden">
-        <UICarousel ref="carousel" :items="haggadahs" :breakpoints="{ xs: 1, lg: 2 }" :justify-rows="true" >
+        <UICarousel ref="carousel" :items="haggadahs" :breakpoints="{ xs: 1, lg: 2 }" :justify-rows="true">
+          <template v-slot:header="childScope">
+            <div class="mb-[50px] items-center justify-between space-y-12 lg:flex lg:space-y-0">
+              <div class="inline-flex items-center space-x-4">
+                <UIHeading :level="3" class="text-4xl !text-white"> Our Favourites Haggadahs </UIHeading>
+              </div>
+
+              <UIButtonGroup>
+                <UIButton
+                  @click="childScope.movePrev"
+                  class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
+                  <UIIcon icon="icon-arrow-left" />
+                </UIButton>
+                <UIButton
+                  @click="childScope.moveNext"
+                  class="h-8 w-8 border border-white text-white hover:bg-gray-100 hover:text-tertiary-600 dark:hover:bg-gray-600 dark:hover:text-tertiary-400">
+                  <UIIcon icon="icon-arrow-right" />
+                </UIButton>
+              </UIButtonGroup>
+            </div>
+          </template>
           <template v-slot:slide="slide">
             <div class="max-w-[625px]">
               <GlobalHaggadahCard
@@ -61,11 +62,9 @@
 <script lang="ts" setup>
 import { Haggadah } from '~/components/Global/Haggadah/types';
 import { PropType, ref } from 'vue';
-import { templateRef } from '@vueuse/core'
+import { templateRef } from '@vueuse/core';
 
-const carousel = ref(null)
-
-
+const carousel = ref(null);
 
 const props = defineProps({
   haggadahs: {
@@ -73,6 +72,9 @@ const props = defineProps({
     default: () => [],
   },
 });
+if (!props.haggadahs.length) {
+  console.error('no haggadahs fetched from the Api')
+}
 const emit = defineEmits(['viewAll']);
 
 // move carousel by top buttons

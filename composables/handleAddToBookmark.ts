@@ -6,6 +6,7 @@ import { useNuxtApp } from '#app';
 export async function handleAddToBookmark(add: boolean, slug: string, apiRoute: apiRoute) {
   const { vueApp } = useNuxtApp();
   if (loginModal()) {
+    vueApp.$toast.error('not Authenticated');
     return false;
   }
 

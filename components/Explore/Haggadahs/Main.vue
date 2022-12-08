@@ -52,11 +52,11 @@
     <template v-else>
       <div class="pb-[51px]">
         <UIContainer>
-          <div v-for="section in haggadahsBySections" class="py-[70px]" :key='section.handle'>
+          <div v-for="section in haggadahsBySections" class="py-[70px]" :key="section.handle">
             <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
               <div>
                 <UIHeading :level="5">
-                  Clips in <span class="text-secondary-500">{{ section.name }}</span>
+                  Haggadahs in <span class="text-secondary-500">{{ section.name }}</span>
                 </UIHeading>
                 <span class="mt-1 block"> {{ section.total }} Haggadahs • Curated by {{ section.curated_by }} </span>
               </div>
@@ -64,7 +64,6 @@
                 :to="`/explore-haggadahs?topic=${section.handle}`"
                 class="ml-4 flex-shrink-0"
                 @click="emit('getHaggadahsByCategory', section.handle)">
-              >
                 Show all</NuxtLink
               >
             </div>
@@ -72,24 +71,24 @@
             <div class="mt-[50px]">
               <div class="mt-[62px] grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <GlobalHaggadahCard
-                  v-for="({ haggadah }, key) in section.books"
+                  v-for="({ book }, key) in section.books"
                   :key="key"
-                  :route="`haggadahs/${haggadah.handle}`"
-                  :img-src="haggadah.haggadah_image"
-                  :title="haggadah.title"
-                  :slug="haggadah.handle"
+                  :route="`/haggadahs/${book?.handle}`"
+                  :img-src="book?.haggadah_image"
+                  :title="book?.title"
+                  :slug="book?.handle"
                   text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet accusamus sit rem officia. Sit aperiam, tempora iste ab porro hic ratione consequatur a illum harum voluptate optio! Alias, nihil sapiente."
-                  :read-time="haggadah.reading_length || 10"
-                  :contributor-name="haggadah.author"
-                  :contributor-initials="haggadah.author_initials"
+                  :read-time="book?.reading_length || 10"
+                  :contributor-name="book?.author"
+                  :contributor-initials="book?.author_initials"
                   :contributor-avatar="null"
                   :language-tags="['Trending', 'Humanity']"
                   :topic-tags="['Trending', 'Humanity']"
                   :completed-progress="50"
                   :clips="['Introduction > Karpas', 'Clip #1', 'Clip #2']"
-                  :is-added-to-bookmark="haggadah.is_bookmarked !== '0'"
-                  :is-liked="haggadah.is_liked !== '0'"
-                  :download-url="haggadah.download_url" />
+                  :is-added-to-bookmark="book?.is_bookmarked !== '0'"
+                  :is-liked="book?.is_liked !== '0'"
+                  :download-url="book?.download_url" />
               </div>
             </div>
           </div>
@@ -109,7 +108,6 @@ import { Haggadah } from '~/components/Global/Haggadah/types';
 const { vueApp } = useNuxtApp();
 const router = useRouter();
 
-
 const props = defineProps({
   popularCategories: {
     type: Array as PropType<DropdownItem[]>,
@@ -127,14 +125,12 @@ const props = defineProps({
     type: Array as PropType<Haggadah[]>,
     required: true,
   },
-
 });
 const emit = defineEmits([
   'search',
   'getHaggadahsByCategory',
   'update:searchString',
   'update:loading',
-  'getClipsBySection',
   'viewAll',
 ]);
 const searchString = useVModel(props, 'searchString', emit);
@@ -144,18 +140,17 @@ async function getTrendingHaggadahsSection() {
   let sections = [];
   try {
     const response = await vueApp.$api.book.getBooksTrendingSection();
-    sections = {...response?._data?.data?.sections};
+    sections = { ...response?._data?.data?.sections };
   } catch (error) {
     console.log(error);
   }
-  return sections
+  return sections;
 }
-const {data: initialHaggadahsBySections } = await useAsyncData(getTrendingHaggadahsSection);
+const { data: initialHaggadahsBySections } = await useAsyncData(getTrendingHaggadahsSection);
 
-const haggadahsBySections = ref({ ...initialHaggadahsBySections.value});
+const haggadahsBySections = ref({ ...initialHaggadahsBySections.value });
 
 function getHaggadahsByTopic(category: string) {
   emit('getHaggadahsByCategory', category);
 }
-
 </script>

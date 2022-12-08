@@ -9,7 +9,7 @@
             </UIHeading>
           </div>
           <NuxtLink
-            to="`/explore-haggadahs?topic=${section.handle}`"
+            to="/explore-haggadahs?topic=${topic}"
             class="ml-4 flex-shrink-0"
             @click="">
             Show all</NuxtLink
@@ -21,7 +21,7 @@
             <GlobalHaggadahCard
               v-for="haggadah in similarHaggadahs"
               :key="haggadah.handle"
-              :route="`haggadahs/${haggadah.handle}`"
+              :route="`/haggadahs/${haggadah.handle}`"
               :img-src="haggadah.haggadah_image"
               :title="haggadah.title"
               :slug="haggadah.handle"

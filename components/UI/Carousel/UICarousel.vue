@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="itemsPerRow" class="flex flex-col justify-center">
+      <slot name="header" :moveNext="moveNext" :movePrev="movePrev" />
       <div id="slide" class="overflow-unset flex flex-nowrap transition-all duration-500" :style="translateX">
         <div
           v-for="(item, index) in items"
@@ -14,7 +15,7 @@
       <div id="pagination" class="mt-12 flex items-center justify-center">
         <slot name="pagination">
           <button
-            class="carousel-bullet bg-gray-200 rounded-full w-[13px] h-[13px] mx-[5px]"
+            class="carousel-bullet mx-[5px] h-[13px] w-[13px] rounded-full bg-gray-200"
             :class="{ 'carousel-bullet !bg-secondary-500': activeSlide === number }"
             v-for="number in paginationLength"
             :key="number"

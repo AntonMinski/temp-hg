@@ -21,7 +21,7 @@
             <GlobalHaggadahCard
               v-for="haggadah in section.books"
               :key="haggadah.handle"
-              :route="`haggadahs/${haggadah.handle}`"
+              :route="`/haggadahs/${haggadah.handle}`"
               :img-src="haggadah.haggadah_image || haggadah.image"
               :title="haggadah.title"
               :slug="haggadah.handle"
@@ -47,13 +47,13 @@
 <script lang="ts" setup>
 import { useAsyncData, useNuxtApp } from '#app';
 import { PropType, reactive } from 'vue';
-import { Contributor } from '~/components/Global/Contributor/types';
+import { ContributedBy, Contributor } from '~/components/Global/Contributor/types';
 import { Haggadah } from '~/components/Global/Haggadah/types';
 const { vueApp } = useNuxtApp();
 
 const props = defineProps({
   contributor: {
-    type: Object as PropType<Contributor>,
+    type: Object as PropType<ContributedBy>,
     required: true,
   },
 });
@@ -85,6 +85,6 @@ const section = reactive({
   name: initialData.name,
   handle: initialData.handle,
   total: initialData.total_books,
-  curated_by: props.contributor.name,
+  curated_by: props.contributor.author,
 });
 </script>

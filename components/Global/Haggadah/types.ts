@@ -21,7 +21,7 @@ export type HaggadahBook = {
 };
 
 export type HaggadahWrapper = {
-  haggadah: Haggadah;
+  book: Haggadah;
 };
 
 export type Haggadah = {

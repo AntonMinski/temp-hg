@@ -29,10 +29,12 @@
             <UIButton
               class="mr-4 w-full bg-accent-yellow-500 text-gray-900 hover:bg-accent-yellow-600"
               @click="followContributor">
-              Follow Contributor
+              <template v-if="isFollowingTemporarily"> UnFollow Contributor </template>
+              <template v-else> Follow Contributor </template>
             </UIButton>
             <UIButton
               color="light"
+              outline
               class="w-full border bg-transparent text-white hover:bg-white hover:text-gray-900"
               @click="viewProfile">
               View Profile
@@ -50,7 +52,7 @@
 import { useAsyncData, useNuxtApp, useRoute } from '#app';
 import { Haggadah } from '~/components/Global/Haggadah/types';
 import { ref, Ref } from 'vue';
-import { Contributor } from '~/components/Global/Contributor/types';
+import { ContributedBy } from '~/components/Global/Contributor/types';
 import { getMetaObject } from '~/composables/meta';
 import { useHead } from '#head';
 import { loginModal } from '~/composables/loginModal';
@@ -62,42 +64,62 @@ const { vueApp } = useNuxtApp();
 
 async function getInitialData() {
   const slug = route.params.slug as string;
-  const response = await vueApp.$api.book.exploreSingleBook(slug);
-  const data = { ...response._data.data };
+  let data;
+  try {
+    const response = await vueApp.$api.book.exploreSingleBook(slug);
+    data = { ...response._data.data };
+  } catch (error) {
+    console.error(error);
+  }
   return data;
 }
 const { data } = await useAsyncData(getInitialData);
 const initialData = data.value;
 
-const haggadah: Ref<Haggadah> = ref(initialData?.book);
-const contributor: Ref<Contributor> = ref(initialData?.contributed_by);
-const similarTopicHaggadahs: Ref<Haggadah[]> = ref(
-  initialData?.similar_topic_haggadah.map((item) => item.haggadah).slice(0, 3)
-);
 const meta_tags = ref(initialData?.meta_tags);
-
-async function followContributor() {
-  const response = await vueApp.$api.contributor.followContributor(contributor.value.id);
-  // check if user is logged in
-  if (loginModal()) {
-    return;
-  }
-  // api not implemented yet
-}
-
-async function viewProfile() {
-  // check if admin is authenticated
-  if (await loginRedirect()) {
-    return;
-  }
-  // api not implemented yet
-}
-
 const metaObject = getMetaObject(meta_tags);
 useHead({
   title: meta_tags?.title,
   meta: metaObject,
 });
+
+const haggadah: Ref<Haggadah> = ref(initialData?.book);
+const contributor: Ref<ContributedBy> = ref(initialData?.contributed_by);
+const similarTopicHaggadahs: Ref<Haggadah[]> = ref(
+  initialData?.similar_topic_book?.map((item) => item?.book).slice(0, 3)
+);
+
+const isFollowingTemporarily = ref(contributor.value?.is_following === '1');
+async function followContributor() {
+  // check if user is logged in
+  if (loginModal()) {
+    vueApp.$toast.error('not Authenticated');
+    return;
+  }
+
+  let response;
+  try {
+    if (isFollowingTemporarily.value) {
+      response = await vueApp.$api.contributor.followContributor(contributor.value?.handle);
+    } else {
+      response = await vueApp.$api.contributor.unFollowContributor(contributor.value?.handle);
+    }
+    if (response?._data?.success) {
+      isFollowingTemporarily.value = !isFollowingTemporarily.value;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function viewProfile() {
+  // check if admin is authenticated
+  if (await loginRedirect()) {
+    vueApp.$toast.error('not Authenticated');
+    return;
+  }
+  // api not implemented yet
+}
 </script>
 
 <style>

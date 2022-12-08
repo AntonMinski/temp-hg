@@ -17,10 +17,10 @@ export default class ContributorApi {
   }
 
   async followContributor<T>(slug: String): Promise<T> {
-    return this.base.post('follow/' + slug, {}, { showSuccessToast: false });
+    return this.base.post('follow/' + slug);
   }
 
   async unFollowContributor<T>(slug: String): Promise<T> {
-    return this.base.post('unfollow/' + slug, {}, { showSuccessToast: false });
+    return this.base.post('unfollow/' + slug, {});
   }
 }
