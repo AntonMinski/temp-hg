@@ -69,7 +69,7 @@ const subscribeNewsletter = handleSubmit(async (): Promise<void> => {
 
           <div class="mt-[35px] flex items-center space-x-5.5 text-3xl text-primary-500">
             <template v-for="type in socialLinksTypes" :key="type">
-              <NuxtLink v-if="socialLinks[type]" :to="socialLinks[type]" class="hover:text-primary-300">
+              <NuxtLink v-if="socialLinks && socialLinks[type]" :to="socialLinks[type]" class="hover:text-primary-300">
                 <UIIcon :icon="`icon-${type}-f`" />
               </NuxtLink>
             </template>
