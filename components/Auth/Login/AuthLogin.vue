@@ -120,8 +120,8 @@ const errorMessage: Ref<string> = ref('');
 
 const { handleSubmit, errors } = useForm({
   validationSchema: {
-    email: 'required:Email|email',
-    password: 'required:Password|minMax:8,12,Password',
+    email: 'required|email',
+    password: 'required|minMax:8,12',
   },
 });
 
