@@ -25,7 +25,10 @@
                   class="w-full justify-between bg-transparent text-white"
                   prop-span-classes="truncate !block"
                   size="md">
-                  {{ selectedOption.name }}
+                  <UISpinner v-if="loading" />
+                  <template v-else>
+                    {{ selectedOption.name }}
+                  </template>
                   <template #suffix>
                     <UIIcon icon="icon-arrow-down" />
                   </template>
