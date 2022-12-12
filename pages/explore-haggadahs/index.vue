@@ -89,7 +89,8 @@ async function fetchHaggadahsByAuthor(searchOptions: haggadahSearchParams) {
 }
 
 async function getInitialPageData() {
-  const initialMode: Mode = useMode() as Mode;
+  console.log(route.query);
+  const initialMode: Mode = (route.query.mode || useMode()) as Mode || 'main';
   const initialSort: HaggadahsSorting = (route.query.sort as HaggadahsSorting) || 'r';
   let initialHaggadahs: Haggadah[] = [];
   let initialMeta = {};

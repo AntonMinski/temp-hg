@@ -54,7 +54,11 @@
             </div>
           </div>
           <div class="text-center">
-            <UIButton class="mx-auto mt-[55px] !px-[45px] !py-3.5" size="lg" color="dark">
+            <UIButton
+              class="mx-auto mt-[55px] !px-[45px] !py-3.5"
+              size="lg"
+              color="dark"
+              @click="seeMoreItems('haggadahs')">
               <NuxtLink to="/explore-haggadahs">
                 See more haggadahs results <UIIcon icon="icon-arrow-right" size="4" class="ml-2" />
               </NuxtLink>
@@ -87,7 +91,11 @@
             </div>
           </div>
           <div class="text-center">
-            <UIButton class="mx-auto mt-[55px] !px-[45px] !py-3.5" size="lg" color="dark">
+            <UIButton
+              class="mx-auto mt-[55px] !px-[45px] !py-3.5"
+              size="lg"
+              color="dark"
+              @click="seeMoreItems('clips')">
               <NuxtLink to="/explore-clips">
                 See more clips results <UIIcon icon="icon-arrow-right" size="4" class="ml-2" />
               </NuxtLink>
@@ -126,7 +134,11 @@
             </div>
           </div>
           <div class="text-center">
-            <UIButton class="mx-auto mt-[55px] !px-[45px] !py-3.5" size="lg" color="dark">
+            <UIButton
+              class="mx-auto mt-[55px] !px-[45px] !py-3.5"
+              size="lg"
+              color="dark"
+              @click="seeMoreItems('events')">
               <NuxtLink to="/explore-events">
                 See more events results <UIIcon icon="icon-arrow-right" size="4" class="ml-2" />
               </NuxtLink>
@@ -195,7 +207,6 @@ const state: WebsiteSearchState = reactive({
   totalResults: 0,
 });
 
-
 onMounted(async () => {
   searchStore.$onAction(({ name, after, onError }) => {
     after(async (result) => {
@@ -210,11 +221,10 @@ onMounted(async () => {
 });
 
 // on Server
-const initialTag = findTagByName(route.query.type as string || 'Everything');
+const initialTag = findTagByName((route.query.type as string) || 'Everything');
 searchStore.emitSearch(route.query.key as string, initialTag);
 searchStore.setSelectedTag(initialTag);
 await getSearchData(route.query.key as string, initialTag);
-
 
 async function getSearchData(searchTerm: string, tag: Tag) {
   loading.value = true;
@@ -244,7 +254,7 @@ function setState(data) {
 }
 
 function findTagByName(tagName: string): Tag {
-  return tags.find((tag) => tag.name.toLowerCase() === tagName?.toLowerCase()) as Tag || tags[0];
+  return (tags.find((tag) => tag.name.toLowerCase() === tagName?.toLowerCase()) as Tag) || tags[0];
 }
 
 async function selectTagByName(tagName: string) {
@@ -259,5 +269,16 @@ async function selectTagByName(tagName: string) {
   });
   await getSearchData(searchString.value, tag);
   loading.value = false;
+}
+
+async function seeMoreItems(type: 'haggadahs' | 'clips' | 'events') {
+  await router.push({
+    name: `explore-${type}`,
+    query: {
+      mode: 'favorite',
+      page: 1,
+      sort: 'e',
+    },
+  });
 }
 </script>
