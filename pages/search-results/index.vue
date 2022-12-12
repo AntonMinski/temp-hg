@@ -166,8 +166,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useAsyncData, useNuxtApp, useRoute, useRouter } from '#app';
-import { computed, ComputedRef, onMounted, reactive, ref, Ref, watch } from 'vue';
+import { useNuxtApp, useRoute, useRouter } from '#app';
+import { onMounted, reactive, ref, Ref } from 'vue';
 import { Tag, TagHandle, WebsiteSearchResponse, WebsiteSearchState } from '~/components/Search/types';
 import { Haggadah, HaggadahWrapper } from '~/components/Global/Haggadah/types';
 import { Clip } from '~/components/Global/Clip/types';
@@ -212,6 +212,7 @@ onMounted(async () => {
 // on Server
 const initialTag = findTagByName(route.query.type as string);
 searchStore.emitSearch(route.query.key as string, initialTag);
+searchStore.setSelectedTag(initialTag);
 await getSearchData(route.query.key as string, initialTag);
 
 
