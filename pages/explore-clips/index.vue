@@ -123,7 +123,7 @@ async function fetchClipsByAuthor(searchOptions: clipSearchParams) {
 }
 
 async function getInitialPageData() {
-  const initialMode: Mode = (useMode() as Mode) || 'main';
+  const initialMode: Mode = (route.query.mode || useMode()) as Mode || 'main';
   const initialSort: ClipsSorting = (route.query.sort as ClipsSorting) || 'p';
   let initialClips: Clip[] = [];
   let initialMeta = {};
