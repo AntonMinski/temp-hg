@@ -85,7 +85,7 @@ const nuxtLink = resolveComponent('NuxtLink');
                 :likes-count="slide.item.likes"
                 :language-tags="['English', 'Hebrew']"
                 :topic-tags="['Chad Gadya', 'Dayenu']"
-                :is-added-to-bookmarks="slide.item.is_bookmarked !== '0'" />
+                :is-added-to-bookmark="slide.item.is_bookmarked !== '0'" />
             </template>
           </UICarousel>
 
