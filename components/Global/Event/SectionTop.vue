@@ -73,16 +73,10 @@ const noApiDataText = 'No Api Data No Api Data No Api Data No Api Data No Api Da
                 :is-attending="false"
                 :type="slide.item.type"
                 :title="slide.item.title"
-                :src="slide.item.cover_image"
-                :language-tags="['English', 'Hebrew']"
-                :topic-tags="['Chad Gadya', 'Dayenu']"
                 :host="slide.item.host"
-                section-title="No Api data yet"
                 :image-src="slide.item.cover_image"
                 :date="slide.item.scheduled_at"
-                :location="slide.item.venue"
-                :durationl="slide.item.duration"
-                :category="slide.item.category" />
+                :location="slide.item.venue" />
             </div>
           </template>
         </UICarousel>
