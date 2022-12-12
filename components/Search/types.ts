@@ -9,7 +9,7 @@ export type RouteQuery = {
 
 export type WebsiteSearchApiKeys = {
   term?: string;
-  type?: string;
+  type?: TagHandle;
 }
 
 export type WebsiteSearchResponse = {
@@ -28,7 +28,7 @@ export type WebsiteSearchResponse = {
   }
 }
 
-export type TagHandle = '' | 'books' | 'clips' | 'events' | 'help_center' | 'others';
+export type TagHandle = '' | 'book' | 'clips' | 'events' | 'help_center' | 'others';
 
 export type Tag = {
   name: string;

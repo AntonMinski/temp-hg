@@ -58,6 +58,7 @@ export type UseBadgeClassesProps = {
   size: Ref<BadgeSize>;
   href: Ref<string>;
   outline: Ref<boolean>;
+  overwriteClasses: Ref<string>;
 };
 export type UseBadgeClassesOptions = {
   isContentEmpty: Ref<boolean>;
@@ -83,7 +84,8 @@ export function useBadgeClasses(
       props.href.value ? '' : typeClasses,
       props.href.value ? '' : textClasses,
       props.href.value ? badgeLinkClasses : '',
-      options.isContentEmpty.value ? onlyIconClasses : badgeClasses
+      options.isContentEmpty.value ? onlyIconClasses : badgeClasses,
+      props.overwriteClasses.value
     );
   });
   return {
