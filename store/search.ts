@@ -1,6 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import { Tag } from '~/components/Search/types';
+import { defineStore } from 'pinia';
 
 export const useSearchStore = defineStore('search', () => {
   const tags: Tag[] = [

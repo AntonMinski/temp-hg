@@ -210,7 +210,7 @@ onMounted(async () => {
 });
 
 // on Server
-const initialTag = findTagByName(route.query.type as string);
+const initialTag = findTagByName(route.query.type as string || 'Everything');
 searchStore.emitSearch(route.query.key as string, initialTag);
 searchStore.setSelectedTag(initialTag);
 await getSearchData(route.query.key as string, initialTag);
@@ -244,7 +244,7 @@ function setState(data) {
 }
 
 function findTagByName(tagName: string): Tag {
-  return tags.find((tag) => tag.name.toLowerCase() === tagName.toLowerCase()) as Tag;
+  return tags.find((tag) => tag.name.toLowerCase() === tagName?.toLowerCase()) as Tag || tags[0];
 }
 
 async function selectTagByName(tagName: string) {
