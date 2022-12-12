@@ -67,7 +67,13 @@ const { firstHalf, secondHalf } = getTextHalfs(homePageData?.value?.hero_section
           <form action="#" class="">
             <div
               class="items-top mx-auto mb-3 justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 lg:justify-start">
-              <UIInput size="lg" placeholder="Enter email to get started" v-model="email" name="email" class="w-96">
+              <UIInput
+                v-model="email"
+                size="lg"
+                placeholder="Enter email to get started"
+                name="email"
+                class="w-96"
+                :error-message="errors.email">
                 <template #prefix>
                   <span class="icon-email leading-none text-gray-500 dark:text-gray-400"></span>
                 </template>

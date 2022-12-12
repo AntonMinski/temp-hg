@@ -35,7 +35,7 @@ export const useSearchStore = defineStore('search', () => {
   const selectedTag: Ref<Tag> = ref(tags[0]);
   const searchTerm: Ref<string> = ref('');
 
-  const isSearchBarOpen: Ref<boolean> = ref(true);
+  const isSearchBarOpen: Ref<boolean> = ref(false);
 
   function setIsSearchOpen(open: boolean): void {
     isSearchBarOpen.value = open;

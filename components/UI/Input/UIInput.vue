@@ -2,9 +2,7 @@
   <div>
     <label v-if="label" :class="labelClasses" for="name">{{ label }}</label>
     <div class="relative flex items-center">
-      <div
-        v-if="$slots.prefix"
-        class="absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
+      <div v-if="$slots.prefix" class="absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
         <slot name="prefix" />
       </div>
       <input
@@ -16,12 +14,14 @@
         :name="name"
         @input="showErrors = false"
         @blur="showErrors = true" />
-      <div v-if="$slots.suffix" class="absolute right-1.5">
+      <div v-if="$slots.suffix" class="absolute right-3 flex items-center">
         <slot name="suffix" />
       </div>
     </div>
     <p v-if="$slots.helper || errorsToShow" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-      <span v-if="errorsToShow" class="text-danger-600">{{ errorMessage }}</span>
+      <span v-if="errorsToShow" class="text-danger-600">
+        {{ capitalizeErrorMessage }}
+      </span>
       <slot v-else name="helper" />
     </p>
   </div>
@@ -65,8 +65,13 @@ const model = useVModel(props, 'modelValue');
 const { errorMessage } = useField(props.name);
 const showErrors: Ref<boolean> = ref(false);
 const errorsToShow: ComputedRef<boolean> = computed(() => showErrors.value && !!errorMessage.value);
-
 const { inputClasses, labelClasses, errorClasses } = useInputClasses(toRefs(props));
+
+const capitalizeErrorMessage = computed(
+  () => `
+    ${(errorMessage.value && errorMessage.value?.charAt(0).toUpperCase() + errorMessage.value?.slice(1)) || ''}
+  `
+);
 </script>
 
 <style>
