@@ -5,7 +5,7 @@ export const useTags: Tag[] = [
     handle: '',
   },
   {
-    name: 'haggadahs',
+    name: 'Haggadahs',
     handle: 'books',
   },
   {

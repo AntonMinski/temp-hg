@@ -35,7 +35,7 @@ if (!haggadahs.value.length) {
         <GlobalHaggadahCard
           v-for="(haggadah, n) in haggadahs"
           :key="n"
-          :route="`/explore-haggadahs/${haggadah.handle}`"
+          :route="`/haggadahs/${haggadah.handle}`"
           :img-src="haggadah.haggadah_image"
           :title="haggadah.title"
           :slug="haggadah.handle"

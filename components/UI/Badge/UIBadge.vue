@@ -27,6 +27,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  overwriteClasses: {
+    type: String,
+    default: '',
+  },
 });
 
 const slots = useSlots();
