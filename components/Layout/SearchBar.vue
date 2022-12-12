@@ -96,7 +96,7 @@ const search = handleSubmit(async (): Promise<void> => {
     name: 'search-results',
     query: {
       key: searchField.value,
-      type: selectedOption.value.handle || null,
+      type: selectedOption.value.name || null,
     } as RouteQuery,
   });
   searchStore.emitSearch(searchField.value, selectedOption.value);
