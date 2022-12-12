@@ -3,6 +3,7 @@ import { useNuxtApp } from '#app';
 import type { dataResponse } from '~/types/response';
 import { Haggadah } from '~/components/Global/Haggadah/types';
 import { Clip } from '~/components/Global/Clip/types';
+import { defineStore } from 'pinia';
 
 export const useGlobalStore = defineStore('global', () => {
   const { vueApp } = useNuxtApp();

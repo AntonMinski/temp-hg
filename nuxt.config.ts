@@ -10,10 +10,16 @@ export default defineNuxtConfig({
     '~/assets/css/icomoon.css',
     '~/assets/css/tailwind.css',
   ],
-  build: {
-    postcss: {
-      postcssOptions: require('./postcss.config.js'),
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
     },
+  },
+  build: {
+    // postcss: {
+    //   postcssOptions: require('./postcss.config.js'),
+    // },
     transpile: ['@vee-validate/rules'],
   },
   auth: {
@@ -37,14 +43,14 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    '@nuxtjs-alt/auth',
+    '@nuxt-alt/auth',
     [
       '@pinia/nuxt',
       {
         autoImports: ['defineStore'],
       },
     ],
-    '@nuxtjs-alt/http',
+    '@nuxt-alt/http',
   ],
   http: {
     baseURL: settings.apiUrl,

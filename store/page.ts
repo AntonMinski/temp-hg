@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { useNuxtApp } from '#app';
 import type { dataResponse, errorResponse } from '~/types/response';
+import { defineStore } from 'pinia';
 
 
 export const usePageStore = defineStore('page', () => {
