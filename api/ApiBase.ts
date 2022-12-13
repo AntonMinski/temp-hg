@@ -157,16 +157,10 @@ export default {
 };
 
 function showErrorToast(result, toaster, options) {
-  if (result.status === 400 || result.status === 409) {
-    if (options.showBadRequestToast) {
-      toaster?.show(result.message || 'SomethingWentWrong', { type: 'error' });
-    }
-  } else if (result.status === 401) {
-    toaster?.show('SessionExpired', { type: 'error' });
-  } else if (result.status === 404) {
-    toaster?.show('NotFound', { type: 'error' });
+  if ((result._data.message || result.message) && result.status !== 500) {
+    toaster?.show(result._data.message, { type: 'error' });
   } else {
-    toaster?.show(result.message || 'ServerErrorTryAgainLater', {
+    toaster?.show('Server Error, Try Again Later', {
       type: 'error',
     });
   }

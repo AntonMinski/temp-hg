@@ -14,16 +14,26 @@ export default class AuthApi {
     this.base = base;
   }
 
-  async login(email: String, password: String) {
+  async login(email: String, password: String, rememberUser: Boolean = false): Promise<loginResponse | errorResponse> {
     try {
-      const response: loginResponse = await this.base.$auth.loginWith('local', { body: { email, password } });
-      const user = {
-        slug: response.slug,
-        email: email,
-      };
-      this.base.$auth.setUser(user);
+      let response;
+      if (rememberUser) {
+        response = await this.base.$auth.loginWith('cookie', { body: { email, password } })
+      } else {
+        response = await this.base.$auth.loginWith('local', { body: { email, password } })
+      }
+      console.log(response);
+      if (response.success) {
+        this.base.$auth.setUserToken(response?.access_token);
+        const user = {
+          slug: response?.slug,
+          email: email,
+        };
+        this.base.$auth.setUser(user);
+      }
+      return response;
     } catch (error) {
-      throw new Error(error);
+      return error.response || error;
     }
   }
 

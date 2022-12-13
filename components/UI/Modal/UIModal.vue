@@ -4,10 +4,12 @@
       <div :class="modalClasses">
         <div :class="modalContentClasses">
           <!-- Modal close icon -->
-          <UIButton type="button" :class="closeIconClasses" @click="emit('close')">
-            <UIIcon icon="icon-close" />
-            <span class="sr-only">Close modal</span>
-          </UIButton>
+          <slot name="close-icon">
+            <UIButton type="button" :class="closeIconClasses" @click="emit('close')">
+              <UIIcon icon="icon-close" />
+              <span class="sr-only">Close modal</span>
+            </UIButton>
+          </slot>
 
           <!-- Modal content -->
           <slot></slot>

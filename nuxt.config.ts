@@ -40,6 +40,25 @@ export default defineNuxtConfig({
           user: false,
         },
       },
+      cookie: {
+        cookie: {
+          server: true
+        },
+        token: {
+          property: 'access_token',
+        },
+        options: {
+          expires: 365,
+        },
+        user: {
+          property: 'slug',
+        },
+        endpoints: {
+          login: { url: '/login', method: 'post' },
+          logout: { url: '/logout', method: 'post' },
+          user: false,
+        },
+      },
     },
   },
   modules: [
