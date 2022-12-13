@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex min-h-screen flex-col bg-white text-gray-700 dark:bg-gray-800 dark:text-white"
-    :class="isSearchBarOpen ? 'pt-[9.24rem]' : 'pt-[4.5rem]'">
+    :class="isSearchBarOpen ? 'pt-[9rem]' : 'pt-[4.5rem]'">
     <LayoutHeader />
     <LayoutSearchBar v-if="isSearchBarOpen" />
 
