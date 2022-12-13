@@ -1,14 +1,11 @@
 <template>
-  <UIModal :open="true" size="sm" content-classes="!px-0 !py-0" @close="onCloseModal">
-    <FormsLogin />
-  </UIModal>
+  <div class="h-screen bg-tertiary-500">
+    <AuthLogin type="redirect" />
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from '#app';
+import { definePageMeta } from '#imports';
 
-const router = useRouter();
-const onCloseModal = () => {
-  router.push('/');
-};
+definePageMeta({ layout: 'auth' });
 </script>

@@ -4,7 +4,7 @@ import type { InputSize } from '~/components/UI/Input/types';
 import { simplifyTailwindClasses } from '~/utils/simplifyTailwindClasses';
 
 // LABEL
-const defaultLabelClasses = 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300';
+const defaultLabelClasses = 'block mb-2 text-sm font-bold text-gray-900 dark:text-gray-300';
 
 // INPUT
 const defaultInputClasses =

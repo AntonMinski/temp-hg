@@ -15,7 +15,10 @@
         @input="showErrors = false"
         @blur="showErrors = true" />
       <div v-if="$slots.suffix" class="absolute right-3 flex items-center">
-        <slot name="suffix" />
+
+        <slot name="suffix" >
+          <UIIcon v-if="type === 'password'" icon="icon-eye-open" class="block cursor-pointer pl-0.5" @click="toggleShowPassword" />
+        </slot>
       </div>
     </div>
     <p v-if="$slots.helper || errorsToShow" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -72,6 +75,21 @@ const capitalizeErrorMessage = computed(
     ${(errorMessage.value && errorMessage.value?.charAt(0).toUpperCase() + errorMessage.value?.slice(1)) || ''}
   `
 );
+
+const showPassword: Ref<boolean> = ref(false)
+
+function toggleShowPassword() {
+  try {
+    if (showPassword.value) {
+      document.forms.login.password.type = 'password';
+    } else {
+      document.forms.login.password.type = 'text';
+    }
+    showPassword.value = !showPassword.value;
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
 
 <style>
@@ -85,8 +103,8 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   background-color: transparent;
-  color: white;
-  -webkit-text-fill-color: white;
+  color: inherit;
+  -webkit-text-fill-color: inherit;
   -webkit-text-size-adjust: 100%;
   transition: background-color 5000s ease-in-out 0s;
 }
