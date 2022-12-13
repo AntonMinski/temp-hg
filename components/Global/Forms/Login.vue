@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto max-w-[466px] rounded-lg bg-white px-[50px] py-[30px]">
     <form @submit.prevent>
-      <UIHeading class="!text-2xl !leading-9 !text-gray-900">Login in to your account test</UIHeading>
+      <UIHeading class="!text-2xl !leading-9 !text-gray-900">Login in to your account</UIHeading>
       <div class="mt-[36px]">
         <UIInput
           v-model="email"
