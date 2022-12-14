@@ -44,7 +44,8 @@
     "flowbite": "^1.5.5",
     "stylus": "^0.59.0",
     "stylus-loader": "3",
-    "vee-validate": "^4.7.2"
+    "vee-validate": "^4.7.3",
+    "yup": "^0.32.11"
   },
   "version": "0.0.0"
 }

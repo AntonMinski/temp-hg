@@ -1,39 +1,49 @@
 <template>
-  <div>
+  <VField
+    :name="name"
+    :type="type"
+    as="div"
+    class='border-none'
+    :validateOnBlur="true"
+    :validateOnChange="false"
+    :validateOnInput="false"
+    v-slot="{ field, errors, errorMessage }">
     <label v-if="label" :class="labelClasses" for="name">{{ label }}</label>
     <div class="relative flex items-center">
       <div v-if="$slots.prefix" class="absolute inset-y-0 left-0 flex w-10 items-center overflow-hidden pl-3">
         <slot name="prefix" />
       </div>
       <input
-        v-bind="$attrs"
+        v-bind="{ ...$attrs, ...field }"
         v-model="model"
         :disabled="disabled"
         :type="type"
-        :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errorsToShow ? errorClasses : '']"
-        :name="name"
-        @input="showErrors = false"
-        @blur="showErrors = true" />
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '', errors.length ? errorClasses : '']"
+        :name="name" />
       <div v-if="$slots.suffix" class="absolute right-3 flex items-center">
-
-        <slot name="suffix" >
-          <UIIcon v-if="type === 'password'" icon="icon-eye-open" class="block cursor-pointer pl-0.5" @click="toggleShowPassword" />
+        <slot name="suffix">
+          <UIIcon
+            v-if="type === 'password'"
+            icon="icon-eye-open"
+            class="block cursor-pointer pl-0.5"
+            @click="toggleShowPassword" />
         </slot>
       </div>
     </div>
-    <p v-if="$slots.helper || errorsToShow" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-      <span v-if="errorsToShow" class="text-danger-600">
-        {{ capitalizeErrorMessage }}
-      </span>
+    <p v-if="$slots.helper || errors.length" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+      <VErrorMessage v-if="errors.length" :name="name" as="div" class="text-danger-600" />
+<!--      <span v-if="errors.length" class="text-danger-600">-->
+<!--        {{ errors[0] }}-->
+<!--      </span>-->
       <slot v-else name="helper" />
     </p>
-  </div>
+  </VField>
 </template>
 <script lang="ts" setup>
 import type { PropType, Ref, ComputedRef } from 'vue';
 import { toRefs, ref, computed } from 'vue';
 import { useVModel } from '@vueuse/core';
-import { useField } from 'vee-validate';
+import { useField, Field } from 'vee-validate';
 import { useInputClasses } from './composables/useInputClasses';
 import type { InputSize } from './types';
 
@@ -69,18 +79,18 @@ const props = defineProps({
 
 const model = useVModel(props, 'modelValue');
 
-const { errorMessage } = useField(props.name);
-const showErrors: Ref<boolean> = ref(false);
-const errorsToShow: ComputedRef<boolean> = computed(() => showErrors.value && !!errorMessage.value);
+// const { errorMessage } = useField(props.name);
+// const showErrors: Ref<boolean> = ref(false);
+// const errorsToShow: ComputedRef<boolean> = computed(() => showErrors.value && !!errorMessage.value);
 const { inputClasses, labelClasses, errorClasses } = useInputClasses(toRefs(props));
 
-const capitalizeErrorMessage = computed(
-  () => `
-    ${(errorMessage.value && errorMessage.value?.charAt(0).toUpperCase() + errorMessage.value?.slice(1)) || ''}
-  `
-);
+// const capitalizeErrorMessage = computed(
+//   () => `
+//     ${(errorMessage.value && errorMessage.value?.charAt(0).toUpperCase() + errorMessage.value?.slice(1)) || ''}
+//   `
+// );
 
-const showPassword: Ref<boolean> = ref(false)
+const showPassword: Ref<boolean> = ref(false);
 
 function toggleShowPassword() {
   try {

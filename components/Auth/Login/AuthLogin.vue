@@ -8,7 +8,12 @@
     <template v-if="type === 'redirect'" #close-icon>
       <div />
     </template>
-    <form name="login">
+    <VForm
+      :validation-schema="schema"
+      :initial-values="initialValues"
+      @submit="login"
+      @invalid-submit=""
+      v-slot="{ meta: formMeta, errors: formErrors, handleSubmit }">
       <UIHeading class="!text-2xl !leading-9 !text-gray-900">Login in to your account</UIHeading>
       <div class="mt-[36px]">
         <UIInput
@@ -18,9 +23,9 @@
           name="email"
           label="Email Address"
           placeholder="Enter your account email"
-          class="bg-white !font-normal placeholder:!font-normal placeholder:text-gray-500 label:font-bold"
+          class="label:font-bold bg-white !font-normal placeholder:!font-normal placeholder:text-gray-500"
           labelClasses="!text-bold"
-          :style="InputsBorderStyle" >
+          :style="InputsBorderStyle">
           <template #prefix>
             <img :src="emailIcon" alt="email prefix icon" />
           </template>
@@ -41,7 +46,7 @@
           </template>
           <template #suffix>
             <UIIcon v-if="InputsBorderStyle" icon="icon-check-f" class="block text-primary-600" />
-            <span v-if="errors.password" class="icon-warning text-[16.5px] text-danger-500" />
+            <span v-if="formErrors.password" class="icon-warning text-[16.5px] text-danger-500" />
           </template>
         </UIInput>
       </div>
@@ -60,10 +65,14 @@
         {{ errorMessage }}
       </p>
       <div class="mt-[37px]">
-        <UIButton @click="login" type="submit" gradient="gradient1" class="w-full"
-          ><template v-if="loading">
-            <UISpinner size="5" />
-          </template>
+        <UIButton
+          type="submit"
+          gradient="gradient1"
+          class="w-full"
+          :disabled="formMeta.touched && !!Object.keys(formErrors).length"
+        ><template v-if="loading">
+          <UISpinner size="5" />
+        </template>
           <template v-else> Sign in </template></UIButton
         >
       </div>
@@ -82,13 +91,14 @@
       <div class="mt-9 text-center text-sm font-normal text-gray-500">
         Don’t have an account? <NuxtLink class="text-secondary-500" to="/register">Create account</NuxtLink>
       </div>
-    </form>
+    </VForm>
   </UIModal>
 </template>
 
 <script lang="ts" setup>
+import { object, string } from 'yup';
 import { onMounted, PropType, ref, Ref } from 'vue';
-import { useForm } from 'vee-validate';
+import { Form } from 'vee-validate';
 import { useNuxtApp, useRouter } from '#app';
 import { useEventListener } from '@vueuse/core';
 
@@ -107,25 +117,25 @@ const facebookIcon = (await import('@/assets/svg/facebook.svg')).default;
 const googleIcon = (await import('@/assets/svg/google.svg')).default;
 const passwordPrefix = (await import('@/assets/svg/clock-icon.svg')).default;
 const emailIcon = (await import('@/assets/svg/email-icon.svg')).default;
-const iconEye = (await import('@/assets/svg/icon-eye.svg')).default;
 
 const onCloseModal = () => {
   open.value = false;
 };
+
+const initialValues = { email: '', password: '' };
+
+const schema = object({
+  email: string().required().email().label('Email Address'),
+  password: string().required().min(8).max(12).label('Password'),
+});
 
 const email: Ref<string> = ref('');
 const password: Ref<string> = ref('');
 const rememberUser: Ref<boolean> = ref(false);
 const errorMessage: Ref<string> = ref('');
 
-const { handleSubmit, errors } = useForm({
-  validationSchema: {
-    email: 'required|email',
-    password: 'required|minMax:8,12',
-  },
-});
 
-const login = handleSubmit(async (): Promise<void> => {
+async function login() {
   loading.value = true;
   try {
     const response = await vueApp.$api.auth.login(email.value, password.value, rememberUser.value);
@@ -138,7 +148,7 @@ const login = handleSubmit(async (): Promise<void> => {
     console.error(error);
   }
   loading.value = false;
-});
+}
 
 const InputsBorderStyle = ref('');
 

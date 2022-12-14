@@ -1,16 +1,17 @@
-<template>
-  <UIModal
-    :open="open"
-    size="md"
-    content-classes="!px-[50px] !py-[30px]"
-    wrapper-classes="!bg-opacity-0"
-    @close="onCloseModal">
-    <template v-if="type === 'redirect'" #close-icon>
-      <div />
-    </template>
-    <form name="register">
-      <UIHeading class="!text-2xl !leading-9 !text-gray-900">Create an account</UIHeading>
-      <div class="mt-[36px]">
+<template xmlns="http://www.w3.org/1999/html">
+  <div class="mx-auto max-w-[618px] rounded-lg bg-white px-[71px] py-[51px]">
+    <VForm
+      @submit="register"
+      @invalid-submit=""
+      :validation-schema="schema"
+      :initial-values="initialValue"
+      v-slot="{ meta: formMeta, errors: formErrors }">
+      <UIHeading class="text-center !text-2xl !leading-9 !text-gray-900">Create an account</UIHeading>
+      <div class="text-sm font-normal leading-6 text-gray-700">
+        <p class="text-center">Creating Haggadahs are completely free for Seder lovers</p>
+      </div>
+
+      <div class="mt-[46px]">
         <UIInput
           v-model="email"
           :disabled="loading"
@@ -18,18 +19,35 @@
           name="email"
           label="Email Address"
           placeholder="Enter your account email"
-          class="bg-white !font-normal placeholder:!font-normal placeholder:text-gray-500" />
+          class="bg-white placeholder:!font-normal placeholder:text-gray-500">
+          <template #prefix>
+            <img :src="emailIcon" alt="email prefix icon" />
+          </template>
+        </UIInput>
       </div>
 
-      <input
-        type="checkbox"
-        v-model="memberType"
-        name="memberType"
-        true-value="organization"
-        false-value="personal" />
-      <span class="mt-2">Sign up as an organization</span>
+      <div class="mt-[15px] flex items-center text-sm leading-[14px]">
+        <UISwitch :checked="asOrganization" @change="asOrganization = !asOrganization" />
+        <p class="ml-[9px] text-gray-700">Sign up as an organization</p>
+        <Field
+          type="checkbox"
+          v-model="memberType"
+          value="organization"
+          name="memberType"
+          id="memberType"
+          v-slot="{ field }">
+          <input
+            type="checkbox"
+            value="organization"
+            name="memberType"
+            v-bind="field"
+            true-value="organization"
+            false-value="personal" />
+        </Field>
+        <span class="mt-2">Sign up as an organization</span>
+      </div>
 
-      <div v-if="memberType === 'personal'" class="mt-5 flex justify-between">
+      <div v-if="!asOrganization" class="mt-5 flex justify-between">
         <UIInput
           v-model="firstName"
           :disabled="loading"
@@ -105,12 +123,13 @@
           </template>
         </UIInput>
       </div>
-      <div class="mt-[21px] flex justify-between">
+      <div class="mt-[21px] mb-2 flex justify-between">
         <div class="flex items-center justify-start text-xs">
-          <input
+          <Field
+            name="agreeTerms"
+            type="checkbox"
             v-model="agreeTerms"
             :disabled="loading"
-            type="checkbox"
             class="mr-3 rounded border-gray-200 checked:border-transparent checked:bg-primary-500 focus:ring-0" />
           <div class="leading-3 text-gray-600">
             By creating account I agree to the
@@ -118,11 +137,17 @@
           </div>
         </div>
       </div>
+      <ErrorMessage name="agreeTerms" class="mt-2 text-sm text-secondary-500" />
+
       <p v-if="errorMessage" class="mt-9 rounded bg-danger-50 p-4 text-sm font-normal text-danger-700">
         {{ errorMessage }}
       </p>
       <div class="mt-[37px]">
-        <UIButton @click="register" type="submit" gradient="gradient1" class="w-full"
+        <UIButton
+          type="submit"
+          gradient="gradient1"
+          class="w-full"
+          :disabled="formMeta.touched && Object.keys(formErrors).length"
           ><template v-if="loading">
             <UISpinner size="5" />
           </template>
@@ -144,13 +169,14 @@
       <div class="mt-9 text-center text-sm font-normal text-gray-500">
         Already have an account? <NuxtLink class="text-secondary-500" to="/login">Log in</NuxtLink>
       </div>
-    </form>
-  </UIModal>
+    </VForm>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, PropType, ref, Ref } from 'vue';
-import { useForm } from 'vee-validate';
+import { object, string, ref as yupRef, boolean, lazy } from 'yup';
+import { computed, ComputedRef, onMounted, PropType, ref, Ref } from 'vue';
+import { Form, Field, ErrorMessage, SubmissionHandler } from 'vee-validate';
 import { useNuxtApp, useRouter } from '#app';
 import { useEventListener } from '@vueuse/core';
 
@@ -175,6 +201,14 @@ const onCloseModal = () => {
 const email: Ref<string> = ref('');
 
 const memberType: Ref<'personal' | 'organization'> = ref('personal');
+const asOrganization: ComputedRef<boolean> = computed({
+  get() {
+    return memberType.value === 'organization' ? true : false;
+  },
+  set(newValue: boolean) {
+    memberType.value = 
+  }
+});
 const firstName: Ref<string> = ref('');
 const middleName: Ref<string> = ref('');
 const lastName: Ref<string> = ref('');
@@ -186,22 +220,57 @@ const passwordConfirm: Ref<string> = ref('');
 const agreeTerms: Ref<boolean> = ref(false);
 const errorMessage: Ref<string> = ref('');
 
-const { handleSubmit, errors } = useForm({
-  validationSchema: {
-    email: 'required|email',
-    firstName: 'requiredDepends:memberType,personal',
-    lastName: 'required',
-    iagree: 'required',
-    password: 'required|minMax:8,12|passwordMatch:passwordConfirm',
-    passwordConfirm: 'required|minMax:8,12|passwordMatch:password',
-    memberType: 'required',
-  },
+// Initial values
+const initialValue = {
+  memberType: 'personal',
+  agreeTerms: 'on',
+};
+
+const schema = object({
+  email: string().required().email('Enter valid email address').label('Email Address'),
+  password: string().required().min(8).max(12).label('Your Password'),
+  passwordConfirm: string()
+    .required()
+    .oneOf([yupRef('password')], 'Passwords does not match') //Cross-Field Validation
+    .label('Your Confirmation Password'),
+  agreeTerms: string().notOneOf(['on'], 'Please agree with terms'),
+  firstName: string()
+    .when('memberType', {
+      is: 'personal',
+      then: string().required(),
+      otherwise: string().notRequired(),
+    })
+    .label('First Name'),
+  lastName: string()
+    .when('memberType', {
+      is: 'personal',
+      then: string().required(),
+      otherwise: string().notRequired(),
+    })
+    .label('Last Name'),
+  organizationName: string().when('memberType', {
+    is: 'organization',
+    then: string().required(),
+    otherwise: string().notRequired().label('Organization Name'),
+  }),
 });
 
-const register = handleSubmit(async (): Promise<void> => {
+async function register(values) {
+  const data = {
+    email: values.email,
+    password: values.password,
+    password_confirmation: values.passwordConfirm,
+    first_name: values.firstName,
+    middle_name: values.middleName,
+    last_name: values.lastName,
+    organization_name: values.organizationName,
+    representative_fnm: values.firstName,
+    representative_lnm: values.lastName,
+    iagree: agreeTerms.value,
+  };
   loading.value = true;
   try {
-    const response = await vueApp.$api.auth.register({});
+    const response = await vueApp.$api.auth.register(data);
     if (response?._data?.success) {
       await handleSuccessRegister();
     } else if (response?._data?.data) {
@@ -211,7 +280,7 @@ const register = handleSubmit(async (): Promise<void> => {
     console.error(error);
   }
   loading.value = false;
-});
+}
 
 const InputsBorderStyle = ref('');
 

@@ -16,10 +16,7 @@ export default defineNuxtPlugin(() => {
     }
     return true;
   });
-  defineRule("requiredDepends", (value: string, [otherField, otherValue]: [otherField: string, otherValue: string | number], ctx): string | boolean => {
-    console.log(ctx);
-    console.log(ctx.form[otherField], otherField, otherValue);
-
+  defineRule("requiredDepends", (value: string, [otherField, otherValue]: [otherField: string, otherValue: string | number | any[]], ctx): string | boolean => {
     if( ctx.form[otherField] === otherValue && !value) {
       return `${ctx.field || 'This field'} is required`;
     }
