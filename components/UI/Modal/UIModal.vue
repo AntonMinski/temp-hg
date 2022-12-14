@@ -12,7 +12,9 @@
           </slot>
 
           <!-- Modal content -->
-          <slot></slot>
+          <div class="model--content">
+            <slot />
+          </div>
         </div>
       </div>
     </div>
@@ -47,3 +49,9 @@ const { modalWrapperClasses, modalClasses, modalContentClasses, closeIconClasses
 
 const emit = defineEmits(['close']);
 </script>
+
+<style scoped>
+.modal--content {
+  display: contents;
+}
+</style>

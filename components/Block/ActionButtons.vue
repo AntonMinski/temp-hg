@@ -88,8 +88,7 @@ function handleAddToBookmark(): void {
       color="link"
       :data-tooltip-target="`tooltip-share-${String(index)}`"
       outline
-      @click="emit('share')"
-    >
+      @click="emit('share')">
       <span class="flex h-full" :class="group ? 'items-center' : 'items-stretch'">
         <span
           v-if="!group"
