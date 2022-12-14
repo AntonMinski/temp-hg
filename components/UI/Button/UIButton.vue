@@ -2,7 +2,7 @@
   <flowbite-themable-child
     :tag="tag"
     :apply="appliableTheme"
-    class="justify-center space-x-2.5"
+    class="cursor-pointer justify-center space-x-2.5"
     :class="wrapperClasses"
     :disabled="disabled">
     <!--     ICON LEFT-->

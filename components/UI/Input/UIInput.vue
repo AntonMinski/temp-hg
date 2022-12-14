@@ -61,6 +61,10 @@ const props = defineProps({
   name: {
     type: String,
   },
+  labelClasses: {
+    type: String,
+    default: '',
+  },
 });
 
 const model = useVModel(props, 'modelValue');
