@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import type { Ref } from 'vue';
 import { computed } from 'vue';
 import type { InputSize } from '~/components/UI/Input/types';
@@ -20,6 +21,7 @@ const errorClasses: string = 'border-danger-600 border-2 focus:border-danger-600
 export type UseInputClassesProps = {
   size: Ref<InputSize>;
   disabled: Ref<boolean>;
+  labelClasses: Ref<string>;
 };
 
 export function useInputClasses(props: UseInputClassesProps): {
@@ -35,9 +37,7 @@ export function useInputClasses(props: UseInputClassesProps): {
     );
   });
 
-  const labelClasses = computed(() => {
-    return defaultLabelClasses;
-  });
+  const labelClasses = computed(() => classNames(defaultLabelClasses, props.labelClasses.value));
 
   return {
     inputClasses,

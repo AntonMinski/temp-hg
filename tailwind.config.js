@@ -162,6 +162,9 @@ module.exports = {
         gradient6: 'linear-gradient(90deg, #9796F0 0%, #FBC7D4 100%)',
         gradient7: 'linear-gradient(135.24deg, #FF7F66 0%, #E6448C 84.64%)',
       },
+      boxShadow: {
+        'shadow-3xl': '0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px rgba(0, 0, 0, 0.04)',
+      },
     },
   },
   variants: {
